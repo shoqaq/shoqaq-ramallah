@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
 // --- بيانات الربط الخاصة بنور الدين ---

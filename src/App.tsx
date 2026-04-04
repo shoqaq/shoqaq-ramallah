@@ -8,13 +8,12 @@ import {
   Home, 
   Search, 
   ExternalLink,
-  ChevronRight,
   Loader2,
   AlertCircle
 } from 'lucide-react';
 
 // إعداد الاتصال بـ Supabase
-// ملاحظة: تأكد من وضع الـ URL والـ Key الخاصين بك هنا إذا قمت بتغييرهما
+// استبدل الروابط أدناه ببيانات مشروعك الحقيقية من إعدادات Supabase
 const supabaseUrl = 'https://your-project-url.supabase.co';
 const supabaseKey = 'your-anon-key';
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -27,7 +26,6 @@ function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [error, setError] = useState(null);
 
-  // بيانات النموذج الجديد
   const [newAppart, setNewAppart] = useState({
     name: '',
     price: '',
@@ -36,7 +34,6 @@ function App() {
     link: ''
   });
 
-  // جلب البيانات من Supabase عند تحميل الصفحة
   useEffect(() => {
     fetchApartments();
   }, []);
@@ -59,7 +56,6 @@ function App() {
     }
   }
 
-  // التحقق من كود الإدارة (البيت الذهبي)
   const handleAuth = (e) => {
     e.preventDefault();
     if (authCode === '749329') {
@@ -70,7 +66,6 @@ function App() {
     }
   };
 
-  // إضافة شقة جديدة
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -89,11 +84,10 @@ function App() {
 
       if (error) throw error;
 
-      // إعادة تعيين النموذج وتحديث القائمة
       setNewAppart({ name: '', price: '', currency: '$', location: '', link: '' });
       setShowAddForm(false);
       fetchApartments();
-      alert('تم إضافة العقار بنجاح في رام الله!');
+      alert('تم إضافة العقار بنجاح!');
     } catch (err) {
       alert('حدث خطأ أثناء الإضافة');
       console.error(err);
@@ -104,7 +98,6 @@ function App() {
 
   return (
     <div dir="rtl" className="min-h-screen bg-slate-50 font-sans text-slate-900">
-      {/* الهيدر */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -117,7 +110,6 @@ function App() {
           <button 
             onClick={() => setShowAddForm(!showAddForm)}
             className="flex items-center gap-2 bg-slate-100 hover:bg-amber-100 p-2 rounded-full transition-colors text-amber-600"
-            title="إدارة العقارات"
           >
             <Home size={24} />
           </button>
@@ -125,16 +117,15 @@ function App() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-8">
-        {/* قسم الإدارة */}
         {showAddForm && (
-          <div className="mb-10 bg-white p-6 rounded-2xl border border-slate-200 shadow-xl animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="mb-10 bg-white p-6 rounded-2xl border border-slate-200 shadow-xl">
             {!isAuthorized ? (
               <form onSubmit={handleAuth} className="space-y-4 text-center max-w-xs mx-auto">
                 <h2 className="text-lg font-bold text-slate-700">دخول الإدارة</h2>
                 <input
                   type="password"
                   placeholder="أدخل الكود الخاص بك"
-                  className="w-full p-3 border rounded-xl text-center focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full p-3 border rounded-xl text-center outline-none focus:ring-2 focus:ring-blue-500"
                   value={authCode}
                   onChange={(e) => setAuthCode(e.target.value)}
                 />
@@ -202,7 +193,6 @@ function App() {
           </div>
         )}
 
-        {/* قائمة العقارات */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-slate-800">أحدث العقارات المتاحة</h2>
           <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
@@ -220,7 +210,7 @@ function App() {
         {loading && apartments.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-slate-400">
             <Loader2 size={40} className="animate-spin mb-4" />
-            <p>جاري تحديث القائمة من قاعدة البيانات...</p>
+            <p>جاري تحميل البيانات...</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -264,14 +254,14 @@ function App() {
         {!loading && apartments.length === 0 && !error && (
           <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">
             <Search size={48} className="mx-auto text-slate-300 mb-4" />
-            <p className="text-slate-500 font-medium">لا توجد عقارات معروضة حالياً في رام الله</p>
+            <p className="text-slate-500 font-medium">لا توجد عقارات حالياً</p>
           </div>
         )}
       </main>
 
       <footer className="max-w-5xl mx-auto px-4 py-10 text-center border-t border-slate-200 mt-10">
         <p className="text-slate-400 text-sm italic">
-          بواسطة نور الدين - التطوير العقاري الرقمي في فلسطين
+          بواسطة نور الدين - التطوير العقاري الرقمي
         </p>
       </footer>
     </div>

@@ -71,3 +71,4 @@ export default defineConfig([
   },
 ])
 ```
+v1.0

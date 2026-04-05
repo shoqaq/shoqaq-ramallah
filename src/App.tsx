@@ -84,7 +84,7 @@ function App() {
         </div>
       )}
 
-      <footer style={footerStyle}>SHOQAQ.STORE • 2026</footer>
+      <footer style={footerStyle}>SHOQAQ.RAMALLAH • 2026</footer>
     </div>
   );
 }

@@ -21,8 +21,8 @@ export default function App() {
         <div onClick={() => { setShowLogin(!showLogin); setPassword(""); }} style={s.logoWrap}>
           <img src={logo} alt="Logo" style={s.logoImg} />
         </div>
-        <h1 style={s.title}>شقق <span style={{color:'#f59e0b'}}>رام الله</span></h1>
-        <p style={s.sub}>دليلك العقاري الأول في فلسطين</p>
+        <h1 style={s.title}>أهلاً بكم في <span style={{color:'#f59e0b'}}>شقق رام الله</span></h1>
+        <p style={s.sub}>تابعونا ليصلكم كل جديد</p>
       </div>
 
       {showLogin && !isLoggedIn && (
@@ -63,8 +63,8 @@ const s = {
   identity: { textAlign:'center', marginBottom:'40px' },
   logoWrap: { cursor:'pointer', marginBottom:'15px', borderRadius:'18px', overflow:'hidden', display:'inline-block', border:'1px solid #333', width:'100px', height:'100px', boxShadow:'0 5px 15px rgba(245,158,11,0.1)' },
   logoImg: { width:'100%', height:'100%', objectFit:'cover', display:'block' },
-  title: { fontSize:'2.5rem', fontWeight:'900', margin:'10px 0 0 0' },
-  sub: { color:'#444', marginTop:'5px', fontSize:'0.9rem' },
+  title: { fontSize:'2.2rem', fontWeight:'900', margin:'10px 0 0 0' },
+  sub: { color:'#888', marginTop:'12px', fontSize:'1.2rem', fontWeight:'400' }, // تكبير الخط وتفتيح اللون قليلاً
   grid: { display:'flex', gap:'12px', justifyContent:'center' },
   box: { width:'50px', height:'50px', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', textDecoration:'none' },
   input: { backgroundColor:'#050505', border:'1px solid #111', borderRadius:'10px', padding:'10px', color:'#f59e0b', textAlign:'center', width:'160px' },

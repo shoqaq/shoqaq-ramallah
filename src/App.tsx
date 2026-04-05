@@ -47,7 +47,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 3. قسم الخدمات الموحد */}
+      {/* 3. قسم الخدمات الموحد والكبير */}
       {isLoggedIn ? (
         <div style={s.admin}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'20px'}}>
@@ -60,17 +60,17 @@ export default function App() {
       ) : (
         <div style={s.services}>
           <button style={s.serviceCard}>
-            <Building2 size={24} color="#f59e0b" strokeWidth={1.5} />
+            <Building2 size={32} color="#f59e0b" strokeWidth={1.5} />
             <span style={s.serviceText}>عرض الشقق المتوفرة</span>
           </button>
           
           <button style={s.serviceCard}>
-            <ClipboardEdit size={24} color="#f59e0b" strokeWidth={1.5} />
+            <ClipboardEdit size={32} color="#f59e0b" strokeWidth={1.5} />
             <span style={s.serviceText}>تقديم طلب</span>
           </button>
 
           <button style={s.serviceCard}>
-            <Plus size={24} color="#f59e0b" strokeWidth={1.5} />
+            <Plus size={32} color="#f59e0b" strokeWidth={1.5} />
             <span style={s.serviceText}>عرض عقار على الصفحة</span>
           </button>
         </div>
@@ -82,22 +82,24 @@ export default function App() {
 
 const s = {
   container: { backgroundColor:'#000', color:'white', minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', direction:'rtl', fontFamily:'sans-serif', padding:'30px 20px' },
-  identity: { textAlign:'center', marginBottom:'20px' },
-  logoWrap: { cursor:'pointer', marginBottom:'15px', borderRadius:'18px', overflow:'hidden', display:'inline-block', border:'1px solid #222', width:'85px', height:'85px', boxShadow:'0 5px 20px rgba(0,0,0,0.5)' },
+  identity: { textAlign:'center', marginBottom:'15px' },
+  logoWrap: { cursor:'pointer', marginBottom:'15px', borderRadius:'18px', overflow:'hidden', display:'inline-block', border:'1px solid #222', width:'90px', height:'90px', boxShadow:'0 5px 20px rgba(0,0,0,0.5)' },
   logoImg: { width:'100%', height:'100%', objectFit:'cover', display:'block' },
   title: { fontSize:'1.7rem', fontWeight:'900', margin:'5px 0 0 0' },
-  sub: { color:'#666', marginTop:'6px', fontSize:'1rem' },
+  sub: { color:'#888', marginTop:'8px', fontSize:'1.2rem', fontWeight:'500' }, // تكبير طفيف لنص تابعونا
   
-  grid: { display:'flex', gap:'10px', justifyContent:'center', marginBottom:'40px' },
-  box: { width:'40px', height:'40px', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', textDecoration:'none' },
+  grid: { display:'flex', gap:'10px', justifyContent:'center', marginBottom:'35px' },
+  box: { width:'42px', height:'42px', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', textDecoration:'none' },
 
-  services: { display:'flex', flexDirection:'column', gap:'10px', width:'100%', maxWidth:'330px' },
+  // تكبير الخدمات
+  services: { display:'flex', flexDirection:'column', gap:'15px', width:'100%', maxWidth:'360px' },
   serviceCard: { 
-    display:'flex', alignItems:'center', gap:'15px', padding:'16px 20px', 
-    backgroundColor:'#080808', border:'1px solid #1a1a1a', borderRadius:'14px',
-    cursor:'pointer', textAlign:'right', width:'100%', outline:'none'
+    display:'flex', alignItems:'center', gap:'20px', padding:'22px 25px', 
+    backgroundColor:'#0a0a0a', border:'1px solid #1a1a1a', borderRadius:'18px',
+    cursor:'pointer', textAlign:'right', width:'100%', outline:'none',
+    boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
   },
-  serviceText: { color:'#eee', fontSize:'0.95rem', fontWeight:'500' },
+  serviceText: { color:'#fff', fontSize:'1.15rem', fontWeight:'600' }, // خط أوضح وأكبر
 
   input: { backgroundColor:'#050505', border:'1px solid #111', borderRadius:'8px', padding:'8px', color:'#f59e0b', textAlign:'center', width:'140px' },
   admin: { backgroundColor:'#050505', padding:'20px', borderRadius:'20px', width:'280px', border:'1px solid #111' },

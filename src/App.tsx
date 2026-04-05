@@ -4,7 +4,6 @@ import {
   Phone, 
   Facebook, 
   Instagram, 
-  Music2, 
   LogOut,
   PlusCircle,
   LayoutDashboard
@@ -29,7 +28,7 @@ function App() {
   return (
     <div style={containerStyle}>
       
-      {/* الهوية البصرية */}
+      {/* منطقة الهوية البصرية */}
       <div style={identitySection}>
         <div onClick={() => { setShowLogin(!showLogin); setPassword(""); }} style={logoWrapper}>
           <img src={logoUrl} alt="Logo" style={logoImg} />
@@ -92,9 +91,11 @@ function App() {
             <Instagram size={24} color="white" strokeWidth={1.5} />
           </a>
 
-          {/* تيك توك */}
+          {/* تيك توك - شعار رسمي SVG (الحجم المثالي) */}
           <a href="https://tiktok.com/@shoqaq.ramallah" target="_blank" rel="noreferrer" style={{...iconBox, background: '#000', border: '1px solid #222'}}>
-            <Music2 size={24} color="white" strokeWidth={1.5} />
+            <svg width="26" height="26" fill="white" viewBox="0 0 24 24">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/>
+            </svg>
           </a>
         </div>
       )}
@@ -104,9 +105,9 @@ function App() {
   );
 }
 
-// التنسيقات
+// التنسيقات (Styles) - تصميم الثيم الأسود الفخم (كما في الصورة)
 const containerStyle = {
-  backgroundColor: '#000',
+  backgroundColor: '#000', // أسود عميق
   color: 'white',
   minHeight: '100vh',
   display: 'flex',
@@ -114,82 +115,52 @@ const containerStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   direction: 'rtl',
-  fontFamily: 'system-ui, sans-serif',
-  padding: '20px'
+  fontFamily: 'system-ui, -apple-system, sans-serif',
+  padding: '20px',
+  margin: '0',
+  boxSizing: 'border-box'
 };
 
-const identitySection = { textAlign: 'center', marginBottom: '40px' };
+const identitySection = {
+  textAlign: 'center',
+  marginBottom: '40px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
+};
 
 const logoWrapper = {
   cursor: 'pointer',
-  marginBottom: '15px',
-  borderRadius: '24px', 
+  marginBottom: '10px',
+  borderRadius: '24px', // حواف منحنية للمربع
   overflow: 'hidden',
-  display: 'inline-flex',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   boxShadow: '0 0 30px rgba(245, 158, 11, 0.1)',
   border: '1px solid rgba(255,255,255,0.05)'
 };
 
-const logoImg = { width: '100px', height: '100px', objectFit: 'cover' };
-
-const mainTitle = { fontSize: '2.5rem', fontWeight: '900', margin: '10px 0 0 0' };
-const subTitle = { color: '#444', marginTop: '5px', fontSize: '0.9rem' };
-
-const socialGrid = { 
-  display: 'flex', 
-  gap: '12px', 
-  justifyContent: 'center',
-  marginTop: '20px'
+const logoImg = {
+  width: '100px',
+  height: '100px',
+  objectFit: 'cover',
+  display: 'block'
 };
 
-const iconBox = {
-  width: '50px',
-  height: '50px',
-  borderRadius: '15px', // حواف مربعة منحنية تتناسق مع اللوجو
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  textDecoration: 'none',
-  boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
-  transition: 'transform 0.2s ease'
+const mainTitle = {
+  fontSize: '2.5rem',
+  fontWeight: '900',
+  margin: '10px 0 0 0',
+  letterSpacing: '-1.5px'
 };
 
-const loginInput = {
-  backgroundColor: '#050505',
-  border: '1px solid #111',
-  borderRadius: '12px',
-  padding: '12px',
-  color: '#f59e0b',
-  textAlign: 'center',
-  width: '180px'
-};
-
-const adminPanel = {
-  backgroundColor: '#050505',
-  padding: '25px',
-  borderRadius: '24px',
-  width: '100%',
-  maxWidth: '320px',
-  border: '1px solid #111'
-};
-
-const adminAction = {
-  width: '100%',
-  padding: '12px',
-  marginBottom: '10px',
-  borderRadius: '12px',
-  backgroundColor: '#0a0a0a',
-  border: '1px solid #111',
-  color: 'white',
-  textAlign: 'right',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
+const subTitle = {
+  color: '#444',
+  marginTop: '5px',
   fontSize: '0.9rem'
 };
 
-const logoutBtn = { background: 'none', border: 'none', color: '#444', cursor: 'pointer' };
-
-const footerText = { position: 'fixed', bottom: '20px', opacity: 0.05, fontSize: '9px', color: '#888' };
-
-export default App;
+const socialGrid = { 
+  display: 'flex', 
+  gap

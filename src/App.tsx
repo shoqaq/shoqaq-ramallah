@@ -64,7 +64,7 @@ const s = {
   logoWrap: { cursor:'pointer', marginBottom:'15px', borderRadius:'18px', overflow:'hidden', display:'inline-block', border:'1px solid #333', width:'100px', height:'100px', boxShadow:'0 5px 15px rgba(245,158,11,0.1)' },
   logoImg: { width:'100%', height:'100%', objectFit:'cover', display:'block' },
   title: { fontSize:'2.2rem', fontWeight:'900', margin:'10px 0 0 0' },
-  sub: { color:'#666', marginTop:'10px', fontSize:'1rem', fontWeight:'300' },
+  sub: { color:'#888', marginTop:'12px', fontSize:'1.2rem', fontWeight:'400' }, // تكبير الخط وتفتيح اللون قليلاً
   grid: { display:'flex', gap:'12px', justifyContent:'center' },
   box: { width:'50px', height:'50px', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', textDecoration:'none' },
   input: { backgroundColor:'#050505', border:'1px solid #111', borderRadius:'10px', padding:'10px', color:'#f59e0b', textAlign:'center', width:'160px' },

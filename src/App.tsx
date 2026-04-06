@@ -59,10 +59,8 @@ export default function App() {
           <div onClick={() => { setShowLogin(!showLogin); setPassword(''); }} style={{ ...s.logoWrap, border: `2px solid ${theme.border}`, boxShadow: theme.shadow }}>
             <img src={logoUrl} alt="Logo" style={s.logoImg} />
           </div>
-          {/* الاسم المحدث هنا */}
-          <h1 style={s.title}>
-            <span style={{ color: '#f59e0b' }}>shoqaq.ramallah</span>
-          </h1>
+          {/* عاد الاسم هنا للعربية */}
+          <h1 style={s.title}>أهلاً بكم في <span style={{ color: '#f59e0b' }}>شقق رام الله</span></h1>
           <p style={{ ...s.sub, color: theme.subText }}>تابعونا ليصلكم كل جديد</p>
         </div>
 
@@ -92,13 +90,7 @@ export default function App() {
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               onKeyDown={(e) => e.key === 'Enter' && handleLogin()} 
-              style={{ 
-                ...s.input, 
-                backgroundColor: theme.iconBox, 
-                border: `1px solid ${theme.border}`, 
-                color: theme.text,
-                WebkitTextSecurity: 'disc' 
-              }} 
+              style={{ ...s.input, backgroundColor: theme.iconBox, border: `1px solid ${theme.border}`, color: theme.text, WebkitTextSecurity: 'disc' }} 
               autoFocus 
             />
             <button onClick={handleLogin} style={s.loginBtn}>دخول</button>
@@ -130,7 +122,8 @@ export default function App() {
         )}
       </div>
 
-      <footer style={{ ...s.footer, color: theme.subText }}>SHOQAQ.STORE • 2026</footer>
+      {/* الاسم المحدث في الأسفل هنا */}
+      <footer style={{ ...s.footer, color: theme.subText }}>shoqaq.ramallah • 2026</footer>
     </div>
   );
 }
@@ -143,7 +136,7 @@ const s = {
   identity: { textAlign: 'center', marginBottom: '6px', display: 'flex', flexDirection: 'column', alignItems: 'center' },
   logoWrap: { cursor: 'pointer', marginBottom: '12px', borderRadius: '26px', overflow: 'hidden', width: '110px', height: '110px' },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  title: { fontSize: '1.9rem', fontWeight: '800', margin: 0, textTransform: 'lowercase' }, // جعل الحروف صغيرة لتناسب ستايل shoqaq.ramallah
+  title: { fontSize: '1.9rem', fontWeight: '800', margin: 0 },
   sub: { marginTop: '4px', fontSize: '1.1rem', fontWeight: '600' },
   grid: { display: 'flex', gap: '12px', marginBottom: '40px', justifyContent: 'center' },
   box: { width: '52px', height: '52px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s ease' },

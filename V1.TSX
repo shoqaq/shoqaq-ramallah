@@ -1,109 +1,153 @@
 // @ts-nocheck
 import { useState } from 'react';
-import { Phone, Facebook, Instagram, LogOut, PlusCircle, LayoutDashboard, Building2, ClipboardEdit, Plus } from 'lucide-react';
+import {
+  Phone,
+  Instagram,
+  LogOut,
+  PlusCircle,
+  LayoutDashboard,
+  Building2,
+  ClipboardEdit,
+  Plus,
+  Sun,
+  Moon,
+  Lock
+} from 'lucide-react';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [password, setPassword] = useState("");
-  
-  const whatsappChannel = "https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d"; 
-  const logo = "https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg";
+  const [password, setPassword] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
-  const handleLogin = (v) => {
-    setPassword(v);
-    if (v === "749329") { setIsLoggedIn(true); setShowLogin(false); }
+  const whatsappLink = 'https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d';
+  const logoUrl = 'https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg';
+
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+
+  const handleLogin = () => {
+    if (password === '749329') {
+      setIsLoggedIn(true);
+      setShowLogin(false);
+      setPassword('');
+    }
+  };
+
+  const theme = {
+    bg: isDarkMode ? '#000000' : '#FFFFFF',
+    text: isDarkMode ? '#FFFFFF' : '#111827',
+    subText: isDarkMode ? '#9CA3AF' : '#6B7280',
+    border: isDarkMode ? '#262626' : '#E5E7EB',
+    cardBg: isDarkMode ? '#0A0A0A' : '#FFFFFF',
+    iconBox: isDarkMode ? '#0A0A0A' : '#F9FAFB',
+    shadow: isDarkMode
+      ? '0 8px 30px rgba(255,255,255,0.03)'
+      : '0 10px 20px rgba(0,0,0,0.08)',
   };
 
   return (
-    <div style={s.container}>
-      {/* 1. الهوية والبصرية */}
-      <div style={s.identity}>
-        <div onClick={() => { setShowLogin(!showLogin); setPassword(""); }} style={s.logoWrap}>
-          <img src={logo} alt="Logo" style={s.logoImg} />
-        </div>
-        <h1 style={s.title}>أهلاً بكم في <span style={{color:'#f59e0b'}}>شقق رام الله</span></h1>
-        <p style={s.sub}>تابعونا ليصلكم كل جديد</p>
+    <div style={{ ...s.container, backgroundColor: theme.bg, color: theme.text }}>
+      
+      <div style={s.themeToggleWrap}>
+        <button onClick={toggleTheme} style={{ ...s.themeBtn, border: `1.5px solid ${theme.border}`, color: theme.text, backgroundColor: theme.iconBox }}>
+          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
       </div>
 
-      {/* 2. مواقع التواصل */}
-      {!isLoggedIn && (
-        <div style={s.grid}>
-          <a href={whatsappChannel} target="_blank" rel="noreferrer" style={{...s.box,background:'#25D366'}}>
-            <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045c0 2.12.554 4.189 1.602 6.02L0 24l6.117-1.605a11.803 11.803 0 005.925 1.585h.005c6.635 0 12.046-5.411 12.049-12.046a11.8 11.8 0 00-3.535-8.484"/></svg>
-          </a>
-          <a href="tel:+970594560056" style={{...s.box,background:'#34A853'}}><Phone size={20} color="white"/></a>
-          <a href="https://facebook.com/shoqaq.store/" style={{...s.box,background:'#1877F2'}}><Facebook size={20} color="white"/></a>
-          <a href="https://instagram.com/shoqaq.ramallah/" style={{...s.box,background:'linear-gradient(45deg,#f09433,#e6683c,#bc1888)'}}><Instagram size={20} color="white"/></a>
-          <a href="https://tiktok.com/@shoqaq.ramallah" style={{...s.box,background:'#000',border:'1px solid #222'}}>
-            <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>
-          </a>
-        </div>
-      )}
-
-      {showLogin && !isLoggedIn && (
-        <div style={{marginBottom:'20px'}}>
-          <input type="password" placeholder="..." value={password} onChange={(e)=>handleLogin(e.target.value)} style={s.input} autoFocus />
-        </div>
-      )}
-
-      {/* 3. قسم الخدمات الموحد والكبير */}
-      {isLoggedIn ? (
-        <div style={s.admin}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'20px'}}>
-            <h2 style={{margin:0,fontSize:'1rem',color:'#f59e0b'}}>التحكم</h2>
-            <button onClick={()=>setIsLoggedIn(false)} style={s.logout}><LogOut size={18}/></button>
+      <div style={s.mainWrapper}>
+        <div style={s.identity}>
+          <div onClick={() => { setShowLogin(!showLogin); setPassword(''); }} style={{ ...s.logoWrap, border: `2px solid ${theme.border}`, boxShadow: theme.shadow }}>
+            <img src={logoUrl} alt="Logo" style={s.logoImg} />
           </div>
-          <button style={s.adminBtn}><Plus size={16}/> إضافة عقار جديد</button>
-          <button style={s.adminBtn}><LayoutDashboard size={16}/> إدارة القائمة</button>
+          <h1 style={s.title}>أهلاً بكم في <span style={{ color: '#f59e0b' }}>شقق رام الله</span></h1>
+          <p style={{ ...s.sub, color: theme.subText }}>تابعونا ليصلكم كل جديد</p>
         </div>
-      ) : (
-        <div style={s.services}>
-          <button style={s.serviceCard}>
-            <Building2 size={32} color="#f59e0b" strokeWidth={1.5} />
-            <span style={s.serviceText}>عرض الشقق المتوفرة</span>
-          </button>
-          
-          <button style={s.serviceCard}>
-            <ClipboardEdit size={32} color="#f59e0b" strokeWidth={1.5} />
-            <span style={s.serviceText}>تقديم طلب</span>
-          </button>
 
-          <button style={s.serviceCard}>
-            <Plus size={32} color="#f59e0b" strokeWidth={1.5} />
-            <span style={s.serviceText}>عرض عقار على الصفحة</span>
-          </button>
-        </div>
-      )}
-      <footer style={s.foot}>SHOQAQ.STORE • 2026</footer>
+        {!isLoggedIn && !showLogin && (
+          <div style={s.grid}>
+            {/* واتساب */}
+            <a href={whatsappLink} target="_blank" rel="noreferrer" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
+              <svg width="24" height="24" fill="#25D366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045c0 2.12.554 4.189 1.602 6.02L0 24l6.117-1.605a11.803 11.803 0 005.925 1.585h.005c6.635 0 12.046-5.411 12.049-12.046a11.8 11.8 0 00-3.535-8.484"/></svg>
+            </a>
+            {/* اتصال */}
+            <a href="tel:+970594560056" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
+              <Phone size={24} color="#34A853" strokeWidth={1.5} />
+            </a>
+            {/* فيسبوك */}
+            <a href="https://facebook.com/shoqaq.store/" target="_blank" rel="noreferrer" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            {/* انستغرام */}
+            <a href="https://instagram.com/shoqaq.ramallah/" target="_blank" rel="noreferrer" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
+              <Instagram size={24} color="#e1306c" strokeWidth={1.5} />
+            </a>
+            {/* تيك توك */}
+            <a href="https://tiktok.com/@shoqaq.ramallah" target="_blank" rel="noreferrer" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
+              <svg width="24" height="24" fill={isDarkMode ? "white" : "#111827"} viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>
+            </a>
+          </div>
+        )}
+
+        {showLogin && !isLoggedIn && (
+          <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
+            <div style={s.loginHeader}><Lock size={18} color="#f59e0b" /><span style={{ fontWeight: 700 }}>دخول الإدارة</span></div>
+            <input type="password" placeholder="كلمة المرور" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleLogin()} style={{ ...s.input, backgroundColor: theme.iconBox, border: `1px solid ${theme.border}`, color: theme.text }} autoFocus />
+            <button onClick={handleLogin} style={s.loginBtn}>دخول</button>
+          </div>
+        )}
+
+        {isLoggedIn ? (
+          <div style={{ ...s.admin, border: `2px solid ${theme.border}`, backgroundColor: theme.cardBg, boxShadow: theme.shadow }}>
+            <div style={s.adminHeader}>
+              <h2 style={{ margin: 0, fontSize: '1.2rem', color: '#f59e0b' }}>لوحة التحكم</h2>
+              <button onClick={() => setIsLoggedIn(false)} style={{ ...s.logoutBtn, color: theme.subText }}><LogOut size={22} /></button>
+            </div>
+            <button style={{ ...s.adminAction, color: theme.text, borderColor: theme.border }}><PlusCircle size={20} /> إضافة عقار جديد</button>
+            <button style={{ ...s.adminAction, color: theme.text, borderColor: theme.border }}><LayoutDashboard size={20} /> إدارة القائمة</button>
+          </div>
+        ) : (
+          <div style={s.services}>
+            {[
+              { icon: <Building2 size={32} color="#f59e0b" />, text: 'عرض الشقق المتوفرة' },
+              { icon: <ClipboardEdit size={32} color="#f59e0b" />, text: 'تقديم طلب' },
+              { icon: <Plus size={32} color="#f59e0b" />, text: 'عرض عقار على الصفحة' },
+            ].map((item, index) => (
+              <button key={index} style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, boxShadow: theme.shadow, color: theme.text }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.borderColor = '#f59e0b'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0px)'; e.currentTarget.style.borderColor = theme.border; }}>
+                {item.icon}
+                <span style={s.serviceText}>{item.text}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <footer style={{ ...s.footer, color: theme.subText }}>SHOQAQ.STORE • 2026</footer>
     </div>
   );
 }
 
 const s = {
-  container: { backgroundColor:'#000', color:'white', minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', direction:'rtl', fontFamily:'sans-serif', padding:'30px 20px' },
-  identity: { textAlign:'center', marginBottom:'15px' },
-  logoWrap: { cursor:'pointer', marginBottom:'15px', borderRadius:'18px', overflow:'hidden', display:'inline-block', border:'1px solid #222', width:'90px', height:'90px', boxShadow:'0 5px 20px rgba(0,0,0,0.5)' },
-  logoImg: { width:'100%', height:'100%', objectFit:'cover', display:'block' },
-  title: { fontSize:'1.7rem', fontWeight:'900', margin:'5px 0 0 0' },
-  sub: { color:'#888', marginTop:'8px', fontSize:'1.2rem', fontWeight:'500' }, // تكبير طفيف لنص تابعونا
-  
-  grid: { display:'flex', gap:'10px', justifyContent:'center', marginBottom:'35px' },
-  box: { width:'42px', height:'42px', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', textDecoration:'none' },
-
-  // تكبير الخدمات
-  services: { display:'flex', flexDirection:'column', gap:'15px', width:'100%', maxWidth:'360px' },
-  serviceCard: { 
-    display:'flex', alignItems:'center', gap:'20px', padding:'22px 25px', 
-    backgroundColor:'#0a0a0a', border:'1px solid #1a1a1a', borderRadius:'18px',
-    cursor:'pointer', textAlign:'right', width:'100%', outline:'none',
-    boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
-  },
-  serviceText: { color:'#fff', fontSize:'1.15rem', fontWeight:'600' }, // خط أوضح وأكبر
-
-  input: { backgroundColor:'#050505', border:'1px solid #111', borderRadius:'8px', padding:'8px', color:'#f59e0b', textAlign:'center', width:'140px' },
-  admin: { backgroundColor:'#050505', padding:'20px', borderRadius:'20px', width:'280px', border:'1px solid #111' },
-  adminBtn: { width:'100%', padding:'10px', marginBottom:'8px', borderRadius:'10px', backgroundColor:'#0a0a0a', border:'1px solid #111', color:'white', textAlign:'right', display:'flex', alignItems:'center', gap:'8px', fontSize:'0.9rem' },
-  logout: { background:'none', border:'none', color:'#333', cursor:'pointer' },
-  foot: { position:'fixed', bottom:'15px', opacity:0.05, fontSize:'8px' }
+  container: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', direction: 'rtl', fontFamily: 'system-ui, sans-serif', padding: '25px', transition: '0.3s ease', boxSizing: 'border-box' },
+  mainWrapper: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', marginTop: '-8vh' },
+  themeToggleWrap: { position: 'absolute', top: '25px', left: '25px' },
+  themeBtn: { cursor: 'pointer', borderRadius: '14px', width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  identity: { textAlign: 'center', marginBottom: '6px', display: 'flex', flexDirection: 'column', alignItems: 'center' },
+  logoWrap: { cursor: 'pointer', marginBottom: '12px', borderRadius: '26px', overflow: 'hidden', width: '110px', height: '110px' },
+  logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
+  title: { fontSize: '1.9rem', fontWeight: '800', margin: 0 },
+  sub: { marginTop: '4px', fontSize: '1.1rem', fontWeight: '600' },
+  grid: { display: 'flex', gap: '12px', marginBottom: '40px', justifyContent: 'center' },
+  box: { width: '52px', height: '52px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s ease' },
+  services: { display: 'flex', flexDirection: 'column', gap: '16px', width: '100%', maxWidth: '390px' },
+  serviceCard: { display: 'flex', alignItems: 'center', gap: '20px', padding: '22px 24px', borderRadius: '22px', cursor: 'pointer', transition: '0.25s ease', outline: 'none' },
+  serviceText: { fontSize: '1.15rem', fontWeight: '700' },
+  loginBox: { width: '100%', maxWidth: '320px', borderRadius: '24px', padding: '20px', marginBottom: '25px' },
+  loginHeader: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '15px' },
+  input: { width: '100%', borderRadius: '14px', padding: '12px', outline: 'none', fontSize: '1rem', marginBottom: '10px', textAlign: 'center', boxSizing: 'border-box' },
+  loginBtn: { width: '100%', backgroundColor: '#f59e0b', color: '#fff', border: 'none', borderRadius: '14px', padding: '12px', cursor: 'pointer', fontWeight: '700' },
+  admin: { width: '340px', borderRadius: '24px', padding: '24px' },
+  adminHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' },
+  adminAction: { width: '100%', padding: '14px', marginBottom: '12px', borderRadius: '14px', backgroundColor: 'transparent', border: '1px solid', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' },
+  logoutBtn: { background: 'none', border: 'none', cursor: 'pointer' },
+  footer: { position: 'fixed', bottom: '20px', fontSize: '10px', opacity: 0.7, letterSpacing: '1px', fontWeight: '700' },
 };

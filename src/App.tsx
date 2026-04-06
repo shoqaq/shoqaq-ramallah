@@ -32,34 +32,34 @@ export default function App() {
       </div>
 
       {!isLoggedIn && (
-        /* قسم مواقع التواصل: أيقونات سادة على خلفية سوداء بحدود سميكة */
+        /* قسم مواقع التواصل: أيقونات سادة ومفرغة على خلفية سوداء بحدود سميكة */
         <div style={socialGrid}>
           
-          {/* واتساب - شعار رسمي سادة */}
+          {/* واتساب - شعار رسمي سادة ومفرغ */}
           <a href={whatsappChannelLink} target="_blank" rel="noreferrer" style={iconBoxStyle}>
             <svg width="22" height="22" fill="#25D366" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045c0 2.12.554 4.189 1.602 6.02L0 24l6.117-1.605a11.803 11.803 0 005.925 1.585h.005c6.635 0 12.046-5.411 12.049-12.046a11.8 11.8 0 00-3.535-8.484"/>
             </svg>
           </a>
           
-          {/* اتصال - أيقونة سادة */}
+          {/* اتصال - أيقونة مفرغة */}
           <a href="tel:+970594560056" style={iconBoxStyle}>
             <Phone size={22} color="#34A853" strokeWidth={1.5} />
           </a>
           
-          {/* فيسبوك - شعار رسمي سادة (النسخة البسيطة) */}
+          {/* فيسبوك - شعار رسمي سادة ومفرغ (تم التحديث ليتطابق مع باقي الأيقونات) */}
           <a href="https://facebook.com/shoqaq.store/" target="_blank" rel="noreferrer" style={iconBoxStyle}>
-            <svg width="18" height="18" fill="#1877F2" viewBox="0 0 24 24">
-              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10z"/>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
             </svg>
           </a>
 
-          {/* انستغرام - أيقونة سادة */}
+          {/* انستغرام - أيقونة مفرغة */}
           <a href="https://instagram.com/shoqaq.ramallah/" target="_blank" rel="noreferrer" style={iconBoxStyle}>
             <Instagram size={22} color="#e1306c" strokeWidth={1.5} />
           </a>
 
-          {/* تيك توك - أيقونة سادة */}
+          {/* تيك توك - أيقونة سادة ومفرغة */}
           <a href="https://tiktok.com/@shoqaq.ramallah" target="_blank" rel="noreferrer" style={iconBoxStyle}>
             <svg width="22" height="22" fill="white" viewBox="0 0 24 24">
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/>
@@ -138,7 +138,7 @@ const containerStyle = {
 
 const identitySection = {
   textAlign: 'center',
-  marginBottom: '20px', // تقليل المسافة العلوية قليلاً
+  marginBottom: '20px', 
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center'
@@ -152,7 +152,7 @@ const logoWrapper = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  border: '2px solid #222', // حدود سميكة وواضحة (كما طلبت)
+  border: '2px solid #222', 
   width: '90px',
   height: '90px'
 };
@@ -172,7 +172,7 @@ const mainTitle = {
 };
 
 const subTitle = {
-  color: '#888', // خط تابعونا الآن واضح وفخم
+  color: '#888', 
   marginTop: '8px',
   fontSize: '1.2rem',
   fontWeight: '500'
@@ -193,8 +193,8 @@ const iconBoxStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   textDecoration: 'none',
-  backgroundColor: '#000', // خلفية سوداء للأيقونة
-  border: '2px solid #222' // حدود سميكة وواضحة (كما طلبت)
+  backgroundColor: '#000', 
+  border: '2px solid #222' 
 };
 
 const servicesSectionStyle = { 
@@ -210,8 +210,8 @@ const serviceCardStyle = {
   alignItems: 'center', 
   gap: '20px', 
   padding: '22px 25px', 
-  backgroundColor: '#000', // خلفية سوداء للبطاقة
-  border: '2.5px solid #222', // حدود سميكة وواضحة (كما طلبت) لخدمات تبرز
+  backgroundColor: '#000', 
+  border: '2.5px solid #222', 
   borderRadius: '18px',
   cursor: 'pointer', 
   textAlign: 'right', 

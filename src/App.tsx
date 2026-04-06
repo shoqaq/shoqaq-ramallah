@@ -59,7 +59,10 @@ export default function App() {
           <div onClick={() => { setShowLogin(!showLogin); setPassword(''); }} style={{ ...s.logoWrap, border: `2px solid ${theme.border}`, boxShadow: theme.shadow }}>
             <img src={logoUrl} alt="Logo" style={s.logoImg} />
           </div>
-          <h1 style={s.title}>أهلاً بكم في <span style={{ color: '#f59e0b' }}>شقق رام الله</span></h1>
+          {/* الاسم المحدث هنا */}
+          <h1 style={s.title}>
+            <span style={{ color: '#f59e0b' }}>shoqaq.ramallah</span>
+          </h1>
           <p style={{ ...s.sub, color: theme.subText }}>تابعونا ليصلكم كل جديد</p>
         </div>
 
@@ -82,8 +85,6 @@ export default function App() {
         {showLogin && !isLoggedIn && (
           <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
             <div style={s.loginHeader}><Lock size={18} color="#f59e0b" /><span style={{ fontWeight: 700 }}>دخول الإدارة</span></div>
-            
-            {/* حقل الإدخال المعدل لإظهار لوحة الأرقام */}
             <input 
               type="tel" 
               inputMode="numeric"
@@ -96,11 +97,10 @@ export default function App() {
                 backgroundColor: theme.iconBox, 
                 border: `1px solid ${theme.border}`, 
                 color: theme.text,
-                WebkitTextSecurity: 'disc' // لتشفير الأرقام بنقاط
+                WebkitTextSecurity: 'disc' 
               }} 
               autoFocus 
             />
-            
             <button onClick={handleLogin} style={s.loginBtn}>دخول</button>
           </div>
         )}
@@ -143,7 +143,7 @@ const s = {
   identity: { textAlign: 'center', marginBottom: '6px', display: 'flex', flexDirection: 'column', alignItems: 'center' },
   logoWrap: { cursor: 'pointer', marginBottom: '12px', borderRadius: '26px', overflow: 'hidden', width: '110px', height: '110px' },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  title: { fontSize: '1.9rem', fontWeight: '800', margin: 0 },
+  title: { fontSize: '1.9rem', fontWeight: '800', margin: 0, textTransform: 'lowercase' }, // جعل الحروف صغيرة لتناسب ستايل shoqaq.ramallah
   sub: { marginTop: '4px', fontSize: '1.1rem', fontWeight: '600' },
   grid: { display: 'flex', gap: '12px', marginBottom: '40px', justifyContent: 'center' },
   box: { width: '52px', height: '52px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s ease' },

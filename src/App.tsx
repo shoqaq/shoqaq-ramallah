@@ -31,12 +31,14 @@ export default function App() {
   return (
     <div style={{...s.container, backgroundColor: theme.bg, color: theme.text}}>
       
+      {/* زر التبديل العلوي */}
       <div style={s.themeToggleWrap}>
         <button onClick={toggleTheme} style={{...s.themeBtn, border: `1.5px solid ${theme.border}`, color: theme.text, backgroundColor: theme.iconBox}}>
           {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
       </div>
 
+      {/* الهوية البصرية - تم رفعها للأعلى */}
       <div style={s.identity}>
         <div onClick={() => { setShowLogin(!showLogin); setPassword(""); }} style={{...s.logoWrap, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow}}>
           <img src={logoUrl} alt="Logo" style={s.logoImg} />
@@ -64,7 +66,7 @@ export default function App() {
       )}
 
       {showLogin && !isLoggedIn && (
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '30px' }}>
           <input type="password" placeholder="..." value={password} onChange={(e) => handleLogin(e.target.value)} style={s.input} autoFocus />
         </div>
       )}
@@ -101,22 +103,34 @@ export default function App() {
 }
 
 const s = {
-  container: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', direction: 'rtl', fontFamily: 'system-ui, -apple-system, sans-serif', padding: '20px', transition: 'background-color 0.3s ease, color 0.3s ease' },
+  container: { 
+    minHeight: '100vh', 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', 
+    justifyContent: 'flex-start', // جعل المحتوى يبدأ من الأعلى
+    paddingTop: '60px', // مسافة كافية من الحافة العليا للجهاز
+    direction: 'rtl', 
+    fontFamily: 'system-ui, -apple-system, sans-serif', 
+    padding: '20px', 
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    boxSizing: 'border-box'
+  },
   themeToggleWrap: { position: 'absolute', top: '20px', left: '20px' }, 
   themeBtn: { border: 'none', cursor: 'pointer', borderRadius: '12px', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s' },
-  identity: { textAlign: 'center', marginBottom: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center' },
+  identity: { textAlign: 'center', marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' },
   logoWrap: { cursor: 'pointer', marginBottom: '15px', borderRadius: '20px', overflow: 'hidden', width: '85px', height: '85px', transition: '0.2s' },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
   title: { fontSize: '1.6rem', fontWeight: '800', margin: '5px 0 0 0', letterSpacing: '-0.5px' },
   sub: { marginTop: '6px', fontSize: '1rem', fontWeight: '500' },
-  grid: { display: 'flex', gap: '12px', marginBottom: '35px' },
+  grid: { display: 'flex', gap: '12px', marginBottom: '40px' },
   box: { width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s' },
-  services: { display: 'flex', flexDirection: 'column', gap: '14px', width: '100%', maxWidth: '350px' },
-  serviceCard: { display: 'flex', alignItems: 'center', gap: '18px', padding: '20px 22px', borderRadius: '16px', cursor: 'pointer', textAlign: 'right', outline: 'none', transition: '0.2s' },
+  services: { display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', maxWidth: '350px' },
+  serviceCard: { display: 'flex', alignItems: 'center', gap: '18px', padding: '22px 22px', borderRadius: '16px', cursor: 'pointer', textAlign: 'right', outline: 'none', transition: '0.2s' },
   serviceText: { fontSize: '1.05rem', fontWeight: '600' },
-  input: { backgroundColor: 'transparent', border: '1px solid #ccc', borderRadius: '8px', padding: '8px', textAlign: 'center', width: '140px' },
+  input: { backgroundColor: 'transparent', border: '1px solid #ccc', borderRadius: '8px', padding: '8px', textAlign: 'center', width: '140px', outline: 'none' },
   admin: { padding: '20px', borderRadius: '20px', width: '280px', transition: '0.3s' },
-  adminAction: { width: '100%', padding: '10px', marginBottom: '8px', borderRadius: '10px', backgroundColor: 'transparent', textAlign: 'right', display: 'flex', alignItems: 'center', gap: '8px' },
+  adminAction: { width: '100%', padding: '10px', marginBottom: '8px', borderRadius: '10px', backgroundColor: 'transparent', border: '1px solid', textAlign: 'right', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' },
   logoutBtn: { background: 'none', border: 'none', color: '#999', cursor: 'pointer' },
-  footer: { position: 'fixed', bottom: '15px', opacity: 0.6, fontSize: '10px', fontWeight: '600', letterSpacing: '1px' }
+  footer: { marginTop: 'auto', paddingBottom: '20px', opacity: 0.6, fontSize: '10px', fontWeight: '600', letterSpacing: '1px' }
 };

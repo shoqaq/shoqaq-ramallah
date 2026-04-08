@@ -20,14 +20,12 @@ interface Listing {
 }
 
 export default function App() {
-  // حالات النظام
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [view, setView] = useState<'home' | 'add' | 'manage'>('home');
   
-  // حالات البيانات
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ property_name: '', category: 'شقة' });
@@ -35,9 +33,6 @@ export default function App() {
   const whatsappLink = 'https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d';
   const logoUrl = 'https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg';
 
-  // --- 3. وظائف التعامل مع قاعدة البيانات ---
-
-  // جلب البيانات
   const fetchListings = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -48,7 +43,6 @@ export default function App() {
     setLoading(false);
   };
 
-  // إضافة عقار (الخطوة المتطورة)
   const handleAddProperty = async () => {
     if (!form.property_name.trim()) return alert("يرجى كتابة اسم العقار");
     setLoading(true);
@@ -56,15 +50,12 @@ export default function App() {
     if (!error) {
       alert("✅ تم الحفظ بنجاح!");
       setForm({ property_name: '', category: 'شقة' });
-      setView('manage'); // الانتقال لعرض النتائج
+      setView('manage');
       fetchListings();
-    } else {
-      alert("خطأ في الإضافة: " + error.message);
     }
     setLoading(false);
   };
 
-  // حذف عقار
   const handleDelete = async (id: number) => {
     if (window.confirm("هل تريد حذف هذا العقار نهائياً؟")) {
       await supabase.from('listings').delete().eq('id', id);
@@ -74,7 +65,6 @@ export default function App() {
 
   useEffect(() => { fetchListings(); }, []);
 
-  // تسجيل الدخول
   const handleLogin = () => {
     if (password === '749329') {
       setIsLoggedIn(true);
@@ -95,8 +85,6 @@ export default function App() {
 
   return (
     <div style={{ ...s.container, backgroundColor: theme.bg, color: theme.text }}>
-      
-      {/* زر تبديل الوضع الليلي */}
       <div style={s.themeToggleWrap}>
         <button onClick={() => setIsDarkMode(!isDarkMode)} style={{ ...s.themeBtn, border: `1.5px solid ${theme.border}`, color: theme.text, backgroundColor: theme.iconBox }}>
           {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -104,21 +92,17 @@ export default function App() {
       </div>
 
       <div style={s.mainWrapper}>
-        {/* الهوية البصرية */}
         <div style={s.identity}>
           <div onClick={() => { setShowLogin(!showLogin); setPassword(''); }} style={{ ...s.logoWrap, border: `2px solid ${theme.border}`, boxShadow: theme.shadow }}>
             <img src={logoUrl} alt="Logo" style={s.logoImg} />
           </div>
           <h1 style={s.title}>عقارات <span style={{ color: '#f59e0b' }}>نور الدين</span></h1>
-          <p style={{ color: theme.subText, marginTop: '5px' }}>إدارة ذكية لعقارات رام الله</p>
         </div>
 
-        {/* الواجهة الرئيسية للجمهور */}
         {!isLoggedIn && !showLogin && (
           <div style={s.services}>
-             <button style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
-              <Building2 size={32} color="#f59e0b" />
-              <span style={s.serviceText}>تصفح العقارات المتاحة</span>
+            <button style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
+              <Building2 size={32} color="#f59e0b" /> <span style={s.serviceText}>تصفح العقارات المتاحة</span>
             </button>
             <div style={s.grid}>
               <a href={whatsappLink} style={{ ...s.box, border: `1.5px solid ${theme.border}`, backgroundColor: theme.iconBox }}><Phone size={24} color="#25D366" /></a>
@@ -127,7 +111,6 @@ export default function App() {
           </div>
         )}
 
-        {/* نموذج تسجيل دخول الإدارة */}
         {showLogin && !isLoggedIn && (
           <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
             <div style={s.loginHeader}><Lock size={18} color="#f59e0b" /> <span>منطقة المسؤول</span></div>
@@ -136,69 +119,48 @@ export default function App() {
           </div>
         )}
 
-        {/* لوحة التحكم عند تسجيل الدخول */}
         {isLoggedIn && (
           <div style={{ width: '100%', maxWidth: '420px' }}>
             {view === 'home' && (
               <div style={{ ...s.admin, border: `2px solid ${theme.border}`, backgroundColor: theme.cardBg }}>
-                <div style={s.adminHeader}>
-                  <h2 style={{ color: '#f59e0b' }}>لوحة التحكم</h2>
-                  <button onClick={() => setIsLoggedIn(false)} style={s.logoutBtn}><LogOut size={22} color={theme.subText} /></button>
-                </div>
+                <div style={s.adminHeader}><h2>لوحة التحكم</h2> <button onClick={() => setIsLoggedIn(false)} style={{ background: 'none', border: 'none' }}><LogOut size={22} color={theme.subText} /></button></div>
                 <button onClick={() => setView('add')} style={{ ...s.adminAction, color: theme.text, borderColor: theme.border }}><PlusCircle size={20} /> إضافة عقار جديد</button>
                 <button onClick={() => setView('manage')} style={{ ...s.adminAction, color: theme.text, borderColor: theme.border }}><LayoutDashboard size={20} /> إدارة القائمة ({listings.length})</button>
               </div>
             )}
 
-            {/* شاشة الإضافة المتطورة */}
             {view === 'add' && (
               <div style={{ ...s.admin, border: `2px solid ${theme.border}`, backgroundColor: theme.cardBg }}>
                 <div style={s.adminHeader}><h3>إضافة عقار</h3> <X onClick={() => setView('home')} style={{ cursor: 'pointer' }} /></div>
-                
-                <label style={s.label}>اسم العقار</label>
-                <input style={{ ...s.input, backgroundColor: theme.iconBox, color: theme.text }} placeholder="مثلاً: شقة الماصيون الملكية" value={form.property_name} onChange={e => setForm({ ...form, property_name: e.target.value })} />
-                
-                <label style={s.label}>التصنيف</label>
+                <input style={{ ...s.input, backgroundColor: theme.iconBox, color: theme.text }} placeholder="اسم العقار" value={form.property_name} onChange={e => setForm({ ...form, property_name: e.target.value })} />
                 <select style={{ ...s.input, backgroundColor: theme.iconBox, color: theme.text }} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
-                  <option>شقة</option><option>أرض</option><option>فيلا</option><option>محل تجاري</option><option>مكتب</option><option>مخزن</option>
+                  <option>شقة</option><option>أرض</option><option>فيلا</option><option>محل تجاري</option><option>مكتب</option>
                 </select>
-                
-                <button onClick={handleAddProperty} style={s.loginBtn} disabled={loading}>
-                   {loading ? 'جاري الحفظ...' : <><Save size={18} /> حفظ في القاعدة</>}
-                </button>
+                <button onClick={handleAddProperty} style={s.loginBtn} disabled={loading}><Save size={18} /> {loading ? 'جاري الحفظ...' : 'حفظ'}</button>
               </div>
             )}
 
-            {/* شاشة عرض البيانات المرتبطة */}
             {view === 'manage' && (
               <div style={{ ...s.admin, border: `2px solid ${theme.border}`, backgroundColor: theme.cardBg }}>
                 <div style={s.adminHeader}><h3>قائمة العقارات</h3> <X onClick={() => setView('home')} style={{ cursor: 'pointer' }} /></div>
-                <div style={s.scrollArea}>
+                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                   {listings.map(item => (
-                    <div key={item.id} style={{ ...s.listItem, borderBottom: `1px solid ${theme.border}` }}>
-                      <div>
-                        <div style={s.itemNumber}>#{item.id}</div>
-                        <div style={s.itemName}>{item.property_name}</div>
-                        <div style={s.itemTag}>{item.category}</div>
-                      </div>
+                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: `1px solid ${theme.border}` }}>
+                      <div><div style={{ fontSize: '10px', color: '#f59e0b' }}>#{item.id}</div><div>{item.property_name}</div></div>
                       <Trash2 size={18} color="#ef4444" style={{ cursor: 'pointer' }} onClick={() => handleDelete(item.id)} />
                     </div>
                   ))}
-                  {listings.length === 0 && <p style={{ textAlign: 'center', color: theme.subText }}>لا توجد عقارات مسجلة</p>}
                 </div>
-                <button onClick={fetchListings} style={{ ...s.adminAction, marginTop: '15px' }}><Database size={16} /> تحديث البيانات</button>
               </div>
             )}
           </div>
         )}
       </div>
-
-      <footer style={{ ...s.footer, color: theme.subText }}>SHOQAQ.STORE • 2026</footer>
+      <footer style={s.footer}>SHOQAQ.STORE • 2026</footer>
     </div>
   );
 }
 
-// --- التنسيقات ---
 const s = {
   container: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', direction: 'rtl', fontFamily: 'system-ui', padding: '25px' },
   mainWrapper: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', paddingTop: '40px' },
@@ -207,8 +169,18 @@ const s = {
   identity: { textAlign: 'center', marginBottom: '30px' },
   logoWrap: { cursor: 'pointer', borderRadius: '26px', overflow: 'hidden', width: '110px', height: '110px', margin: '0 auto 15px' },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  title: { fontSize: '2rem', fontWeight: '800', margin: 0 },
+  title: { fontSize: '2rem', fontWeight: '800' },
   services: { display: 'flex', flexDirection: 'column', gap: '16px', width: '100%', maxWidth: '390px' },
-  serviceCard: { display: 'flex', alignItems: 'center', gap: '20px', padding: '22px', borderRadius: '22px', cursor: 'pointer', transition: '0.2s' },
+  serviceCard: { display: 'flex', alignItems: 'center', gap: '20px', padding: '22px', borderRadius: '22px' },
   serviceText: { fontSize: '1.2rem', fontWeight: '700' },
-  grid: { display: 'flex', gap:
+  grid: { display: 'flex', gap: '12px', marginTop: '15px', justifyContent: 'center' },
+  box: { width: '55px', height: '55px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  loginBox: { width: '320px', borderRadius: '24px', padding: '25px' },
+  loginHeader: { display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px', justifyContent: 'center' },
+  input: { width: '100%', borderRadius: '14px', padding: '14px', marginBottom: '10px', boxSizing: 'border-box', border: '1px solid' },
+  loginBtn: { width: '100%', backgroundColor: '#f59e0b', color: '#fff', border: 'none', borderRadius: '14px', padding: '14px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' },
+  admin: { width: '100%', borderRadius: '28px', padding: '25px' },
+  adminHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' },
+  adminAction: { width: '100%', padding: '15px', marginBottom: '12px', borderRadius: '14px', background: 'none', border: '1px solid', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' },
+  footer: { position: 'fixed', bottom: '15px', fontSize: '10px', fontWeight: '800' }
+};

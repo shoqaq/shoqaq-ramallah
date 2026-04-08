@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import {
   Phone, Instagram, LogOut, PlusCircle, LayoutDashboard, Building2,
-  ClipboardEdit, Plus, Sun, Moon, Lock, X, Trash2, Edit3, ExternalLink, MapPin
+  ClipboardEdit, Plus, Sun, Moon, Lock, X, Trash2, Edit3, MapPin
 } from 'lucide-react';
 
 // --- إعدادات Supabase ---
@@ -18,7 +18,7 @@ export default function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(true);
-  const [view, setView] = useState('home'); // home, browse, admin_main, admin_add, admin_list
+  const [view, setView] = useState('home'); 
   const [listings, setListings] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
@@ -39,15 +39,12 @@ export default function App() {
 
   const handleLogin = () => {
     if (password === '749329') { 
-      setIsLoggedIn(true); 
-      setShowLogin(false); 
-      setPassword(''); 
-      setView('admin_main');
+      setIsLoggedIn(true); setShowLogin(false); setPassword(''); setView('admin_main');
     }
   };
 
   const handleSave = async () => {
-    if (!newProperty.internal_name.trim()) return alert("يرجى إدخال الاسم");
+    if (!newProperty.internal_name.trim()) return alert("يرجى إدخال الاسم الداخلي");
     const dataToSave = { ...newProperty, price: parseInt(newProperty.price) || 0 };
     let error;
     if (editingId) {
@@ -58,7 +55,7 @@ export default function App() {
       error = err;
     }
     if (!error) {
-      alert("تم الحفظ");
+      alert("تم الحفظ بنجاح");
       setNewProperty(initialPropertyState);
       setEditingId(null);
       setView('admin_list');
@@ -79,7 +76,6 @@ export default function App() {
   return (
     <div style={{ ...s.container, backgroundColor: theme.bg, color: theme.text }}>
       
-      {/* زر التبديل بين الوضع الليلي والنهاري */}
       <div style={s.themeToggleWrap}>
         <button onClick={() => setIsDarkMode(!isDarkMode)} style={{ ...s.themeBtn, border: `1.5px solid ${theme.border}`, color: theme.text, backgroundColor: theme.iconBox }}>
           {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -88,35 +84,40 @@ export default function App() {
 
       <div style={s.mainWrapper}>
         
-        {/* الهوية البصرية (اللوجو والعنوان) */}
         <div style={s.identity}>
           <div onClick={() => { setShowLogin(true); setView('home'); }} style={{ ...s.logoWrap, border: `2px solid ${theme.border}`, boxShadow: theme.shadow }}>
             <img src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg" alt="Logo" style={s.logoImg} />
           </div>
-          <h1 style={s.title}>شقق <span style={{ color: '#f59e0b' }}>رام الله</span></h1>
+          <h1 style={s.title}>أهلاً بكم في <span style={{ color: '#f59e0b' }}>شقق رام الله</span></h1>
+          <p style={{ ...s.sub, color: theme.subText }}>تابعونا ليصلكم كل جديد</p>
         </div>
 
-        {/* --- المحتوى المتغير --- */}
-        
-        {/* 1. الشاشة الرئيسية (أزرار التواصل والخدمات) */}
+        {/* 1. الشاشة الرئيسية (الأيقونات الملونة) */}
         {view === 'home' && !showLogin && (
           <>
             <div style={s.grid}>
-              <a href="https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Phone size={22} color="#25D366" /></a>
-              <a href="tel:+970594560056" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Phone size={22} color="#34A853" /></a>
-              <a href="https://facebook.com/shoqaq.store/" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Building2 size={22} color="#1877F2" /></a>
-              <a href="https://instagram.com/shoqaq.ramallah/" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Instagram size={22} color="#e1306c" /></a>
+              <a href="https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d" target="_blank" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}>
+                <svg width="24" height="24" fill="#25D366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045c0 2.12.554 4.189 1.602 6.02L0 24l6.117-1.605a11.803 11.803 0 005.925 1.585h.005c6.635 0 12.046-5.411 12.049-12.046a11.8 11.8 0 00-3.535-8.484"/></svg>
+              </a>
+              <a href="tel:+970594560056" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Phone size={24} color="#34A853" strokeWidth={1.5} /></a>
+              <a href="https://facebook.com/shoqaq.store/" target="_blank" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+              <a href="https://instagram.com/shoqaq.ramallah/" target="_blank" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Instagram size={24} color="#e1306c" strokeWidth={1.5} /></a>
+              <a href="https://tiktok.com/@shoqaq.ramallah" target="_blank" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}>
+                <svg width="24" height="24" fill={isDarkMode ? "white" : "#111827"} viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>
+              </a>
             </div>
 
             <div style={s.services}>
               <button onClick={() => setView('browse')} style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
-                <Building2 size={30} color="#f59e0b" /> <span style={s.serviceText}>عرض العقارات المتوفرة</span>
+                <Building2 size={32} color="#f59e0b" /> <span style={s.serviceText}>عرض العقارات المتوفرة</span>
               </button>
               <button style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
-                <ClipboardEdit size={30} color="#f59e0b" /> <span style={s.serviceText}>تقديم طلب بحث</span>
+                <ClipboardEdit size={32} color="#f59e0b" /> <span style={s.serviceText}>تقديم طلب بحث</span>
               </button>
               <button style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
-                <Plus size={30} color="#f59e0b" /> <span style={s.serviceText}>عرض عقارك معنا</span>
+                <Plus size={32} color="#f59e0b" /> <span style={s.serviceText}>عرض عقارك معنا</span>
               </button>
             </div>
           </>
@@ -131,18 +132,18 @@ export default function App() {
             </div>
             <div style={s.scrollArea}>
               {listings.map(item => (
-                <div key={item.id} style={{ ...s.propCard, backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }}>
+                <div key={item.id} style={{ ...s.propCard, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
                   <div style={s.cardHeader}>
-                    <span style={s.priceTag}>{item.price} {item.currency}</span>
-                    <span style={{opacity: 0.7}}>{item.category}</span>
+                    <span style={{...s.priceTag, opacity: item.status === 'متاح' ? 1 : 0.5}}>{item.price} {item.currency}</span>
+                    <span style={s.statusBadge}>{item.status}</span>
                   </div>
-                  <h4 style={{margin: '10px 0 5px'}}>{item.neighborhood} - {item.listing_type}</h4>
+                  <h4 style={{margin: '10px 0 5px'}}>{item.neighborhood} - {item.listing_type} {item.category}</h4>
                   <p style={s.cardAddress}><MapPin size={14} /> {item.address || 'رام الله'}</p>
                   <p style={s.cardDesc}>{item.description}</p>
                   <div style={s.cardLinks}>
-                    {item.post_url && <a href={item.post_url} target="_blank" style={s.linkBtn}>فيسبوك</a>}
-                    {item.video_url && <a href={item.video_url} target="_blank" style={s.linkBtn}>تيك توك</a>}
-                    <a href={`tel:${item.owner_phone || '+970594560056'}`} style={{...s.linkBtn, backgroundColor: '#34A853', color: '#fff'}}>اتصال</a>
+                    {item.post_url && <a href={item.post_url} target="_blank" style={s.linkBtn}>رابط {item.category}</a>}
+                    {item.video_url && <a href={item.video_url} target="_blank" style={{...s.linkBtn, color: '#ff0050'}}>فيديو العرض</a>}
+                    <a href={`tel:${item.owner_phone || '+970594560056'}`} style={{...s.linkBtn, backgroundColor: '#34A853', color: '#fff', border: 'none'}}>اتصال</a>
                   </div>
                 </div>
               ))}
@@ -152,7 +153,7 @@ export default function App() {
 
         {/* 3. شاشة تسجيل الدخول */}
         {showLogin && (
-          <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
+          <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}`, boxShadow: theme.shadow }}>
             <div style={s.formHeader}><h3>دخول الإدارة</h3> <X onClick={() => setShowLogin(false)} /></div>
             <input type="password" style={s.input} placeholder="كلمة المرور" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} autoFocus />
             <button onClick={handleLogin} style={s.saveBtn}>دخول</button>
@@ -172,43 +173,62 @@ export default function App() {
 
              {(view === 'admin_add') && (
                <div style={s.formGroup}>
-                  <div style={s.formHeader}><h3>{editingId ? "تعديل" : "إضافة"}</h3> <X onClick={() => setView('admin_main')} /></div>
-                  <input style={s.input} placeholder="الاسم الداخلي" value={newProperty.internal_name} onChange={e => setNewProperty({...newProperty, internal_name: e.target.value})} />
+                  <div style={s.formHeader}><h3>{editingId ? "تعديل العقار" : "إضافة جديد"}</h3> <X onClick={() => setView('admin_main')} /></div>
+                  
+                  <input style={s.input} placeholder="الاسم الداخلي (لك)" value={newProperty.internal_name} onChange={e => setNewProperty({...newProperty, internal_name: e.target.value})} />
+                  
                   <div style={s.row}>
                     <select style={s.input} value={newProperty.neighborhood} onChange={e => setNewProperty({...newProperty, neighborhood: e.target.value})}>
                       {NEIGHBORHOODS.map(n => <option key={n}>{n}</option>)}
                     </select>
                     <select style={{...s.input, width: '40%'}} value={newProperty.category} onChange={e => setNewProperty({...newProperty, category: e.target.value})}>
-                      {['شقة', 'مكتب', 'محل', 'أرض'].map(c => <option key={c}>{c}</option>)}
+                      {['شقة', 'مكتب', 'محل', 'أرض', 'مخزن'].map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
-                  <input style={s.input} placeholder="العنوان (الشارع، البناية)" value={newProperty.address} onChange={e => setNewProperty({...newProperty, address: e.target.value})} />
+
+                  <div style={s.row}>
+                    <select style={s.input} value={newProperty.status} onChange={e => setNewProperty({...newProperty, status: e.target.value})}>
+                      <option value="متاح">متاح</option>
+                      <option value="محجوز">محجوز</option>
+                      <option value="مؤجر">مؤجر / مباع</option>
+                    </select>
+                    <select style={{...s.input, width: '40%'}} value={newProperty.listing_type} onChange={e => setNewProperty({...newProperty, listing_type: e.target.value})}>
+                      <option>للإيجار</option><option>للبيع</option>
+                    </select>
+                  </div>
+
+                  <input style={s.input} placeholder="العنوان التفصيلي" value={newProperty.address} onChange={e => setNewProperty({...newProperty, address: e.target.value})} />
+                  
                   <div style={s.row}>
                     <input style={{...s.input, flex: 2}} type="number" placeholder="السعر" value={newProperty.price} onChange={e => setNewProperty({...newProperty, price: e.target.value})} />
                     <select style={{...s.input, flex: 1}} value={newProperty.currency} onChange={e => setNewProperty({...newProperty, currency: e.target.value})}>
                       <option>دولار</option><option>دينار</option><option>شيكل</option>
                     </select>
                   </div>
-                  <input style={s.input} placeholder="رابط الفيسبوك" value={newProperty.post_url} onChange={e => setNewProperty({...newProperty, post_url: e.target.value})} />
-                  <input style={s.input} placeholder="رابط فيديو تيك توك" value={newProperty.video_url} onChange={e => setNewProperty({...newProperty, video_url: e.target.value})} />
-                  <textarea style={{...s.input, height: '70px'}} placeholder="الوصف للزبائن" value={newProperty.description} onChange={e => setNewProperty({...newProperty, description: e.target.value})} />
-                  <button onClick={handleSave} style={s.saveBtn}>حفظ البيانات</button>
+
+                  <input style={s.input} placeholder={`رابط ${newProperty.category} (فيسبوك مثلاً)`} value={newProperty.post_url} onChange={e => setNewProperty({...newProperty, post_url: e.target.value})} />
+                  <input style={s.input} placeholder="رابط الفيديو (تيك توك)" value={newProperty.video_url} onChange={e => setNewProperty({...newProperty, video_url: e.target.value})} />
+                  <input style={s.input} placeholder="رقم هاتف المالك" value={newProperty.owner_phone} onChange={e => setNewProperty({...newProperty, owner_phone: e.target.value})} />
+                  
+                  <textarea style={{...s.input, height: '70px'}} placeholder="الوصف الذي يظهر للجمهور" value={newProperty.description} onChange={e => setNewProperty({...newProperty, description: e.target.value})} />
+                  
+                  <button onClick={handleSave} style={s.saveBtn}>{editingId ? "تحديث التعديلات" : "حفظ العقار الآن"}</button>
                </div>
              )}
 
              {view === 'admin_list' && (
                <div style={s.formGroup}>
-                  <div style={s.formHeader}><h3>قائمة العقارات</h3> <X onClick={() => setView('admin_main')} /></div>
+                  <div style={s.formHeader}><h3>إدارة العقارات</h3> <X onClick={() => setView('admin_main')} /></div>
                   <div style={s.scrollAreaSmall}>
                     {listings.map(item => (
                       <div key={item.id} style={{...s.listItem, borderBottom: `1px solid ${theme.border}`}}>
                         <div>
                           <div style={{fontSize: '0.9rem', fontWeight: 'bold'}}>{item.internal_name}</div>
-                          <div style={{fontSize: '0.7rem', opacity: 0.6}}>{item.neighborhood} - {item.price} {item.currency}</div>
+                          <div style={{fontSize: '0.7rem', opacity: 0.6}}>{item.neighborhood} - {item.status}</div>
                         </div>
                         <div style={{display:'flex', gap: '10px'}}>
                           <Edit3 size={18} onClick={() => {setNewProperty(item); setEditingId(item.id); setView('admin_add');}} style={{cursor:'pointer', color:'#f59e0b'}} />
-                          <Trash2 size={18} onClick={async () => {if(confirm('حذف؟')) {await supabase.from('listings').delete().eq('id', item.id); fetchListings();}}} style={{cursor:'pointer', color:'#ef4444'}} />
+                          <Trash2 size={18} onClick={async () => {if(confirm('هل أنت متأكد من الحذف؟')) {await supabase.from('listings').delete().eq('id', item.id); fetchListings();}}} style={{cursor:'pointer', color:'#ef4444'}} />
                         </div>
                       </div>
                     ))}
@@ -226,39 +246,41 @@ export default function App() {
 
 const s = {
   container: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', direction: 'rtl', fontFamily: 'system-ui, sans-serif', padding: '20px' },
-  mainWrapper: { width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' },
+  mainWrapper: { width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' },
   themeToggleWrap: { position: 'absolute', top: '20px', left: '20px' },
   themeBtn: { width: '40px', height: '40px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  identity: { textAlign: 'center', marginBottom: '25px' },
+  identity: { textAlign: 'center', marginBottom: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center' },
   logoWrap: { width: '90px', height: '90px', borderRadius: '25px', overflow: 'hidden', marginBottom: '10px', cursor: 'pointer' },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  title: { fontSize: '1.8rem', fontWeight: '800', margin: 0 },
-  grid: { display: 'flex', gap: '12px', marginBottom: '25px' },
+  title: { fontSize: '1.7rem', fontWeight: '800', margin: 0 },
+  sub: { marginTop: '2px', fontSize: '1rem', fontWeight: '600' },
+  grid: { display: 'flex', gap: '12px', marginBottom: '30px' },
   box: { width: '50px', height: '50px', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' },
   services: { width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' },
   serviceCard: { display: 'flex', alignItems: 'center', gap: '15px', padding: '20px', borderRadius: '20px', cursor: 'pointer', textAlign: 'right', fontWeight: '700' },
   serviceText: { fontSize: '1.1rem' },
   fullWidth: { width: '100%' },
   sectionHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' },
-  backBtn: { background: 'none', border: 'none', color: '#f59e0b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' },
+  backBtn: { background: 'none', border: 'none', color: '#f59e0b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 'bold' },
   scrollArea: { maxHeight: '60vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '15px', paddingBottom: '20px' },
-  propCard: { padding: '15px', borderRadius: '20px' },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' },
-  priceTag: { backgroundColor: '#f59e0b', color: '#fff', padding: '3px 10px', borderRadius: '8px', fontWeight: 'bold' },
-  cardAddress: { fontSize: '0.8rem', opacity: 0.7, display: 'flex', alignItems: 'center', gap: '4px' },
-  cardDesc: { fontSize: '0.9rem', lineHeight: '1.4', margin: '10px 0' },
-  cardLinks: { display: 'flex', gap: '10px', marginTop: '10px' },
-  linkBtn: { flex: 1, textAlign: 'center', padding: '8px', borderRadius: '10px', fontSize: '0.8rem', textDecoration: 'none', backgroundColor: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b', fontWeight: 'bold' },
-  loginBox: { width: '100%', padding: '20px', borderRadius: '20px' },
+  propCard: { padding: '18px', borderRadius: '22px' },
+  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+  priceTag: { backgroundColor: '#f59e0b', color: '#fff', padding: '4px 12px', borderRadius: '10px', fontWeight: 'bold', fontSize: '1.1rem' },
+  statusBadge: { fontSize: '0.75rem', opacity: 0.6, border: '1px solid', padding: '2px 8px', borderRadius: '6px' },
+  cardAddress: { fontSize: '0.85rem', opacity: 0.7, display: 'flex', alignItems: 'center', gap: '4px', margin: '5px 0' },
+  cardDesc: { fontSize: '0.95rem', lineHeight: '1.5', margin: '12px 0' },
+  cardLinks: { display: 'flex', gap: '10px', marginTop: '5px' },
+  linkBtn: { flex: 1, textAlign: 'center', padding: '10px', borderRadius: '12px', fontSize: '0.85rem', textDecoration: 'none', border: '1.5px solid #f59e0b', color: '#f59e0b', fontWeight: 'bold' },
+  loginBox: { width: '100%', padding: '25px', borderRadius: '22px' },
   adminPanel: { width: '100%', padding: '20px', borderRadius: '25px' },
-  adminMenu: { display: 'flex', flexDirection: 'column', gap: '10px' },
-  menuBtn: { padding: '15px', borderRadius: '15px', border: '1px solid #ddd', background: 'none', color: 'inherit', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' },
+  adminMenu: { display: 'flex', flexDirection: 'column', gap: '12px' },
+  menuBtn: { padding: '16px', borderRadius: '15px', border: '1px solid #ddd', background: 'none', color: 'inherit', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' },
   formGroup: { display: 'flex', flexDirection: 'column', gap: '10px' },
-  formHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '10px' },
-  input: { width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #ddd', background: 'rgba(255,255,255,0.05)', color: 'inherit', boxSizing: 'border-box' },
+  formHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '10px', alignItems: 'center' },
+  input: { width: '100%', padding: '14px', borderRadius: '14px', border: '1px solid #ddd', background: 'rgba(255,255,255,0.05)', color: 'inherit', boxSizing: 'border-box', outline: 'none' },
   row: { display: 'flex', gap: '10px' },
-  saveBtn: { padding: '15px', borderRadius: '12px', border: 'none', backgroundColor: '#f59e0b', color: '#fff', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' },
-  scrollAreaSmall: { maxHeight: '300px', overflowY: 'auto' },
-  listItem: { display: 'flex', justifyContent: 'space-between', padding: '10px 0', alignItems: 'center' },
-  footer: { position: 'fixed', bottom: '15px', fontSize: '10px', opacity: 0.5 }
+  saveBtn: { padding: '16px', borderRadius: '14px', border: 'none', backgroundColor: '#f59e0b', color: '#fff', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px', fontSize: '1rem' },
+  scrollAreaSmall: { maxHeight: '350px', overflowY: 'auto' },
+  listItem: { display: 'flex', justifyContent: 'space-between', padding: '12px 0', alignItems: 'center' },
+  footer: { position: 'fixed', bottom: '15px', fontSize: '10px', opacity: 0.5, fontWeight: '700' }
 };

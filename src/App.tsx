@@ -18,7 +18,7 @@ export default function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(true);
-  const [adminView, setAdminView] = useState('main'); 
+  const [view, setView] = useState('home'); // home, browse, admin_main, admin_add, admin_list
   const [listings, setListings] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
@@ -38,14 +38,17 @@ export default function App() {
   useEffect(() => { fetchListings(); }, []);
 
   const handleLogin = () => {
-    if (password === '749329') { setIsLoggedIn(true); setShowLogin(false); setPassword(''); }
+    if (password === '749329') { 
+      setIsLoggedIn(true); 
+      setShowLogin(false); 
+      setPassword(''); 
+      setView('admin_main');
+    }
   };
 
   const handleSave = async () => {
     if (!newProperty.internal_name.trim()) return alert("يرجى إدخال الاسم");
-    
     const dataToSave = { ...newProperty, price: parseInt(newProperty.price) || 0 };
-
     let error;
     if (editingId) {
       const { error: err } = await supabase.from('listings').update(dataToSave).eq('id', editingId);
@@ -54,165 +57,208 @@ export default function App() {
       const { error: err } = await supabase.from('listings').insert([dataToSave]);
       error = err;
     }
-    
     if (!error) {
-      alert("تم الحفظ بنجاح");
+      alert("تم الحفظ");
       setNewProperty(initialPropertyState);
       setEditingId(null);
-      setAdminView('list');
+      setView('admin_list');
       fetchListings();
-    } else {
-      alert("خطأ: " + error.message);
     }
   };
 
-  const startEdit = (item) => {
-    setNewProperty(item);
-    setEditingId(item.id);
-    setAdminView('add');
-  };
-
   const theme = {
-    bg: isDarkMode ? '#000000' : '#F3F4F6',
+    bg: isDarkMode ? '#000000' : '#FFFFFF',
     text: isDarkMode ? '#FFFFFF' : '#111827',
     subText: isDarkMode ? '#9CA3AF' : '#6B7280',
     border: isDarkMode ? '#262626' : '#E5E7EB',
     cardBg: isDarkMode ? '#0A0A0A' : '#FFFFFF',
-    accent: '#f59e0b'
+    iconBox: isDarkMode ? '#0A0A0A' : '#F9FAFB',
+    shadow: isDarkMode ? '0 8px 30px rgba(255,255,255,0.03)' : '0 10px 20px rgba(0,0,0,0.08)',
   };
 
   return (
     <div style={{ ...s.container, backgroundColor: theme.bg, color: theme.text }}>
-      {/* الهيدر واللوجو */}
-      <div style={s.topNav}>
-        <button onClick={() => setIsDarkMode(!isDarkMode)} style={{ ...s.iconBtn, border: `1px solid ${theme.border}`, backgroundColor: theme.cardBg }}>
-          {isDarkMode ? <Sun size={20} color={theme.text} /> : <Moon size={20} color={theme.text} />}
+      
+      {/* زر التبديل بين الوضع الليلي والنهاري */}
+      <div style={s.themeToggleWrap}>
+        <button onClick={() => setIsDarkMode(!isDarkMode)} style={{ ...s.themeBtn, border: `1.5px solid ${theme.border}`, color: theme.text, backgroundColor: theme.iconBox }}>
+          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
         </button>
-        <div onClick={() => { setShowLogin(!showLogin); setAdminView('main'); }} style={s.logoMini}>
-          <img src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg" alt="Logo" style={s.logoImg} />
-        </div>
       </div>
 
-      <div style={s.content}>
-        {/* شاشة العرض العامة للزبائن */}
-        {!isLoggedIn && !showLogin && adminView === 'main' && (
-          <div style={s.publicArea}>
-             <h1 style={s.heroTitle}>عقارات <span style={{color: theme.accent}}>رام الله</span></h1>
-             <div style={s.listingsGrid}>
-               {listings.map(item => (
-                 <div key={item.id} style={{ ...s.propCard, backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }}>
-                   <div style={s.cardHeader}>
-                     <span style={s.priceTag}>{item.price} {item.currency}</span>
-                     <span style={s.categoryTag}>{item.category}</span>
-                   </div>
-                   <h3 style={s.cardTitle}>{item.neighborhood} - {item.listing_type}</h3>
-                   {item.address && <p style={s.cardAddress}><MapPin size={14} /> {item.address}</p>}
-                   <p style={s.cardDesc}>{item.description}</p>
-                   <div style={s.cardLinks}>
-                     {item.post_url && <a href={item.post_url} target="_blank"><ExternalLink size={18} /> فيسبوك</a>}
-                     {item.video_url && <a href={item.video_url} target="_blank"><ExternalLink size={18} /> تيك توك</a>}
-                   </div>
-                 </div>
-               ))}
-             </div>
+      <div style={s.mainWrapper}>
+        
+        {/* الهوية البصرية (اللوجو والعنوان) */}
+        <div style={s.identity}>
+          <div onClick={() => { setShowLogin(true); setView('home'); }} style={{ ...s.logoWrap, border: `2px solid ${theme.border}`, boxShadow: theme.shadow }}>
+            <img src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg" alt="Logo" style={s.logoImg} />
+          </div>
+          <h1 style={s.title}>شقق <span style={{ color: '#f59e0b' }}>رام الله</span></h1>
+        </div>
+
+        {/* --- المحتوى المتغير --- */}
+        
+        {/* 1. الشاشة الرئيسية (أزرار التواصل والخدمات) */}
+        {view === 'home' && !showLogin && (
+          <>
+            <div style={s.grid}>
+              <a href="https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Phone size={22} color="#25D366" /></a>
+              <a href="tel:+970594560056" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Phone size={22} color="#34A853" /></a>
+              <a href="https://facebook.com/shoqaq.store/" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Building2 size={22} color="#1877F2" /></a>
+              <a href="https://instagram.com/shoqaq.ramallah/" style={{ ...s.box, backgroundColor: theme.iconBox, border: `1.5px solid ${theme.border}` }}><Instagram size={22} color="#e1306c" /></a>
+            </div>
+
+            <div style={s.services}>
+              <button onClick={() => setView('browse')} style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
+                <Building2 size={30} color="#f59e0b" /> <span style={s.serviceText}>عرض العقارات المتوفرة</span>
+              </button>
+              <button style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
+                <ClipboardEdit size={30} color="#f59e0b" /> <span style={s.serviceText}>تقديم طلب بحث</span>
+              </button>
+              <button style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
+                <Plus size={30} color="#f59e0b" /> <span style={s.serviceText}>عرض عقارك معنا</span>
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* 2. شاشة تصفح العقارات للجمهور */}
+        {view === 'browse' && (
+          <div style={s.fullWidth}>
+            <div style={s.sectionHeader}>
+              <button onClick={() => setView('home')} style={s.backBtn}><X size={20} /> رجوع</button>
+              <h3 style={{margin:0}}>العقارات المتاحة</h3>
+            </div>
+            <div style={s.scrollArea}>
+              {listings.map(item => (
+                <div key={item.id} style={{ ...s.propCard, backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }}>
+                  <div style={s.cardHeader}>
+                    <span style={s.priceTag}>{item.price} {item.currency}</span>
+                    <span style={{opacity: 0.7}}>{item.category}</span>
+                  </div>
+                  <h4 style={{margin: '10px 0 5px'}}>{item.neighborhood} - {item.listing_type}</h4>
+                  <p style={s.cardAddress}><MapPin size={14} /> {item.address || 'رام الله'}</p>
+                  <p style={s.cardDesc}>{item.description}</p>
+                  <div style={s.cardLinks}>
+                    {item.post_url && <a href={item.post_url} target="_blank" style={s.linkBtn}>فيسبوك</a>}
+                    {item.video_url && <a href={item.video_url} target="_blank" style={s.linkBtn}>تيك توك</a>}
+                    <a href={`tel:${item.owner_phone || '+970594560056'}`} style={{...s.linkBtn, backgroundColor: '#34A853', color: '#fff'}}>اتصال</a>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* لوحة تحكم الإدارة */}
-        {isLoggedIn ? (
-          <div style={{ ...s.adminBox, backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }}>
-            {adminView === 'main' ? (
-              <div style={s.adminMenu}>
-                <h2 style={{color: theme.accent}}>لوحة الإدارة</h2>
-                <button onClick={() => {setEditingId(null); setNewProperty(initialPropertyState); setAdminView('add');}} style={s.menuBtn}><PlusCircle /> إضافة عقار</button>
-                <button onClick={() => setAdminView('list')} style={s.menuBtn}><LayoutDashboard /> إدارة القائمة</button>
-                <button onClick={() => setIsLoggedIn(false)} style={s.logoutBtn}><LogOut /> تسجيل خروج</button>
-              </div>
-            ) : adminView === 'add' ? (
-              <div style={s.formScroll}>
-                <div style={s.formHeader}><h3>{editingId ? "تعديل عقار" : "إضافة جديد"}</h3> <X onClick={() => setAdminView('main')} /></div>
-                <input style={s.input} placeholder="الاسم الداخلي" value={newProperty.internal_name} onChange={e => setNewProperty({...newProperty, internal_name: e.target.value})} />
-                <div style={s.row}>
-                  <select style={s.input} value={newProperty.category} onChange={e => setNewProperty({...newProperty, category: e.target.value})}>
-                    {['شقة', 'مكتب', 'محل', 'أرض'].map(c => <option key={c}>{c}</option>)}
-                  </select>
-                  <select style={s.input} value={newProperty.listing_type} onChange={e => setNewProperty({...newProperty, listing_type: e.target.value})}>
-                    <option>للإيجار</option><option>للبيع</option>
-                  </select>
-                </div>
-                <select style={s.input} value={newProperty.neighborhood} onChange={e => setNewProperty({...newProperty, neighborhood: e.target.value})}>
-                  {NEIGHBORHOODS.map(n => <option key={n}>{n}</option>)}
-                </select>
-                <input style={s.input} placeholder="العنوان التفصيلي" value={newProperty.address} onChange={e => setNewProperty({...newProperty, address: e.target.value})} />
-                <div style={s.row}>
-                  <input style={{...s.input, flex: 2}} type="number" placeholder="السعر" value={newProperty.price} onChange={e => setNewProperty({...newProperty, price: e.target.value})} />
-                  <select style={{...s.input, flex: 1}} value={newProperty.currency} onChange={e => setNewProperty({...newProperty, currency: e.target.value})}>
-                    <option>دولار</option><option>دينار</option><option>شيكل</option>
-                  </select>
-                </div>
-                <input style={s.input} placeholder="رابط الفيسبوك" value={newProperty.post_url} onChange={e => setNewProperty({...newProperty, post_url: e.target.value})} />
-                <input style={s.input} placeholder="رابط التيك توك" value={newProperty.video_url} onChange={e => setNewProperty({...newProperty, video_url: e.target.value})} />
-                <input style={s.input} placeholder="رقم المالك" value={newProperty.owner_phone} onChange={e => setNewProperty({...newProperty, owner_phone: e.target.value})} />
-                <textarea style={{...s.input, height: '80px'}} placeholder="الوصف" value={newProperty.description} onChange={e => setNewProperty({...newProperty, description: e.target.value})} />
-                <button onClick={handleSave} style={s.saveBtn}>{editingId ? "تحديث البيانات" : "حفظ العقار"}</button>
-              </div>
-            ) : (
-              <div style={s.formScroll}>
-                <div style={s.formHeader}><h3>إدارة العقارات</h3> <X onClick={() => setAdminView('main')} /></div>
-                {listings.map(item => (
-                  <div key={item.id} style={{ ...s.listItem, borderBottom: `1px solid ${theme.border}` }}>
-                    <div>
-                      <div style={{fontWeight: 'bold'}}>{item.internal_name}</div>
-                      <div style={{fontSize: '0.8rem', color: theme.subText}}>{item.neighborhood} | {item.price} {item.currency}</div>
-                    </div>
-                    <div style={s.listActions}>
-                      <Edit3 size={18} onClick={() => startEdit(item)} style={{cursor: 'pointer', color: theme.accent}} />
-                      <Trash2 size={18} onClick={async () => {if(confirm('حذف؟')) {await supabase.from('listings').delete().eq('id', item.id); fetchListings();}}} style={{cursor: 'pointer', color: '#ef4444'}} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : showLogin && (
-          <div style={{ ...s.loginBox, backgroundColor: theme.cardBg }}>
-            <h3>دخول الإدارة</h3>
+        {/* 3. شاشة تسجيل الدخول */}
+        {showLogin && (
+          <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
+            <div style={s.formHeader}><h3>دخول الإدارة</h3> <X onClick={() => setShowLogin(false)} /></div>
             <input type="password" style={s.input} placeholder="كلمة المرور" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} autoFocus />
             <button onClick={handleLogin} style={s.saveBtn}>دخول</button>
           </div>
         )}
+
+        {/* 4. لوحة الإدارة */}
+        {isLoggedIn && (
+          <div style={{ ...s.adminPanel, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}` }}>
+             {view === 'admin_main' && (
+               <div style={s.adminMenu}>
+                  <button onClick={() => {setEditingId(null); setNewProperty(initialPropertyState); setView('admin_add');}} style={s.menuBtn}><PlusCircle /> إضافة عقار جديد</button>
+                  <button onClick={() => setView('admin_list')} style={s.menuBtn}><LayoutDashboard /> إدارة العقارات ({listings.length})</button>
+                  <button onClick={() => {setIsLoggedIn(false); setView('home');}} style={{...s.menuBtn, color: '#ef4444'}}><LogOut /> خروج</button>
+               </div>
+             )}
+
+             {(view === 'admin_add') && (
+               <div style={s.formGroup}>
+                  <div style={s.formHeader}><h3>{editingId ? "تعديل" : "إضافة"}</h3> <X onClick={() => setView('admin_main')} /></div>
+                  <input style={s.input} placeholder="الاسم الداخلي" value={newProperty.internal_name} onChange={e => setNewProperty({...newProperty, internal_name: e.target.value})} />
+                  <div style={s.row}>
+                    <select style={s.input} value={newProperty.neighborhood} onChange={e => setNewProperty({...newProperty, neighborhood: e.target.value})}>
+                      {NEIGHBORHOODS.map(n => <option key={n}>{n}</option>)}
+                    </select>
+                    <select style={{...s.input, width: '40%'}} value={newProperty.category} onChange={e => setNewProperty({...newProperty, category: e.target.value})}>
+                      {['شقة', 'مكتب', 'محل', 'أرض'].map(c => <option key={c}>{c}</option>)}
+                    </select>
+                  </div>
+                  <input style={s.input} placeholder="العنوان (الشارع، البناية)" value={newProperty.address} onChange={e => setNewProperty({...newProperty, address: e.target.value})} />
+                  <div style={s.row}>
+                    <input style={{...s.input, flex: 2}} type="number" placeholder="السعر" value={newProperty.price} onChange={e => setNewProperty({...newProperty, price: e.target.value})} />
+                    <select style={{...s.input, flex: 1}} value={newProperty.currency} onChange={e => setNewProperty({...newProperty, currency: e.target.value})}>
+                      <option>دولار</option><option>دينار</option><option>شيكل</option>
+                    </select>
+                  </div>
+                  <input style={s.input} placeholder="رابط الفيسبوك" value={newProperty.post_url} onChange={e => setNewProperty({...newProperty, post_url: e.target.value})} />
+                  <input style={s.input} placeholder="رابط فيديو تيك توك" value={newProperty.video_url} onChange={e => setNewProperty({...newProperty, video_url: e.target.value})} />
+                  <textarea style={{...s.input, height: '70px'}} placeholder="الوصف للزبائن" value={newProperty.description} onChange={e => setNewProperty({...newProperty, description: e.target.value})} />
+                  <button onClick={handleSave} style={s.saveBtn}>حفظ البيانات</button>
+               </div>
+             )}
+
+             {view === 'admin_list' && (
+               <div style={s.formGroup}>
+                  <div style={s.formHeader}><h3>قائمة العقارات</h3> <X onClick={() => setView('admin_main')} /></div>
+                  <div style={s.scrollAreaSmall}>
+                    {listings.map(item => (
+                      <div key={item.id} style={{...s.listItem, borderBottom: `1px solid ${theme.border}`}}>
+                        <div>
+                          <div style={{fontSize: '0.9rem', fontWeight: 'bold'}}>{item.internal_name}</div>
+                          <div style={{fontSize: '0.7rem', opacity: 0.6}}>{item.neighborhood} - {item.price} {item.currency}</div>
+                        </div>
+                        <div style={{display:'flex', gap: '10px'}}>
+                          <Edit3 size={18} onClick={() => {setNewProperty(item); setEditingId(item.id); setView('admin_add');}} style={{cursor:'pointer', color:'#f59e0b'}} />
+                          <Trash2 size={18} onClick={async () => {if(confirm('حذف؟')) {await supabase.from('listings').delete().eq('id', item.id); fetchListings();}}} style={{cursor:'pointer', color:'#ef4444'}} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+               </div>
+             )}
+          </div>
+        )}
+
       </div>
+      <footer style={{ ...s.footer, color: theme.subText }}>SHOQAQ.STORE • 2026</footer>
     </div>
   );
 }
 
 const s = {
-  container: { minHeight: '100vh', direction: 'rtl', fontFamily: 'system-ui, sans-serif' },
-  topNav: { display: 'flex', justifyContent: 'space-between', padding: '15px 20px', alignItems: 'center' },
-  iconBtn: { width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' },
-  logoMini: { width: '45px', height: '45px', borderRadius: '10px', overflow: 'hidden', cursor: 'pointer' },
+  container: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', direction: 'rtl', fontFamily: 'system-ui, sans-serif', padding: '20px' },
+  mainWrapper: { width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' },
+  themeToggleWrap: { position: 'absolute', top: '20px', left: '20px' },
+  themeBtn: { width: '40px', height: '40px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  identity: { textAlign: 'center', marginBottom: '25px' },
+  logoWrap: { width: '90px', height: '90px', borderRadius: '25px', overflow: 'hidden', marginBottom: '10px', cursor: 'pointer' },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  content: { padding: '10px 20px', maxWidth: '600px', margin: '0 auto' },
-  heroTitle: { textAlign: 'center', fontSize: '2rem', marginBottom: '20px' },
-  listingsGrid: { display: 'flex', flexDirection: 'column', gap: '15px' },
-  propCard: { padding: '15px', borderRadius: '18px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '10px' },
-  priceTag: { backgroundColor: '#f59e0b', color: '#fff', padding: '4px 10px', borderRadius: '8px', fontWeight: 'bold' },
-  categoryTag: { opacity: 0.7, fontSize: '0.9rem' },
-  cardTitle: { margin: '0 0 5px 0', fontSize: '1.2rem' },
-  cardAddress: { fontSize: '0.85rem', opacity: 0.8, display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px' },
-  cardDesc: { fontSize: '0.95rem', lineHeight: '1.5', opacity: 0.9, marginBottom: '12px' },
-  cardLinks: { display: 'flex', gap: '15px', borderTop: '1px solid #eee', paddingTop: '10px', fontSize: '0.85rem' },
-  adminBox: { borderRadius: '24px', padding: '20px', minHeight: '400px' },
-  adminMenu: { display: 'flex', flexDirection: 'column', gap: '12px' },
-  menuBtn: { padding: '15px', borderRadius: '12px', border: '1px solid #ddd', background: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 'bold', cursor: 'pointer' },
-  formScroll: { display: 'flex', flexDirection: 'column', gap: '10px' },
-  formHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' },
-  input: { width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #ddd', boxSizing: 'border-box', background: 'rgba(255,255,255,0.05)', color: 'inherit' },
+  title: { fontSize: '1.8rem', fontWeight: '800', margin: 0 },
+  grid: { display: 'flex', gap: '12px', marginBottom: '25px' },
+  box: { width: '50px', height: '50px', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' },
+  services: { width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' },
+  serviceCard: { display: 'flex', alignItems: 'center', gap: '15px', padding: '20px', borderRadius: '20px', cursor: 'pointer', textAlign: 'right', fontWeight: '700' },
+  serviceText: { fontSize: '1.1rem' },
+  fullWidth: { width: '100%' },
+  sectionHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' },
+  backBtn: { background: 'none', border: 'none', color: '#f59e0b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' },
+  scrollArea: { maxHeight: '60vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '15px', paddingBottom: '20px' },
+  propCard: { padding: '15px', borderRadius: '20px' },
+  cardHeader: { display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' },
+  priceTag: { backgroundColor: '#f59e0b', color: '#fff', padding: '3px 10px', borderRadius: '8px', fontWeight: 'bold' },
+  cardAddress: { fontSize: '0.8rem', opacity: 0.7, display: 'flex', alignItems: 'center', gap: '4px' },
+  cardDesc: { fontSize: '0.9rem', lineHeight: '1.4', margin: '10px 0' },
+  cardLinks: { display: 'flex', gap: '10px', marginTop: '10px' },
+  linkBtn: { flex: 1, textAlign: 'center', padding: '8px', borderRadius: '10px', fontSize: '0.8rem', textDecoration: 'none', backgroundColor: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b', fontWeight: 'bold' },
+  loginBox: { width: '100%', padding: '20px', borderRadius: '20px' },
+  adminPanel: { width: '100%', padding: '20px', borderRadius: '25px' },
+  adminMenu: { display: 'flex', flexDirection: 'column', gap: '10px' },
+  menuBtn: { padding: '15px', borderRadius: '15px', border: '1px solid #ddd', background: 'none', color: 'inherit', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' },
+  formGroup: { display: 'flex', flexDirection: 'column', gap: '10px' },
+  formHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '10px' },
+  input: { width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #ddd', background: 'rgba(255,255,255,0.05)', color: 'inherit', boxSizing: 'border-box' },
   row: { display: 'flex', gap: '10px' },
-  saveBtn: { padding: '14px', borderRadius: '12px', border: 'none', backgroundColor: '#f59e0b', color: '#fff', fontWeight: 'bold', cursor: 'pointer' },
-  listItem: { display: 'flex', justifyContent: 'space-between', padding: '12px 0' },
-  listActions: { display: 'flex', gap: '15px', alignItems: 'center' },
-  logoutBtn: { marginTop: '20px', color: '#ef4444', background: 'none', border: 'none', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' },
-  loginBox: { padding: '20px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '15px' }
+  saveBtn: { padding: '15px', borderRadius: '12px', border: 'none', backgroundColor: '#f59e0b', color: '#fff', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' },
+  scrollAreaSmall: { maxHeight: '300px', overflowY: 'auto' },
+  listItem: { display: 'flex', justifyContent: 'space-between', padding: '10px 0', alignItems: 'center' },
+  footer: { position: 'fixed', bottom: '15px', fontSize: '10px', opacity: 0.5 }
 };

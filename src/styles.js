@@ -1,10 +1,34 @@
 export const s = {
   container: { minHeight: '100vh', direction: 'rtl', fontFamily: 'system-ui, sans-serif', padding: '20px' },
+  homeContainer: { 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', // هذا يضمن توسيط المحتوى أفقياً
+    justifyContent: 'center', 
+    width: '100%' 
+  },
   wrapper: { width: '100%', maxWidth: '420px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' },
   topNav: { position: 'absolute', top: '20px', left: '20px' },
   themeBtn: { width: '40px', height: '40px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  identity: { textAlign: 'center', marginBottom: '30px' },
-  logoWrap: { width: '85px', height: '85px', borderRadius: '22px', overflow: 'hidden', marginBottom: '10px', cursor: 'pointer' },
+identity: { 
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center', // يضمن بقاء اللوجو والعنوان في المنتصف
+    textAlign: 'center', 
+    marginBottom: '30px',
+    width: '100%'
+  },
+  logoWrap: { 
+    width: '85px', 
+    height: '85px', 
+    borderRadius: '22px', 
+    overflow: 'hidden', 
+    marginBottom: '10px', 
+    cursor: 'pointer',
+    display: 'flex',        // أضفنا هذا
+    alignItems: 'center',    // أضفنا هذا لضمان توسيط الصورة داخل المربع نفسه
+    justifyContent: 'center' // أضفنا هذا
+  },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
   title: { fontSize: '1.8rem', fontWeight: '800', margin: 0 },
   grid: { display: 'flex', gap: '10px', marginBottom: '30px' },

@@ -1,151 +1,219 @@
-export const s = {
-  container: {
-    minHeight: '100vh',
-    direction: 'rtl',
-    fontFamily: 'system-ui, sans-serif',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px',
-    boxSizing: 'border-box'
-  },
-  wrapper: {
-    width: '100%',
-    maxWidth: '400px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  identity: {
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: '40px',
-    width: '100%'
-  },
-  logoWrap: {
-    width: '100px',
-    height: '100px',
-    borderRadius: '28px',
-    overflow: 'hidden',
-    marginBottom: '15px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'transform 0.2s'
-  },
-  logoImg: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
-  },
-  title: {
-    margin: '0',
-    fontWeight: '800'
-  },
-  grid: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '15px',
-    marginBottom: '40px',
-    width: '100%'
-  },
-  box: {
-    width: '45px',
-    height: '45px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '12px',
-    textDecoration: 'none'
-  },
-  services: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
-    width: '100%'
-  },
-  serviceCard: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-    padding: '25px',
-    borderRadius: '20px',
-    cursor: 'pointer',
-    border: 'none',
-    width: '100%',
-    textAlign: 'right'
-  },
-  serviceText: {
-    fontSize: '1.1rem',
-    fontWeight: '600'
-  },
-  topNav: {
-    position: 'absolute',
-    top: '20px',
-    left: '20px',
-    zIndex: 10
-  },
-  themeBtn: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer'
-  },
-  loginBox: {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 100,
-    width: '90%',
-    maxWidth: '320px',
-    padding: '25px',
-    borderRadius: '25px'
-  },
-  input: {
-    width: '100%',
-    padding: '12px',
-    margin: '10px 0',
-    borderRadius: '12px',
-    border: '1px solid #333',
-    backgroundColor: 'transparent',
-    color: 'inherit',
-    boxSizing: 'border-box'
-  },
-  saveBtn: {
-    width: '100%',
-    padding: '12px',
-    borderRadius: '12px',
-    border: 'none',
-    backgroundColor: '#f59e0b',
-    color: 'white',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    marginTop: '10px'
-  },
-  menuBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    padding: '15px',
-    borderRadius: '12px',
-    border: '1px solid #333',
-    backgroundColor: 'transparent',
-    color: 'inherit',
-    cursor: 'pointer',
-    width: '100%',
-    textAlign: 'right'
-  },
-  footer: {
-    position: 'absolute',
-    bottom: '20px',
-    fontSize: '0.7rem'
+```javascript
+import styled, { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
+
+  body {
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    direction: rtl; /* Support for Arabic interface */
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+`;
+
+export const theme = {
+  primary: '#2c3e50',
+  secondary: '#27ae60',
+  accent: '#e74c3c',
+  light: '#ffffff',
+  gray: '#95a5a6',
+  shadow: '0 4px 6px rgba(0,0,0,0.1)',
+  borderRadius: '12px'
 };
+
+export const AppContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+`;
+
+export const Navbar = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 30px;
+`;
+
+export const Logo = styled.h1`
+  font-size: 1.8rem;
+  color: ${theme.primary};
+  font-weight: 800;
+  cursor: pointer;
+  
+  span {
+    color: ${theme.secondary};
+  }
+`;
+
+export const HeroSection = styled.div`
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+              url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: ${theme.borderRadius};
+  color: white;
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px;
+`;
+
+export const SearchBar = styled.div`
+  background: white;
+  padding: 10px;
+  border-radius: 50px;
+  display: flex;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  margin-top: 20px;
+
+  input {
+    flex: 1;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1rem;
+    outline: none;
+    border-radius: 50px;
+  }
+
+  button {
+    background: ${theme.secondary};
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+
+    &:hover {
+      background: #219150;
+    }
+  }
+`;
+
+export const SectionTitle = styled.div`
+  margin-bottom: 30px;
+  
+  h2 {
+    font-size: 2rem;
+    color: ${theme.primary};
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: ${theme.gray};
+    font-size: 1.1rem;
+  }
+`;
+
+export const PropertyGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+`;
+
+export const PropertyCard = styled.div`
+  background: white;
+  border-radius: ${theme.borderRadius};
+  overflow: hidden;
+  box-shadow: ${theme.shadow};
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+  }
+
+  .image-container {
+    height: 200px;
+    background: #ddd;
+    position: relative;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .price-tag {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: ${theme.secondary};
+      color: white;
+      padding: 5px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+  }
+
+  .content {
+    padding: 20px;
+
+    h3 {
+      margin-bottom: 10px;
+      color: ${theme.primary};
+    }
+
+    .location {
+      color: ${theme.gray};
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+  }
+`;
+
+export const AdminToggleButton = styled.button`
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: ${theme.primary};
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+```

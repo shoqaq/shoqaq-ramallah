@@ -4,7 +4,7 @@ import { Sun, Moon, X } from 'lucide-react';
 import { s } from './styles';
 import HomePage from './components/HomePage';
 import PropertyGrid from './components/PropertyGrid';
-import AdminPanel from './components/AdminPanel'; // تأكد من استيراد الملف
+import AdminPanel from './components/AdminPanel';
 
 const supabase = createClient('https://ohomklxgvyzwjexkvzfc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ob21rbHhndnl6d2pleGt2emZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMjYwMjAsImV4cCI6MjA5MDkwMjAyMH0.724AvkaimAvkJ4n6Q3sftYNgOI7cAMb1rDplpGHe5ag');
 
@@ -38,25 +38,16 @@ export default function App() {
     setView('admin_list');
   };
 
-const handleDelete = async (id) => {
-    // 1. فحص أولي: هل نصل للدالة؟
-    console.log("جارٍ محاولة حذف العقار ذو الرقم:", id);
-
+  const handleDelete = async (id) => {
+    console.log("محاولة حذف العقار رقم:", id);
     const confirmed = window.confirm('هل أنت متأكد من حذف هذا العقار نهائياً؟');
     
     if (confirmed) {
       try {
-        const { error } = await supabase
-          .from('listings')
-          .delete()
-          .eq('id', id);
-
+        const { error } = await supabase.from('listings').delete().eq('id', id);
         if (error) {
-          console.error("خطأ في سوبابيز:", error.message);
           alert("فشل الحذف: " + error.message);
         } else {
-          console.log("تم الحذف بنجاح من قاعدة البيانات");
-          // تحديث القائمة فوراً في الواجهة
           setListings(prev => prev.filter(item => item.id !== id));
         }
       } catch (err) {
@@ -99,8 +90,20 @@ const handleDelete = async (id) => {
 
         {showLogin && !isLoggedIn && (
           <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
-            <div style={{display:'flex', justifyContent:'space-between'}}><h3>دخول المشرف</h3> <X onClick={() => setShowLogin(false)} style={{cursor:'pointer'}} /></div>
-            <input type="password" style={s.input} placeholder="كلمة المرور" value={password} onChange={e => setPassword(e.target.value)} />
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+              <h3>دخول المشرف</h3> 
+              <X onClick={() => setShowLogin(false)} style={{cursor:'pointer'}} />
+            </div>
+            {/* التعديل هنا: إظهار لوحة الأرقام فقط */}
+            <input 
+              type="text" 
+              inputMode="numeric" 
+              pattern="[0-9]*" 
+              style={{ ...s.input, textAlign: 'center', letterSpacing: '5px', fontSize: '1.2rem' }} 
+              placeholder="••••••" 
+              value={password} 
+              onChange={e => setPassword(e.target.value.replace(/\D/g, ''))} 
+            />
             <button onClick={() => { if(password==='749329') { setIsLoggedIn(true); setView('admin_main'); setShowLogin(false); } }} style={s.saveBtn}>دخول</button>
           </div>
         )}

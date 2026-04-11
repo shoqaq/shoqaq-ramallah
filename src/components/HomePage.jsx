@@ -172,3 +172,4 @@ export const s = {
     letterSpacing: '2px'
   }
 };
+export default HomePage;

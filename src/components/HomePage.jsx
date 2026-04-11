@@ -3,13 +3,11 @@ import { Phone, Instagram, Building2, ClipboardEdit } from 'lucide-react';
 import { s } from '../styles';
 
 const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
-  <>
-    <div style={s.identity}>
-      <div onClick={onLogoClick} style={{ ...s.logoWrap, border: `2px solid ${theme.border}` }}>
-        <img src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg" alt="Logo" style={s.logoImg} />
-      </div>
-      <h1 style={s.title}>شقق <span style={{ color: theme.accent }}>رام الله</span></h1>
+  <div style={s.identity}> {/* تأكد أننا نستخدم identity هنا لأنها المسؤولة عن التوسيط */}
+    <div onClick={onLogoClick} style={{ ...s.logoWrap, border: `2px solid ${theme.border}` }}>
+      <img src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg" alt="Logo" style={s.logoImg} />
     </div>
+    <h1 style={s.title}>شقق <span style={{ color: theme.accent }}>رام الله</span></h1>
 
     <div style={s.grid}>
       <a href="https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d" target="_blank" style={{ ...s.box, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>

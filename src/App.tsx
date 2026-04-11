@@ -38,17 +38,24 @@ export default function App() {
     setView('admin_list');
   };
 
-  const handleDelete = async (id) => {
-    console.log("محاولة حذف العقار رقم:", id);
+const handleDelete = async (id) => {
     const confirmed = window.confirm('هل أنت متأكد من حذف هذا العقار نهائياً؟');
     
     if (confirmed) {
       try {
-        const { error } = await supabase.from('listings').delete().eq('id', id);
+        // الحذف من قاعدة البيانات
+        const { error } = await supabase
+          .from('listings')
+          .delete()
+          .eq('id', id);
+
         if (error) {
-          alert("فشل الحذف: " + error.message);
+          console.error("خطأ Supabase:", error);
+          alert("حدث خطأ أثناء الحذف: " + error.message);
         } else {
+          // تحديث الشاشة فوراً بعد التأكد من الحذف في السيرفر
           setListings(prev => prev.filter(item => item.id !== id));
+          alert("تم حذف العقار بنجاح.");
         }
       } catch (err) {
         console.error("خطأ غير متوقع:", err);

@@ -1,175 +1,46 @@
-export const s = {
-  container: { 
-    minHeight: '100vh', 
-    direction: 'rtl', 
-    fontFamily: 'system-ui, sans-serif', 
-    display: 'flex', 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    padding: '20px',
-    boxSizing: 'border-box'
-  },
+import React from 'react';
+import { Phone, Instagram, Building2, ClipboardEdit } from 'lucide-react';
+import { s } from '../styles';
 
-  wrapper: { 
-    width: '100%', 
-    maxWidth: '400px', 
-    display: 'flex', 
-    flexDirection: 'column', 
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
+  <div style={s.identity}>
+    <div 
+      onClick={onLogoClick} 
+      style={{ ...s.logoWrap, border: `2px solid ${theme.border}`, boxShadow: isDarkMode ? '0 10px 30px rgba(0,0,0,0.5)' : '0 10px 30px rgba(0,0,0,0.1)' }}
+    >
+      <img src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg" alt="Logo" style={s.logoImg} />
+    </div>
 
-  identity: { 
-    textAlign: 'center', 
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: '40px',
-    width: '100%'
-  },
+    <h1 style={{ ...s.title, fontSize: '2rem', marginBottom: '25px', color: theme.text }}>
+      شقق <span style={{ color: theme.accent }}>رام الله</span>
+    </h1>
 
-  logoWrap: { 
-    width: '100px', 
-    height: '100px', 
-    borderRadius: '28px', 
-    overflow: 'hidden', 
-    marginBottom: '15px', 
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'transform 0.2s'
-  },
+    <div style={s.grid}>
+      <a href="https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d" target="_blank" style={{ ...s.box, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
+        <svg width="22" height="22" fill="#25D366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+      </a>
+      <a href="tel:+970594560056" style={{ ...s.box, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}><Phone size={22} color="#34A853" /></a>
+      <a href="https://facebook.com/shoqaq.store/" target="_blank" style={{ ...s.box, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="https://instagram.com/shoqaq.ramallah/" target="_blank" style={{ ...s.box, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}><Instagram size={22} color="#e1306c" /></a>
+      <a href="https://tiktok.com/@shoqaq.ramallah" target="_blank" style={{ ...s.box, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
+        <svg width="22" height="22" fill={isDarkMode ? "white" : "black"} viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>
+      </a>
+    </div>
 
-  logoImg: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
-  },
+    <div style={s.services}>
+      <button onClick={() => onNavigate('browse')} style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
+        <Building2 size={28} color={theme.accent} /> 
+        <span style={s.serviceText}>تصفح العقارات المتاحة</span>
+      </button>
+      
+      <button style={{ ...s.serviceCard, backgroundColor: theme.cardBg, border: `2px solid ${theme.border}`, color: theme.text }}>
+        <ClipboardEdit size={28} color={theme.accent} /> 
+        <span style={s.serviceText}>تقديم طلب بحث</span>
+      </button>
+    </div>
+  </div>
+);
 
-  title: {
-    margin: '0',
-    fontWeight: '800',
-    letterSpacing: '-0.5px'
-  },
-
-  grid: { 
-    display: 'flex', 
-    justifyContent: 'center', 
-    gap: '15px', 
-    marginBottom: '40px',
-    width: '100%'
-  },
-
-  box: {
-    width: '45px',
-    height: '45px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '12px',
-    textDecoration: 'none',
-    transition: 'all 0.2s'
-  },
-
-  services: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
-    width: '100%'
-  },
-
-  serviceCard: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-    padding: '20px',
-    borderRadius: '20px',
-    cursor: 'pointer',
-    border: 'none',
-    textAlign: 'right',
-    transition: 'all 0.2s',
-    width: '100%'
-  },
-
-  serviceText: {
-    fontSize: '1.1rem',
-    fontWeight: '600'
-  },
-
-  topNav: {
-    position: 'absolute',
-    top: '20px',
-    left: '20px',
-    zIndex: 10
-  },
-
-  themeBtn: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    border: 'none'
-  },
-
-  loginBox: {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 100,
-    width: '90%',
-    maxWidth: '320px',
-    padding: '25px',
-    borderRadius: '25px',
-    boxShadow: '0 20px 50px rgba(0,0,0,0.3)'
-  },
-
-  input: {
-    width: '100%',
-    padding: '12px',
-    margin: '10px 0',
-    borderRadius: '12px',
-    border: '1px solid #333',
-    backgroundColor: 'transparent',
-    color: 'inherit',
-    boxSizing: 'border-box'
-  },
-
-  saveBtn: {
-    width: '100%',
-    padding: '12px',
-    borderRadius: '12px',
-    border: 'none',
-    backgroundColor: '#f59e0b',
-    color: 'white',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    marginTop: '10px'
-  },
-
-  menuBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    padding: '15px',
-    borderRadius: '12px',
-    border: '1px solid #333',
-    backgroundColor: 'transparent',
-    color: 'inherit',
-    cursor: 'pointer',
-    width: '100%',
-    textAlign: 'right'
-  },
-
-  footer: {
-    position: 'absolute',
-    bottom: '20px',
-    fontSize: '0.7rem',
-    letterSpacing: '2px'
-  }
-};
-export default HomePage;
+export default HomePage; // هذا هو المكان الصحيح لها

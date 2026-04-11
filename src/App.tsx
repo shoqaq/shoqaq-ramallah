@@ -87,7 +87,6 @@ export default function App() {
         {view === 'browse' && (
           <PropertyGrid listings={listings} onBack={() => setView('home')} onSelect={setSelectedProp} selectedProp={selectedProp} onCloseModal={() => setSelectedProp(null)} theme={theme} />
         )}
-// ابحث عن الجزء الخاص بـ showLogin واستبدله بهذا الكود المطور:
 
 {showLogin && !isLoggedIn && (
   <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>

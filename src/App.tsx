@@ -4,6 +4,7 @@ import { Sun, Moon, X } from 'lucide-react';
 import { s } from './styles';
 import HomePage from './components/HomePage';
 import PropertyGrid from './components/PropertyGrid';
+import AdminPanel from './components/AdminPanel'; // تأكد من استيراد الملف
 
 const supabase = createClient('https://ohomklxgvyzwjexkvzfc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ob21rbHhndnl6d2pleGt2emZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMjYwMjAsImV4cCI6MjA5MDkwMjAyMH0.724AvkaimAvkJ4n6Q3sftYNgOI7cAMb1rDplpGHe5ag');
 
@@ -13,15 +14,42 @@ export default function App() {
   const [listings, setListings] = useState([]);
   const [selectedProp, setSelectedProp] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [password, setPassword] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [newProperty, setNewProperty] = useState({ internal_name: '', neighborhood: 'الماصيون', status: 'متاح', category: 'شقة', price: '', currency: 'دينار', description: '', post_url: '', video_url: '' });
 
-  useEffect(() => {
-    const fetchListings = async () => {
-      const { data } = await supabase.from('listings').select('*').order('created_at', { ascending: false });
-      if (data) setListings(data);
-    };
+  const fetchListings = async () => {
+    const { data } = await supabase.from('listings').select('*').order('created_at', { ascending: false });
+    if (data) setListings(data);
+  };
+
+  useEffect(() => { fetchListings(); }, []);
+
+  const handleSave = async () => {
+    if (editingId) {
+      await supabase.from('listings').update(newProperty).eq('id', editingId);
+    } else {
+      await supabase.from('listings').insert([newProperty]);
+    }
+    setEditingId(null);
+    setNewProperty({ internal_name: '', neighborhood: 'الماصيون', status: 'متاح', category: 'شقة', price: '', currency: 'دينار', description: '', post_url: '', video_url: '' });
     fetchListings();
-  }, []);
+    setView('admin_list');
+  };
+
+  const handleDelete = async (id) => {
+    if(confirm('هل أنت متأكد من الحذف؟')) {
+      await supabase.from('listings').delete().eq('id', id);
+      fetchListings();
+    }
+  };
+
+  const handleEdit = (item) => {
+    setNewProperty(item);
+    setEditingId(item.id);
+    setView('admin_add');
+  };
 
   const theme = {
     bg: isDarkMode ? '#000000' : '#FFFFFF',
@@ -41,27 +69,36 @@ export default function App() {
       </div>
 
       <div style={s.wrapper}>
-        {view === 'home' && !showLogin && (
+        {view === 'home' && !showLogin && !isLoggedIn && (
           <HomePage onNavigate={setView} onLogoClick={() => setShowLogin(true)} theme={theme} isDarkMode={isDarkMode} />
         )}
 
         {view === 'browse' && (
-          <PropertyGrid 
-            listings={listings} 
-            onBack={() => setView('home')} 
-            onSelect={setSelectedProp} 
-            selectedProp={selectedProp} 
-            onCloseModal={() => setSelectedProp(null)} 
-            theme={theme} 
-          />
+          <PropertyGrid listings={listings} onBack={() => setView('home')} onSelect={setSelectedProp} selectedProp={selectedProp} onCloseModal={() => setSelectedProp(null)} theme={theme} />
         )}
 
-        {showLogin && (
+        {showLogin && !isLoggedIn && (
           <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
-            <div style={{display:'flex', justifyContent:'space-between'}}><h3>الإدارة</h3> <X onClick={() => setShowLogin(false)} /></div>
-            <input type="password" style={s.input} placeholder="كلمة المرور" value={password} onChange={e => setPassword(e.target.value)} autoFocus />
-            <button onClick={() => { if(password==='749329') alert('مرحباً نور الدين'); }} style={s.saveBtn}>دخول</button>
+            <div style={{display:'flex', justifyContent:'space-between'}}><h3>دخول المشرف</h3> <X onClick={() => setShowLogin(false)} style={{cursor:'pointer'}} /></div>
+            <input type="password" style={s.input} placeholder="كلمة المرور" value={password} onChange={e => setPassword(e.target.value)} />
+            <button onClick={() => { if(password==='749329') { setIsLoggedIn(true); setView('admin_main'); setShowLogin(false); } }} style={s.saveBtn}>دخول</button>
           </div>
+        )}
+
+        {isLoggedIn && (
+          <AdminPanel 
+            view={view} 
+            setView={setView} 
+            listings={listings} 
+            onSave={handleSave} 
+            onDelete={handleDelete} 
+            onEdit={handleEdit}
+            newProperty={newProperty}
+            setNewProperty={setNewProperty}
+            editingId={editingId}
+            onLogout={() => { setIsLoggedIn(false); setView('home'); }}
+            theme={theme}
+          />
         )}
       </div>
       <footer style={{ ...s.footer, color: theme.subText }}>SHOQAQ.STORE • 2026</footer>

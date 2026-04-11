@@ -282,4 +282,34 @@ export const theme = {
   subText: '#64748b'
 };
 
-
+export const s = {
+  // ... ستايلاتك القديمة
+  menuBtn: {
+    width: '100%',
+    padding: '15px',
+    borderRadius: '12px',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    fontSize: '1.05rem',
+    fontWeight: '600',
+    marginBottom: '10px',
+    transition: 'all 0.2s',
+    textAlign: 'right'
+  },
+  saveBtn: {
+    padding: '15px',
+    borderRadius: '12px',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'white',
+    fontWeight: 'bold',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '8px',
+    fontSize: '1.1rem'
+  }
+};

@@ -34,11 +34,11 @@ export default function App() {
     features: {
       floor: '', bedrooms: '', bathrooms: '', balconies: '',
       has_living_room: false, has_salon: false, has_storage: false,
-      parking_type: 'لا يوجد', // داخلي، خارجي، لا يوجد
+      parking_type: 'لا يوجد', 
       has_elevator: false,
       electricity_meter: 'منفصلة', water_meter: 'منفصلة',
       central_gas: false, has_boiler: false, has_solar_heater: false,
-      heating_type: 'لا يوجد' // غاز، سولار، لا يوجد
+      heating_type: 'لا يوجد'
     }
   };
 
@@ -119,17 +119,48 @@ export default function App() {
           <PropertyGrid listings={listings} onBack={() => setView('home')} onSelect={setSelectedProp} selectedProp={selectedProp} onCloseModal={() => setSelectedProp(null)} theme={theme} />
         )}
 
+        {/* تحديث شاشة الدخول المعتمد */}
         {showLogin && (
-          <div style={s.loginBox}>
-             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                <h3>دخول المشرف</h3> 
-                <X onClick={() => setShowLogin(false)} style={{ cursor: 'pointer' }} />
-              </div>
-              <input type="password" style={{ ...s.input, textAlign: 'center', fontSize: '1.5rem' }} placeholder="••••••" value={password} onChange={e => {
-                const val = e.target.value;
-                setPassword(val);
-                if (val === '749329') { setIsLoggedIn(true); setView('admin_main'); setShowLogin(false); setPassword(''); }
-              }} />
+          <div style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex',
+            alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px'
+          }}>
+            <div style={{
+              width: '100%', maxWidth: '340px', backgroundColor: theme.cardBg,
+              border: `1px solid ${theme.border}`, borderRadius: '24px',
+              padding: '30px 20px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+            }}>
+               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                  <h3 style={{ margin: 0 }}>دخول المشرف</h3> 
+                  <X onClick={() => { setShowLogin(false); setPassword(''); }} style={{ cursor: 'pointer', opacity: 0.6 }} />
+               </div>
+               <input 
+                 type="text"
+                 inputMode="numeric"
+                 pattern="[0-9]*"
+                 autoFocus
+                 style={{ 
+                   ...s.input, textAlign: 'center', fontSize: '2rem', 
+                   letterSpacing: '8px', color: theme.accent, 
+                   backgroundColor: theme.bg, border: `1px solid ${theme.border}`,
+                   borderRadius: '16px', padding: '15px' 
+                 }} 
+                 placeholder="••••••" 
+                 value={password} 
+                 onChange={e => {
+                   const val = e.target.value;
+                   if (/^\d*$/.test(val)) {
+                     setPassword(val);
+                     if (val === '749329') { 
+                       setIsLoggedIn(true); setView('admin_main'); 
+                       setShowLogin(false); setPassword(''); 
+                     }
+                   }
+                 }} 
+               />
+               <p style={{ marginTop: '15px', fontSize: '0.85rem', color: theme.subText }}>أدخل الرقم السري للمتابعة</p>
+            </div>
           </div>
         )}
 

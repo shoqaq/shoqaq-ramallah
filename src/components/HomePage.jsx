@@ -3,7 +3,7 @@ import { Phone, Instagram, Building2, ClipboardEdit } from 'lucide-react';
 import { s } from '../styles';
 
 const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
-  <div style={s.identity}> {/* تأكد أننا نستخدم identity هنا لأنها المسؤولة عن التوسيط */}
+  <div style={s.identity}> {/* الوسم الافتتاحي أصبح div لضمان التوسيط */}
     <div onClick={onLogoClick} style={{ ...s.logoWrap, border: `2px solid ${theme.border}` }}>
       <img src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg" alt="Logo" style={s.logoImg} />
     </div>
@@ -31,7 +31,7 @@ const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
         <ClipboardEdit size={32} color={theme.accent} /> <span style={s.serviceText}>تقديم طلب بحث</span>
       </button>
     </div>
-  </>
+  </div> // تم الإغلاق بـ div بدلاً من </> لحل الخطأ
 );
 
 export default HomePage;

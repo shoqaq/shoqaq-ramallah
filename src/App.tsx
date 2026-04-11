@@ -87,26 +87,42 @@ export default function App() {
         {view === 'browse' && (
           <PropertyGrid listings={listings} onBack={() => setView('home')} onSelect={setSelectedProp} selectedProp={selectedProp} onCloseModal={() => setSelectedProp(null)} theme={theme} />
         )}
+// ابحث عن الجزء الخاص بـ showLogin واستبدله بهذا الكود المطور:
 
-        {showLogin && !isLoggedIn && (
-          <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
-            <div style={{display:'flex', justifyContent:'space-between'}}>
-              <h3>دخول المشرف</h3> 
-              <X onClick={() => setShowLogin(false)} style={{cursor:'pointer'}} />
-            </div>
-            {/* التعديل هنا: إظهار لوحة الأرقام فقط */}
-            <input 
-              type="text" 
-              inputMode="numeric" 
-              pattern="[0-9]*" 
-              style={{ ...s.input, textAlign: 'center', letterSpacing: '5px', fontSize: '1.2rem' }} 
-              placeholder="••••••" 
-              value={password} 
-              onChange={e => setPassword(e.target.value.replace(/\D/g, ''))} 
-            />
-            <button onClick={() => { if(password==='749329') { setIsLoggedIn(true); setView('admin_main'); setShowLogin(false); } }} style={s.saveBtn}>دخول</button>
-          </div>
-        )}
+{showLogin && !isLoggedIn && (
+  <div style={{ ...s.loginBox, backgroundColor: theme.cardBg, border: `1.5px solid ${theme.border}` }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+      <h3>دخول المشرف</h3> 
+      <X onClick={() => { setShowLogin(false); setPassword(''); }} style={{ cursor: 'pointer' }} />
+    </div>
+    
+    <input 
+      type="text" 
+      inputMode="numeric" 
+      pattern="[0-9]*" 
+      autoFocus // التركيز على المربع فور ظهوره
+      style={{ ...s.input, textAlign: 'center', letterSpacing: '8px', fontSize: '1.5rem', fontWeight: 'bold' }} 
+      placeholder="••••••" 
+      value={password} 
+      onChange={e => {
+        const val = e.target.value.replace(/\D/g, ''); // أرقام فقط
+        setPassword(val);
+        
+        // الدخول المباشر عند اكتمال الكود الصحيح
+        if (val === '749329') {
+          setIsLoggedIn(true);
+          setView('admin_main');
+          setShowLogin(false);
+          setPassword(''); // تصفير الحقل للأمان
+        }
+      }} 
+    />
+    
+    <p style={{ fontSize: '0.8rem', textAlign: 'center', marginTop: '10px', opacity: 0.5 }}>
+      أدخل الكود المكون من 6 أرقام
+    </p>
+  </div>
+)}
 
         {isLoggedIn && (
           <AdminPanel 

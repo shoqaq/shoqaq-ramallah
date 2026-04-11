@@ -119,21 +119,25 @@ export default function App() {
           <PropertyGrid listings={listings} onBack={() => setView('home')} onSelect={setSelectedProp} selectedProp={selectedProp} onCloseModal={() => setSelectedProp(null)} theme={theme} />
         )}
 
-        {/* تحديث شاشة الدخول المعتمد */}
+        {/* شاشة الدخول - نسخة مصغرة وأنيقة جداً */}
         {showLogin && (
           <div style={{
             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex',
+            backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex',
             alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px'
           }}>
             <div style={{
-              width: '100%', maxWidth: '340px', backgroundColor: theme.cardBg,
-              border: `1px solid ${theme.border}`, borderRadius: '24px',
-              padding: '30px 20px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+              width: '240px', 
+              backgroundColor: theme.cardBg,
+              border: `1px solid ${theme.border}`,
+              borderRadius: '20px',
+              padding: '20px',
+              textAlign: 'center',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
             }}>
-               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                  <h3 style={{ margin: 0 }}>دخول المشرف</h3> 
-                  <X onClick={() => { setShowLogin(false); setPassword(''); }} style={{ cursor: 'pointer', opacity: 0.6 }} />
+               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>دخول سريع</span> 
+                  <X onClick={() => { setShowLogin(false); setPassword(''); }} size={18} style={{ cursor: 'pointer', opacity: 0.5 }} />
                </div>
                <input 
                  type="text"
@@ -141,12 +145,18 @@ export default function App() {
                  pattern="[0-9]*"
                  autoFocus
                  style={{ 
-                   ...s.input, textAlign: 'center', fontSize: '2rem', 
-                   letterSpacing: '8px', color: theme.accent, 
-                   backgroundColor: theme.bg, border: `1px solid ${theme.border}`,
-                   borderRadius: '16px', padding: '15px' 
+                   width: '100%',
+                   textAlign: 'center', 
+                   fontSize: '1.5rem', 
+                   letterSpacing: '5px', 
+                   color: theme.accent, 
+                   backgroundColor: theme.bg, 
+                   border: `1px solid ${theme.border}`,
+                   borderRadius: '12px', 
+                   padding: '10px',
+                   outline: 'none'
                  }} 
-                 placeholder="••••••" 
+                 placeholder="الرمز" 
                  value={password} 
                  onChange={e => {
                    const val = e.target.value;
@@ -159,7 +169,6 @@ export default function App() {
                    }
                  }} 
                />
-               <p style={{ marginTop: '15px', fontSize: '0.85rem', color: theme.subText }}>أدخل الرقم السري للمتابعة</p>
             </div>
           </div>
         )}

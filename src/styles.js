@@ -1,38 +1,42 @@
-// تم تحويل التنسيقات إلى Object لضمان التوافق مع Vite وإصلاح خطأ الـ Build
+// styles.js - Mobile First UI
+
 export const s = {
+  /* ====== App Layout ====== */
   container: {
     minHeight: '100vh',
     direction: 'rtl',
     fontFamily: 'system-ui, -apple-system, sans-serif',
-    backgroundColor: '#f8f9fa',
-    color: '#333'
-  },
-  
-  wrapper: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '0 20px'
+    backgroundColor: '#f4f6f8',
+    color: '#111827'
   },
 
+  wrapper: {
+    maxWidth: '480px',
+    margin: '0 auto',
+    padding: '0 14px'
+  },
+
+  /* ====== Identity ====== */
   identity: {
     textAlign: 'center',
-    padding: '40px 0',
+    padding: '28px 0',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
 
   logoWrap: {
-    width: '100px',
-    height: '100px',
-    borderRadius: '28px',
+    width: '92px',
+    height: '92px',
+    borderRadius: '26px',
     overflow: 'hidden',
-    marginBottom: '15px',
+    marginBottom: '14px',
     cursor: 'pointer',
+    backgroundColor: '#fff',
+    boxShadow: '0 12px 30px rgba(0,0,0,0.08)',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+    justifyContent: 'center'
   },
 
   logoImg: {
@@ -42,118 +46,225 @@ export const s = {
   },
 
   title: {
-    fontSize: '2rem',
-    fontWeight: '800',
-    margin: '0 0 25px 0'
+    fontSize: '1.9rem',
+    fontWeight: '900',
+    marginBottom: '22px'
   },
 
+  /* ====== Social Icons ====== */
   grid: {
     display: 'flex',
     justifyContent: 'center',
-    gap: '15px',
-    marginBottom: '40px',
-    width: '100%'
+    gap: '12px',
+    marginBottom: '32px',
+    flexWrap: 'wrap'
   },
 
   box: {
-    width: '45px',
-    height: '45px',
+    width: '48px',
+    height: '48px',
+    borderRadius: '14px',
+    backgroundColor: '#fff',
+    border: '1px solid #e5e7eb',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: '12px',
-    textDecoration: 'none',
-    transition: 'all 0.2s',
-    backgroundColor: '#ffffff',
-    border: '1.5px solid #E5E7EB'
+    transition: '0.2s'
   },
 
+  /* ====== Services ====== */
   services: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
-    width: '100%',
-    maxWidth: '400px',
-    margin: '0 auto'
+    gap: '14px'
   },
 
   serviceCard: {
+    width: '100%',
+    minHeight: '74px',
+    borderRadius: '22px',
+    padding: '18px',
+    backgroundColor: '#fff',
+    border: '1px solid #e5e7eb',
     display: 'flex',
     alignItems: 'center',
-    gap: '15px',
-    padding: '20px',
-    borderRadius: '20px',
-    cursor: 'pointer',
-    border: '2px solid #E5E7EB',
-    backgroundColor: '#ffffff',
-    textAlign: 'right',
-    transition: 'all 0.2s',
-    width: '100%'
+    gap: '14px',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
   },
 
   serviceText: {
-    fontSize: '1.1rem',
-    fontWeight: '600'
+    fontSize: '1.05rem',
+    fontWeight: '700'
   },
 
-  topNav: {
-    position: 'absolute',
-    top: '20px',
-    left: '20px',
-    zIndex: 10
-  },
-
-  themeBtn: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '12px',
+  /* ====== Property Grid ====== */
+  sectionHeader: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    border: '1px solid #E5E7EB',
-    backgroundColor: '#ffffff'
+    gap: '12px',
+    marginBottom: '16px'
   },
 
-  // أضفنا قسم الإدارة بناءً على احتياج مشروعك
-  adminPanel: {
-    padding: '20px',
-    borderRadius: '25px',
-    width: '100%'
+  backBtn: {
+    background: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '14px',
+    padding: '8px 12px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px'
   },
 
-  input: {
-    width: '100%',
-    padding: '12px',
-    margin: '10px 0',
-    borderRadius: '12px',
-    border: '1px solid #ddd',
-    boxSizing: 'border-box'
+  gridDisplay: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: '14px'
   },
 
-  saveBtn: {
-    width: '100%',
-    padding: '12px',
-    borderRadius: '12px',
-    border: 'none',
-    backgroundColor: '#f59e0b',
-    color: 'white',
-    fontWeight: 'bold',
+  miniCard: {
+    position: 'relative',
+    backgroundColor: '#fff',
+    borderRadius: '20px',
+    padding: '16px',
+    boxShadow: '0 10px 24px rgba(0,0,0,0.06)',
     cursor: 'pointer'
   },
 
+  miniStatus: {
+    width: '10px',
+    height: '10px',
+    borderRadius: '50%',
+    position: 'absolute',
+    top: '14px',
+    left: '14px'
+  },
+
+  miniPrice: {
+    fontSize: '1.3rem',
+    fontWeight: '900',
+    color: '#f59e0b'
+  },
+
+  miniTitle: {
+    fontSize: '1rem',
+    fontWeight: '700'
+  },
+
+  miniSub: {
+    fontSize: '0.9rem',
+    opacity: 0.7
+  },
+
+  expandIcon: {
+    position: 'absolute',
+    bottom: '14px',
+    left: '14px',
+    opacity: 0.4
+  },
+
+  /* ====== Modal ====== */
+  modalOverlay: {
+    position: 'fixed',
+    inset: 0,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    display: 'flex',
+    alignItems: 'flex-end',
+    zIndex: 100
+  },
+
+  modalContent: {
+    width: '100%',
+    maxHeight: '92vh',
+    backgroundColor: '#fff',
+    borderRadius: '28px 28px 0 0',
+    padding: '20px',
+    overflowY: 'auto'
+  },
+
+  modalHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '16px'
+  },
+
+  modalBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '14px'
+  },
+
+  priceTagLarge: {
+    fontSize: '1.6rem',
+    fontWeight: '900',
+    color: '#f59e0b'
+  },
+
+  statusBadge: {
+    padding: '6px 14px',
+    borderRadius: '999px',
+    border: '1px solid',
+    fontSize: '0.9rem',
+    fontWeight: '700'
+  },
+
+  detailRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px'
+  },
+
+  descBox: {
+    backgroundColor: '#f9fafb',
+    borderRadius: '16px',
+    padding: '14px',
+    fontSize: '0.95rem',
+    lineHeight: '1.6'
+  },
+
+  modalLinks: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px'
+  },
+
+  actionLink: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    fontWeight: '700'
+  },
+
+  callAction: {
+    marginTop: '10px',
+    width: '100%',
+    padding: '15px',
+    borderRadius: '18px',
+    backgroundColor: '#22c55e',
+    color: '#fff',
+    fontSize: '1.1rem',
+    fontWeight: '900',
+    textAlign: 'center'
+  },
+
+  /* ====== Footer ====== */
   footer: {
     textAlign: 'center',
-    padding: '20px',
+    padding: '18px',
     fontSize: '0.8rem',
     opacity: 0.6
   }
 };
 
+/* ====== Theme ====== */
 export const theme = {
-  primary: '#2c3e50',
-  secondary: '#27ae60',
+  primary: '#1f2937',
   accent: '#f59e0b',
-  light: '#ffffff',
-  gray: '#95a5a6'
+  success: '#22c55e',
+  danger: '#ef4444',
+  bg: '#f4f6f8',
+  cardBg: '#ffffff',
+  border: '#e5e7eb',
+  text: '#111827'
 };

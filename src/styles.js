@@ -26,4 +26,28 @@ export const s = {
   modalContent: { width: '100%', maxWidth: '380px', borderRadius: '30px', padding: '25px' },
   modalHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' },
   priceTagLarge: { fontSize: '1.4rem', fontWeight: '900', color: '#f59e0b' },
-  statusBadge: { fontSize: '0
+  statusBadge: { fontSize: '0.75rem', fontWeight: 'bold', border: '1px solid', padding: '2px 8px', borderRadius: '6px' },
+  detailRow: { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', margin: '10px 0' },
+  descBox: { padding: '15px', background: 'rgba(128,128,128,0.05)', borderRadius: '18px', fontSize: '0.95rem', lineHeight: '1.6', margin: '15px 0', minHeight: '80px' },
+  modalLinks: { display: 'flex', flexDirection: 'column', gap: '8px' },
+  actionLink: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px', borderRadius: '14px', border: '1.5px solid #f59e0b', color: '#f59e0b', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.85rem' },
+  callAction: { padding: '14px', borderRadius: '14px', backgroundColor: '#34A853', color: '#fff', textAlign: 'center', textDecoration: 'none', fontWeight: 'bold' },
+  loginBox: { width: '100%', padding: '25px', borderRadius: '22px' },
+  input: { width: '100%', padding: '14px', borderRadius: '12px', border: '1px solid #ddd', background: 'rgba(255,255,255,0.05)', color: 'inherit', boxSizing: 'border-box' },
+  saveBtn: { padding: '15px', borderRadius: '12px', border: 'none', backgroundColor: '#f59e0b', color: '#fff', fontWeight: 'bold', cursor: 'pointer', width: '100%' },
+  footer: { position: 'fixed', bottom: '15px', fontSize: '10px', opacity: 0.5, fontWeight: '700' },
+  menuBtn: { 
+    padding: '16px', 
+    borderRadius: '16px', 
+    border: '1px solid #ddd', 
+    background: 'none', 
+    color: 'inherit', 
+    fontWeight: 'bold', 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '12px', 
+    cursor: 'pointer',
+    width: '100%',
+    textAlign: 'right'
+  }
+};

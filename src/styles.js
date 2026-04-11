@@ -5,6 +5,7 @@ export const s = {
   container: {
     minHeight: '100vh',
     direction: 'rtl',
+    textAlign: 'right',
     fontFamily: 'system-ui, -apple-system, sans-serif',
     backgroundColor: '#f8fafc',
     color: '#1e293b',
@@ -280,3 +281,5 @@ export const theme = {
   text: '#1e293b',
   subText: '#64748b'
 };
+
+

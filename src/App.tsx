@@ -3,13 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 import { 
   Sun, Moon, X, PlusCircle, LayoutDashboard, LogOut, 
   Edit3, Trash2, User, MapPin, Home, DollarSign, 
-  ChevronLeft, ChevronRight, CheckCircle2 
+  ChevronLeft, ChevronRight, CheckCircle2, Zap, Droplets, Flame
 } from 'lucide-react';
 import { s } from './styles';
 import HomePage from './components/HomePage';
 import PropertyGrid from './components/PropertyGrid';
 
-// إعداد الاتصال بـ Supabase
 const supabase = createClient('https://ohomklxgvyzwjexkvzfc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ob21rbHhndnl6d2pleGt2emZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMjYwMjAsImV4cCI6MjA5MDkwMjAyMH0.724AvkaimAvkJ4n6Q3sftYNgOI7cAMb1rDplpGHe5ag');
 
 const NEIGHBORHOODS = ['الماصيون', 'الطيرة', 'عين منجد', 'الإرسال', 'المصايف', 'حي النهضة', 'رام الله التحتا', 'وسط البلد', 'عين مصباح', 'البالوع', 'سطح مرحبا', 'حي الجنان', 'أم الشرايط', 'بيتونيا', 'سردا', 'أبو قش', 'رافات', 'كفر عقب', 'منطقة أخرى'];
@@ -26,11 +25,21 @@ export default function App() {
   const [step, setStep] = useState(1);
 
   const initialPropertyState = { 
-    internal_name: '', neighborhood: 'الماصيون', status: 'متاح', category: 'شقة', 
-    listing_type: 'للإيجار', price: '', currency: 'دينار', area: '',
-    description: '', post_url: '', video_url: '', owner_name: '',
-    owner_phone1: '', owner_phone2: '', exact_address: '', is_negotiable: false,
-    payment_method: 'كاش', building_fees: '', municipal_fees: '', features: {} 
+    owner_name: '', owner_phone1: '', owner_phone2: '', owner_notes: '',
+    neighborhood: 'الماصيون', exact_address: '',
+    category: 'شقة', listing_type: 'للإيجار', 
+    price: '', currency: 'دينار', area: '', is_negotiable: false,
+    payment_method: 'كاش', building_fees: '', municipal_fees: '', education_tax: '',
+    electricity_bill_included: false, water_bill_included: false,
+    features: {
+      floor: '', bedrooms: '', bathrooms: '', balconies: '',
+      has_living_room: false, has_salon: false, has_storage: false,
+      parking_type: 'لا يوجد', // داخلي، خارجي، لا يوجد
+      has_elevator: false,
+      electricity_meter: 'منفصلة', water_meter: 'منفصلة',
+      central_gas: false, has_boiler: false, has_solar_heater: false,
+      heating_type: 'لا يوجد' // غاز، سولار، لا يوجد
+    }
   };
 
   const [newProperty, setNewProperty] = useState(initialPropertyState);
@@ -45,24 +54,26 @@ export default function App() {
   const handleSave = async () => {
     try {
       const payload = {
-        internal_name: newProperty.internal_name,
+        owner_name: newProperty.owner_name,
+        owner_phone: newProperty.owner_phone1,
+        owner_phone2: newProperty.owner_phone2,
+        owner_notes: newProperty.owner_notes,
         neighborhood: newProperty.neighborhood,
-        status: newProperty.status,
+        exact_address: newProperty.exact_address,
         category: newProperty.category,
         listing_type: newProperty.listing_type,
         price: parseInt(newProperty.price) || 0,
         currency: newProperty.currency,
         area: parseFloat(newProperty.area) || 0,
-        description: newProperty.description,
-        post_url: newProperty.post_url,
-        owner_name: newProperty.owner_name,
-        owner_phone: newProperty.owner_phone1,
-        exact_address: newProperty.exact_address,
         is_negotiable: newProperty.is_negotiable,
         payment_method: newProperty.payment_method,
         building_fees: parseFloat(newProperty.building_fees) || 0,
         municipal_fees: parseFloat(newProperty.municipal_fees) || 0,
-        features: { ...newProperty.features, owner_phone2: newProperty.owner_phone2 }
+        education_tax: parseFloat(newProperty.education_tax) || 0,
+        electricity_bill_included: newProperty.electricity_bill_included,
+        water_bill_included: newProperty.water_bill_included,
+        features: newProperty.features,
+        internal_name: `${newProperty.category} - ${newProperty.neighborhood} (${newProperty.owner_name})`
       };
 
       if (editingId) {
@@ -142,16 +153,16 @@ function AdminPanel({ view, setView, listings, onSave, onEdit, onDelete, newProp
   
   const inputStyle = { 
     ...s.input, 
-    padding: '20px', 
-    fontSize: '1.2rem', 
-    marginBottom: '15px', 
+    padding: '18px', 
+    fontSize: '1.1rem', 
+    marginBottom: '12px', 
     backgroundColor: theme.cardBg, 
     color: theme.text, 
-    border: `2px solid ${theme.border}`,
-    borderRadius: '15px'
+    border: `1px solid ${theme.border}`,
+    borderRadius: '12px'
   };
 
-  const btnContainer = { display: 'flex', gap: '10px', marginTop: '20px' };
+  const labelStyle = { display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', border: `1px solid ${theme.border}`, borderRadius: '10px', fontSize: '0.95rem' };
 
   return (
     <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
@@ -165,84 +176,118 @@ function AdminPanel({ view, setView, listings, onSave, onEdit, onDelete, newProp
 
       {view === 'admin_add' && (
         <div>
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '25px' }}>
-            {[1,2,3,4].map(i => <div key={i} style={{ flex: 1, height: '8px', borderRadius: '10px', backgroundColor: step >= i ? theme.accent : theme.border }} />)}
+          <div style={{ display: 'flex', gap: '6px', marginBottom: '20px' }}>
+            {[1,2,3,4].map(i => <div key={i} style={{ flex: 1, height: '6px', borderRadius: '10px', backgroundColor: step >= i ? theme.accent : theme.border }} />)}
           </div>
 
           {step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <h2 style={{ marginBottom: '20px' }}>👤 معلومات صاحب العقار</h2>
+              <h3 style={{ marginBottom: '15px' }}><User size={18}/> معلومات صاحب العقار</h3>
               <input style={inputStyle} placeholder="الاسم الكامل" value={newProperty.owner_name} onChange={e => setNewProperty({...newProperty, owner_name: e.target.value})} />
               <input style={inputStyle} type="tel" placeholder="رقم الهاتف 1" value={newProperty.owner_phone1} onChange={e => setNewProperty({...newProperty, owner_phone1: e.target.value})} />
               <input style={inputStyle} type="tel" placeholder="رقم الهاتف 2" value={newProperty.owner_phone2} onChange={e => setNewProperty({...newProperty, owner_phone2: e.target.value})} />
+              <textarea style={{...inputStyle, height: '80px'}} placeholder="ملاحظات خاصة عن المالك (لا تظهر للعامة)" value={newProperty.owner_notes} onChange={e => setNewProperty({...newProperty, owner_notes: e.target.value})} />
               <button onClick={() => setStep(2)} style={s.saveBtn}>التالي: الموقع <ChevronLeft size={20}/></button>
             </div>
           )}
 
           {step === 2 && (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <h2 style={{ marginBottom: '20px' }}>📍 الموقع والنوع</h2>
-              <select style={inputStyle} value={newProperty.listing_type} onChange={e => setNewProperty({...newProperty, listing_type: e.target.value})}>
-                <option value="للإيجار">للإيجار</option><option value="للبيع">للبيع</option>
-              </select>
-              <select style={inputStyle} value={newProperty.category} onChange={e => setNewProperty({...newProperty, category: e.target.value})}>
-                {['شقة','مكتب','محل','أرض','مخزن'].map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <h3 style={{ marginBottom: '15px' }}><MapPin size={18}/> الموقع ونوع العقار</h3>
               <select style={inputStyle} value={newProperty.neighborhood} onChange={e => setNewProperty({...newProperty, neighborhood: e.target.value})}>
                 {NEIGHBORHOODS.map(n => <option key={n} value={n}>{n}</option>)}
               </select>
-              <input style={inputStyle} placeholder="العنوان بالتفصيل (يدوي)" value={newProperty.exact_address} onChange={e => setNewProperty({...newProperty, exact_address: e.target.value})} />
-              <div style={btnContainer}>
-                <button onClick={() => setStep(1)} style={{ ...s.saveBtn, backgroundColor: theme.border }}>السابق</button>
-                <button onClick={() => setStep(3)} style={s.saveBtn}>التالي: المواصفات</button>
+              <input style={inputStyle} placeholder="العنوان بالتفصيل (اسم العمارة، الشارع..)" value={newProperty.exact_address} onChange={e => setNewProperty({...newProperty, exact_address: e.target.value})} />
+              <div style={{ marginBottom: '10px', fontSize: '0.9rem', opacity: 0.7 }}>تصنيف العقار:</div>
+              <select style={inputStyle} value={newProperty.category} onChange={e => setNewProperty({...newProperty, category: e.target.value})}>
+                <option value="شقة">شقة غير مفروشة</option>
+                <option value="شقة مفروشة">شقة مفروشة</option>
+                <option value="مكتب">مكتب</option>
+                <option value="محل">محل</option>
+                <option value="أرض">أرض</option>
+              </select>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={() => setStep(1)} style={{ ...s.saveBtn, backgroundColor: theme.border, flex: 1 }}>السابق</button>
+                <button onClick={() => setStep(3)} style={{ ...s.saveBtn, flex: 2 }}>التالي: المواصفات</button>
               </div>
             </div>
           )}
 
           {step === 3 && (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <h2 style={{ marginBottom: '20px' }}>🏠 المواصفات التقنية</h2>
-              <input type="number" style={inputStyle} placeholder="المساحة (متر مربع)" value={newProperty.area} onChange={e => setNewProperty({...newProperty, area: e.target.value})} />
+              <h3 style={{ marginBottom: '15px' }}><Home size={18}/> المواصفات الفنية</h3>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                 <input type="number" style={{...inputStyle, flex: 1}} placeholder="المساحة" value={newProperty.area} onChange={e => setNewProperty({...newProperty, area: e.target.value})} />
+                 <input style={{...inputStyle, flex: 1}} placeholder="الطابق" value={newProperty.features.floor || ''} onChange={e => updateFeature('floor', e.target.value)} />
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input type="number" style={{ ...inputStyle, flex: 1 }} placeholder="غرف النوم" value={newProperty.features.bedrooms || ''} onChange={e => updateFeature('bedrooms', e.target.value)} />
+                <input type="number" style={{ ...inputStyle, flex: 1 }} placeholder="الحمامات" value={newProperty.features.bathrooms || ''} onChange={e => updateFeature('bathrooms', e.target.value)} />
+                <input type="number" style={{ ...inputStyle, flex: 1 }} placeholder="البرندات" value={newProperty.features.balconies || ''} onChange={e => updateFeature('balconies', e.target.value)} />
+              </div>
               
-              {newProperty.category === 'شقة' && (
-                <>
-                  <input style={inputStyle} placeholder="الطابق" value={newProperty.features.floor || ''} onChange={e => updateFeature('floor', e.target.value)} />
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    <input type="number" style={{ ...inputStyle, flex: 1 }} placeholder="غرف النوم" value={newProperty.features.bedrooms || ''} onChange={e => updateFeature('bedrooms', e.target.value)} />
-                    <input type="number" style={{ ...inputStyle, flex: 1 }} placeholder="الحمامات" value={newProperty.features.bathrooms || ''} onChange={e => updateFeature('bathrooms', e.target.value)} />
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', padding: '10px' }}>
-                    <label><input type="checkbox" checked={newProperty.features.elevator} onChange={e => updateFeature('elevator', e.target.checked)} /> مصعد</label>
-                    <label><input type="checkbox" checked={newProperty.features.central_gas} onChange={e => updateFeature('central_gas', e.target.checked)} /> غاز مركزي</label>
-                  </div>
-                </>
-              )}
-              
-              <div style={btnContainer}>
-                <button onClick={() => setStep(2)} style={{ ...s.saveBtn, backgroundColor: theme.border }}>السابق</button>
-                <button onClick={() => setStep(4)} style={s.saveBtn}>التالي: المالية</button>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '12px' }}>
+                <label style={labelStyle}><input type="checkbox" checked={newProperty.features.has_living_room} onChange={e => updateFeature('has_living_room', e.target.checked)} /> صالة</label>
+                <label style={labelStyle}><input type="checkbox" checked={newProperty.features.has_salon} onChange={e => updateFeature('has_salon', e.target.checked)} /> صالون</label>
+                <label style={labelStyle}><input type="checkbox" checked={newProperty.features.has_storage} onChange={e => updateFeature('has_storage', e.target.checked)} /> مخزن</label>
+                <label style={labelStyle}><input type="checkbox" checked={newProperty.features.has_elevator} onChange={e => updateFeature('has_elevator', e.target.checked)} /> مصعد</label>
+              </div>
+
+              <div style={{ marginBottom: '10px', fontSize: '0.9rem' }}>الموقف ونوع التدفئة:</div>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                <select style={{...inputStyle, flex: 1}} value={newProperty.features.parking_type} onChange={e => updateFeature('parking_type', e.target.value)}>
+                   <option value="لا يوجد">بدون موقف</option><option value="داخلي">موقف داخلي</option><option value="خارجي">موقف خارجي</option>
+                </select>
+                <select style={{...inputStyle, flex: 1}} value={newProperty.features.heating_type} onChange={e => updateFeature('heating_type', e.target.value)}>
+                   <option value="لا يوجد">بدون تدفئة</option><option value="غاز">تدفئة غاز</option><option value="سولار">تدفئة سولار</option>
+                </select>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '12px' }}>
+                <label style={labelStyle}><input type="checkbox" checked={newProperty.features.central_gas} onChange={e => updateFeature('central_gas', e.target.checked)} /> غاز مركزي</label>
+                <label style={labelStyle}><input type="checkbox" checked={newProperty.features.has_boiler} onChange={e => updateFeature('has_boiler', e.target.checked)} /> بويلر</label>
+                <label style={labelStyle}><input type="checkbox" checked={newProperty.features.has_solar_heater} onChange={e => updateFeature('has_solar_heater', e.target.checked)} /> حمام شمسي</label>
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={() => setStep(2)} style={{ ...s.saveBtn, backgroundColor: theme.border, flex: 1 }}>السابق</button>
+                <button onClick={() => setStep(4)} style={{ ...s.saveBtn, flex: 2 }}>التالي: المالية</button>
               </div>
             </div>
           )}
 
           {step === 4 && (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <h2 style={{ marginBottom: '20px' }}>💰 المعلومات المالية</h2>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <input type="number" style={{ ...inputStyle, flex: 2 }} placeholder={newProperty.listing_type === 'للإيجار' ? "الأجرة" : "الثمن"} value={newProperty.price} onChange={e => setNewProperty({...newProperty, price: e.target.value})} />
+              <h3 style={{ marginBottom: '15px' }}><DollarSign size={18}/> المعلومات المالية والرسوم</h3>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input type="number" style={{ ...inputStyle, flex: 2 }} placeholder="الأجرة / الثمن" value={newProperty.price} onChange={e => setNewProperty({...newProperty, price: e.target.value})} />
                 <select style={{ ...inputStyle, flex: 1 }} value={newProperty.currency} onChange={e => setNewProperty({...newProperty, currency: e.target.value})}>
                   <option value="دينار">دينار</option><option value="دولار">دولار</option><option value="شيكل">شيكل</option>
                 </select>
               </div>
-              <input style={inputStyle} placeholder="طريقة الدفع (كاش/شيكات)" value={newProperty.payment_method} onChange={e => setNewProperty({...newProperty, payment_method: e.target.value})} />
-              <div style={{ padding: '15px', border: `1px solid ${theme.border}`, borderRadius: '15px', marginBottom: '15px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <input type="checkbox" checked={newProperty.is_negotiable} onChange={e => setNewProperty({...newProperty, is_negotiable: e.target.checked})} /> السعر قابل للتفاوض
-                </label>
+              <select style={inputStyle} value={newProperty.payment_method} onChange={e => setNewProperty({...newProperty, payment_method: e.target.value})}>
+                <option value="كاش">دفع كاش</option><option value="شيكات">دفع شيكات</option><option value="كاش أو شيكات">كاش أو شيكات</option>
+              </select>
+              
+              <div style={{ padding: '12px', border: `1px solid ${theme.border}`, borderRadius: '12px', marginBottom: '12px' }}>
+                <div style={{ fontSize: '0.85rem', marginBottom: '10px', opacity: 0.8 }}>الفواتير والرسوم الإضافية:</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                   <label><input type="checkbox" checked={newProperty.electricity_bill_included} onChange={e => setNewProperty({...newProperty, electricity_bill_included: e.target.checked})} /> فاتورة الكهرباء</label>
+                   <label><input type="checkbox" checked={newProperty.water_bill_included} onChange={e => setNewProperty({...newProperty, water_bill_included: e.target.checked})} /> فاتورة المياه</label>
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+                   <input type="number" style={{...inputStyle, marginBottom: 0, flex: 1, fontSize: '0.9rem'}} placeholder="خدمات العمارة" value={newProperty.building_fees} onChange={e => setNewProperty({...newProperty, building_fees: e.target.value})} />
+                   <input type="number" style={{...inputStyle, marginBottom: 0, flex: 1, fontSize: '0.9rem'}} placeholder="ضريبة المعارف" value={newProperty.education_tax} onChange={e => setNewProperty({...newProperty, education_tax: e.target.value})} />
+                </div>
               </div>
-              <div style={btnContainer}>
-                <button onClick={() => setStep(3)} style={{ ...s.saveBtn, backgroundColor: theme.border }}>السابق</button>
-                <button onClick={onSave} style={{ ...s.saveBtn, backgroundColor: '#10b981' }}><CheckCircle2 size={18}/> حفظ العقار نهائياً</button>
+
+              <label style={{ ...labelStyle, marginBottom: '15px' }}>
+                <input type="checkbox" checked={newProperty.is_negotiable} onChange={e => setNewProperty({...newProperty, is_negotiable: e.target.checked})} /> السعر قابل للتفاوض
+              </label>
+
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={() => setStep(3)} style={{ ...s.saveBtn, backgroundColor: theme.border, flex: 1 }}>السابق</button>
+                <button onClick={onSave} style={{ ...s.saveBtn, backgroundColor: '#10b981', flex: 2 }}><CheckCircle2 size={18}/> حفظ العقار</button>
               </div>
             </div>
           )}

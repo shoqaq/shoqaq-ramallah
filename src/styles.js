@@ -1,4 +1,4 @@
-// styles.js - Modern & Premium UI
+// styles.js - Modern & Premium Mobile UI (Final Optimized)
 
 export const s = {
   /* ====== App Layout ====== */
@@ -6,8 +6,10 @@ export const s = {
     minHeight: '100vh',
     direction: 'rtl',
     fontFamily: 'system-ui, -apple-system, sans-serif',
-    backgroundColor: '#f8fafc', // لون خلفية أهدأ وأكثر حداثة
-    color: '#1e293b'
+    backgroundColor: '#f8fafc',
+    color: '#1e293b',
+    WebkitTapHighlightColor: 'transparent',
+    paddingBottom: 'env(safe-area-inset-bottom)' // Safe area
   },
 
   wrapper: {
@@ -28,12 +30,11 @@ export const s = {
   logoWrap: {
     width: '96px',
     height: '96px',
-    borderRadius: '30px', // انحناء عصري أكثر (Squircle)
+    borderRadius: '30px',
     overflow: 'hidden',
     marginBottom: '16px',
-    cursor: 'pointer',
     backgroundColor: '#fff',
-    boxShadow: '0 20px 40px rgba(0,0,0,0.06)', // ظلال ناعمة وعميقة
+    boxShadow: '0 20px 40px rgba(0,0,0,0.06)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -50,8 +51,7 @@ export const s = {
     fontSize: '2.1rem',
     fontWeight: '900',
     letterSpacing: '-0.02em',
-    marginBottom: '24px',
-    color: '#0f172a'
+    marginBottom: '24px'
   },
 
   /* ====== Social Icons ====== */
@@ -72,8 +72,10 @@ export const s = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
+    transition: 'all 0.2s ease',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+    cursor: 'pointer',
+    minHeight: '48px' // Accessibility
   },
 
   /* ====== Services ====== */
@@ -85,7 +87,6 @@ export const s = {
   },
 
   serviceCard: {
-    width: '100%',
     minHeight: '80px',
     borderRadius: '24px',
     padding: '20px',
@@ -95,14 +96,17 @@ export const s = {
     alignItems: 'center',
     gap: '16px',
     boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
-    cursor: 'pointer',
-    transition: 'transform 0.2s ease'
+    transition: 'transform 0.15s ease',
+    cursor: 'pointer'
+  },
+
+  serviceCardActive: {
+    transform: 'scale(0.97)'
   },
 
   serviceText: {
     fontSize: '1.1rem',
-    fontWeight: '700',
-    color: '#334155'
+    fontWeight: '700'
   },
 
   /* ====== Property Grid ====== */
@@ -110,8 +114,7 @@ export const s = {
     display: 'flex',
     alignItems: 'center',
     gap: '12px',
-    marginBottom: '20px',
-    paddingTop: '10px'
+    marginBottom: '20px'
   },
 
   backBtn: {
@@ -123,15 +126,14 @@ export const s = {
     alignItems: 'center',
     gap: '8px',
     fontWeight: '600',
-    fontSize: '0.9rem',
-    cursor: 'pointer'
+    minHeight: '48px'
   },
 
   gridDisplay: {
     display: 'grid',
     gridTemplateColumns: '1fr',
     gap: '16px',
-    paddingBottom: '40px'
+    paddingBottom: '80px'
   },
 
   miniCard: {
@@ -140,9 +142,12 @@ export const s = {
     borderRadius: '24px',
     padding: '20px',
     boxShadow: '0 15px 35px rgba(0,0,0,0.05)',
-    cursor: 'pointer',
-    border: '1px solid #f8fafc',
-    transition: 'all 0.3s ease'
+    transition: 'transform 0.15s ease',
+    cursor: 'pointer'
+  },
+
+  miniCardActive: {
+    transform: 'scale(0.97)'
   },
 
   miniStatus: {
@@ -151,28 +156,23 @@ export const s = {
     borderRadius: '50%',
     position: 'absolute',
     top: '20px',
-    left: '20px',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)'
+    left: '20px'
   },
 
   miniPrice: {
     fontSize: '1.45rem',
     fontWeight: '900',
-    color: '#f59e0b',
-    marginBottom: '4px'
+    color: '#f59e0b'
   },
 
   miniTitle: {
     fontSize: '1.1rem',
-    fontWeight: '800',
-    color: '#1e293b',
-    marginBottom: '4px'
+    fontWeight: '800'
   },
 
   miniSub: {
     fontSize: '0.95rem',
-    color: '#64748b',
-    fontWeight: '500'
+    color: '#64748b'
   },
 
   expandIcon: {
@@ -182,12 +182,12 @@ export const s = {
     opacity: 0.3
   },
 
-  /* ====== Modal (Bottom Sheet Style) ====== */
+  /* ====== Modal ====== */
   modalOverlay: {
     position: 'fixed',
     inset: 0,
-    backgroundColor: 'rgba(15, 23, 42, 0.75)', // تعتيم أغمق وأفخم
-    backdropFilter: 'blur(8px)', // تأثير الضبابية للخلفية
+    backgroundColor: 'rgba(15,23,42,0.75)',
+    backdropFilter: 'blur(8px)',
     display: 'flex',
     alignItems: 'flex-end',
     zIndex: 1000
@@ -200,6 +200,7 @@ export const s = {
     borderRadius: '32px 32px 0 0',
     padding: '24px',
     overflowY: 'auto',
+    WebkitOverflowScrolling: 'touch',
     boxShadow: '0 -20px 50px rgba(0,0,0,0.15)'
   },
 
@@ -219,43 +220,20 @@ export const s = {
   priceTagLarge: {
     fontSize: '1.8rem',
     fontWeight: '900',
-    color: '#f59e0b',
-    letterSpacing: '-0.02em'
-  },
-
-  statusBadge: {
-    padding: '8px 16px',
-    borderRadius: '12px',
-    fontSize: '0.85rem',
-    fontWeight: '800',
-    textTransform: 'uppercase',
-    letterSpacing: '0.05em'
-  },
-
-  detailRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    color: '#475569',
-    fontSize: '1rem',
-    fontWeight: '500'
+    color: '#f59e0b'
   },
 
   descBox: {
     backgroundColor: '#f8fafc',
-    border: '1px solid #f1f5f9',
     borderRadius: '20px',
     padding: '18px',
-    fontSize: '1rem',
-    lineHeight: '1.7',
-    color: '#334155'
+    lineHeight: '1.7'
   },
 
   modalLinks: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
-    marginTop: '10px'
+    gap: '12px'
   },
 
   actionLink: {
@@ -263,15 +241,14 @@ export const s = {
     alignItems: 'center',
     gap: '10px',
     fontWeight: '700',
-    color: '#475569',
-    textDecoration: 'none',
     padding: '12px',
     borderRadius: '12px',
     backgroundColor: '#f8fafc'
   },
 
   callAction: {
-    marginTop: '15px',
+    position: 'sticky',
+    bottom: '10px',
     width: '100%',
     padding: '18px',
     borderRadius: '20px',
@@ -280,19 +257,15 @@ export const s = {
     fontSize: '1.15rem',
     fontWeight: '900',
     textAlign: 'center',
-    border: 'none',
-    boxShadow: '0 10px 25px rgba(16, 185, 129, 0.3)',
-    cursor: 'pointer'
+    minHeight: '48px',
+    boxShadow: '0 10px 25px rgba(16,185,129,0.3)'
   },
 
-  /* ====== Footer ====== */
   footer: {
     textAlign: 'center',
     padding: '24px',
     fontSize: '0.85rem',
-    fontWeight: '600',
-    color: '#94a3b8',
-    letterSpacing: '0.05em'
+    color: '#94a3b8'
   }
 };
 

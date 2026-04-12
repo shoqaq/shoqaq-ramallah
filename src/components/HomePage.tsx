@@ -52,17 +52,21 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isD
         style={{ ...s.box, backgroundColor: theme.cardBg }}
       >
 <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="24" 
-    height="24" 
     viewBox="0 0 24 24" 
+    width="28" 
+    height="28" 
+    xmlns="http://www.w3.org/2000/svg"
     fill="none" 
     stroke="#25D366" 
     strokeWidth="2" 
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
-    <path d="M12 2a10 10 0 0 0-8.94 14.5L2 22l5.65-1A10 10 0 1 0 12 2z" />
+    {/* الفقاعة الخارجية */}
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2 5.5Z" />
+    
+    {/* سماعة الهاتف بالداخل */}
+    <path d="M15.05 12.81c-.3.45-.85.55-1.25.25l-1.15-.85c-.4-.3-.45-.85-.15-1.25l.4-.55c.3-.45.25-1.05-.15-1.4L11.4 7.6c-.4-.35-1-.3-1.35.1l-.4.5c-.35.45-.4 1.05-.1 1.55.7 1.25 1.7 2.25 2.95 2.95.5.3 1.1.25 1.55-.1l.5-.4c.4-.35.95-.4 1.35-.05l1.41 1.35c.35.35.4.95.1 1.4l-.55.4Z" />
   </svg>
       </a>
 

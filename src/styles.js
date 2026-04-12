@@ -1,52 +1,62 @@
 export const s = {
-  container: {
-    width: '100%',
-    minHeight: '100vh',
-    padding: '20px',
+  container: { 
+    width: '100%', 
+    minHeight: '100vh', 
+    direction: 'rtl', 
+    fontFamily: 'sans-serif' 
+  },
+  wrapper: { 
+    maxWidth: '500px', 
+    margin: '0 auto', 
+    padding: '20px' 
+  },
+  input: { 
+    width: '100%', 
+    padding: '14px', 
+    borderRadius: '12px', 
+    border: '1px solid #ccc', 
+    marginBottom: '10px', 
     boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column'
+    fontSize: '1rem'
   },
-  wrapper: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    width: '100%',
-    flex: 1 // هذا يضمن أن المحتوى يأخذ مساحته ولا ينهار
-  },
-  menuBtn: {
-    width: '100%',
-    padding: '16px',
-    borderRadius: '14px',
-    border: 'none',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    fontSize: '1.1rem',
-    fontWeight: '600',
+  menuBtn: { 
+    width: '100%', 
+    padding: '16px', 
+    borderRadius: '14px', 
+    border: 'none', 
+    cursor: 'pointer', 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '12px', 
+    fontSize: '1.1rem', 
+    fontWeight: '600', 
     marginBottom: '12px',
-    textAlign: 'right',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+    backgroundColor: '#f3f4f6'
   },
-  saveBtn: {
-    width: '100%',
-    padding: '16px',
-    borderRadius: '12px',
-    border: 'none',
-    cursor: 'pointer',
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: '1.1rem',
-    marginTop: '10px'
+  saveBtn: { 
+    width: '100%', 
+    padding: '16px', 
+    borderRadius: '12px', 
+    border: 'none', 
+    cursor: 'pointer', 
+    color: 'white', 
+    fontWeight: 'bold', 
+    fontSize: '1.1rem', 
+    backgroundColor: '#f59e0b',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '8px'
   },
-  input: {
-    width: '100%',
-    padding: '14px',
-    borderRadius: '10px',
-    border: '1px solid #eee',
-    fontSize: '1rem',
-    marginBottom: '10px',
-    outline: 'none',
-    boxSizing: 'border-box'
+  topNav: { 
+    display: 'flex', 
+    justifyContent: 'flex-end', 
+    padding: '10px' 
+  },
+  themeBtn: { 
+    padding: '10px', 
+    borderRadius: '50%', 
+    cursor: 'pointer', 
+    border: '1px solid #ddd' 
   }
 };

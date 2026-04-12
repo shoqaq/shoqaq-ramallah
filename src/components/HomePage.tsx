@@ -51,12 +51,25 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isD
   rel="noopener noreferrer" 
   style={{ ...s.box, backgroundColor: theme.cardBg }}
 >
-<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-  <!-- الدائرة المفرغة -->
-  <circle cx="12" cy="12" r="10" />
-  <!-- أيقونة الهاتف في المنتصف -->
-  <path d="M15.05 15.05a4.82 4.82 0 0 1-6.4 0l-1.41-1.41a1.1 1.1 0 0 1 0-1.55l1.55-1.55a1.1 1.1 0 0 1 1.55 0l1.41 1.41a1.1 1.1 0 0 1 0 1.55l-1.55 1.55" />
-</svg>
+<a 
+  href="https://wa.me/970594560056" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  style={{ ...s.box, backgroundColor: theme.cardBg }}
+>
+  <svg 
+    viewBox="0 0 24 24" 
+    width="28" 
+    height="28" 
+    stroke="#25D366" 
+    strokeWidth="2" 
+    fill="none" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M17.49 15.3c-.3.89-1.28 1.45-2.26 1.45-1.93 0-4.06-1.1-5.74-2.78-1.67-1.68-2.77-3.81-2.77-5.74 0-.98.56-1.96 1.45-2.26.89-.3 1.86.03 2.23.83l.73 1.58c.31.67.14 1.46-.43 1.94l-.62.53c.63 1.25 1.66 2.28 2.91 2.91l.53-.62c.48-.57 1.27-.74 1.94-.43l1.58.73c.8.37 1.13 1.34.83 2.23z" />
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2 5.5Z" />
+  </svg>
 </a>
 
       <a

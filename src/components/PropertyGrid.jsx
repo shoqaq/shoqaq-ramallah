@@ -2,7 +2,16 @@ import React from 'react';
 import { X, MapPin, Maximize2, ExternalLink, Instagram } from 'lucide-react';
 import { s } from '../styles';
 
-const PropertyGrid = ({
+interface PropertyGridProps {
+  listings: any[];
+  onBack: () => void;
+  onSelect: (prop: any) => void;
+  selectedProp: any;
+  onCloseModal: () => void;
+  theme: any;
+}
+
+const PropertyGrid: React.FC<PropertyGridProps> = ({
   listings,
   onBack,
   onSelect,
@@ -26,8 +35,8 @@ const PropertyGrid = ({
         <div
           key={item.id}
           onClick={() => onSelect(item)}
-          onTouchStart={(e) => (e.currentTarget.style.transform = 'scale(0.97)')}
-          onTouchEnd={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          onPointerDown={(e) => (e.currentTarget.style.transform = 'scale(0.97)')}
+          onPointerUp={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           style={{
             ...s.miniCard,
             backgroundColor: theme.cardBg,

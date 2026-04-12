@@ -51,9 +51,19 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isD
         rel="noopener noreferrer"
         style={{ ...s.box, backgroundColor: theme.cardBg }}
       >
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="#25D366">
-          <path d="M12 2a10 10 0 0 0-8.94 14.5L2 22l5.65-1A10 10 0 1 0 12 2z" />
-        </svg>
+<svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="#25D366" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2 5.5Z"/>
+  </svg>
       </a>
 
       <a

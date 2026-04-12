@@ -2,7 +2,14 @@ import React from 'react';
 import { Phone, Instagram, Building2, ClipboardEdit } from 'lucide-react';
 import { s } from '../styles';
 
-const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
+interface HomePageProps {
+  onNavigate: (view: string) => void;
+  onLogoClick: () => void;
+  theme: any;
+  isDarkMode: boolean;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
   <div style={s.identity}>
 
     {/* ===== Logo ===== */}
@@ -16,8 +23,8 @@ const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
           : '0 12px 35px rgba(0,0,0,0.08)',
         transition: 'transform 0.2s ease'
       }}
-      onTouchStart={(e)=> e.currentTarget.style.transform='scale(0.96)'}
-      onTouchEnd={(e)=> e.currentTarget.style.transform='scale(1)'}
+      onPointerDown={(e)=> e.currentTarget.style.transform='scale(0.96)'}
+      onPointerUp={(e)=> e.currentTarget.style.transform='scale(1)'}
     >
       <img
         src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg"
@@ -97,8 +104,8 @@ const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
           backgroundColor: theme.cardBg,
           color: theme.text
         }}
-        onTouchStart={(e)=> e.currentTarget.style.transform='scale(0.97)'}
-        onTouchEnd={(e)=> e.currentTarget.style.transform='scale(1)'}
+        onPointerDown={(e)=> e.currentTarget.style.transform='scale(0.97)'}
+        onPointerUp={(e)=> e.currentTarget.style.transform='scale(1)'}
       >
         <Building2 size={28} color={theme.accent} />
         <span style={s.serviceText}>تصفح العقارات المتاحة</span>
@@ -110,8 +117,8 @@ const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => (
           backgroundColor: theme.cardBg,
           color: theme.text
         }}
-        onTouchStart={(e)=> e.currentTarget.style.transform='scale(0.97)'}
-        onTouchEnd={(e)=> e.currentTarget.style.transform='scale(1)'}
+        onPointerDown={(e)=> e.currentTarget.style.transform='scale(0.97)'}
+        onPointerUp={(e)=> e.currentTarget.style.transform='scale(1)'}
       >
         <ClipboardEdit size={28} color={theme.accent} />
         <span style={s.serviceText}>تقديم طلب بحث</span>

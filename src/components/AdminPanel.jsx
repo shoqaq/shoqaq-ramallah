@@ -1,192 +1,102 @@
-import React, { useState, useMemo } from 'react';
-import {
-  User, MapPin, Home, DollarSign, ChevronRight, 
-  ChevronLeft, CheckCircle2
+import React from 'react';
+import { 
+  PlusCircle, LayoutDashboard, LogOut, Edit3, Trash2, 
+  User, MapPin, Home, DollarSign, ChevronLeft, CheckCircle2, X 
 } from 'lucide-react';
 import { s } from '../styles';
 
-const NEIGHBORHOODS = ['الماصيون', 'الطيرة', 'بطن الهوى', 'البالوع', 'عين منجد', 'الإرسال'];
+const NEIGHBORHOODS = ['الماصيون', 'الطيرة', 'عين منجد', 'الإرسال', 'المصايف', 'البالوع', 'بيتونيا', 'سردا', 'منطقة أخرى'];
 
-const AdminPanel = ({
-  view, setView, listings, onSave, onDelete, onEdit, 
-  newProperty, setNewProperty, editingId, theme
-}) => {
-  const [step, setStep] = useState(1);
+export default function AdminPanel({ 
+  view, setView, listings, onSave, onEdit, onDelete, 
+  newProperty, setNewProperty, theme, step, setStep, onLogout 
+}) {
+  
+  const updateFeature = (k, v) => 
+    setNewProperty({ ...newProperty, features: { ...newProperty.features, [k]: v } });
 
-  const features = newProperty.features || {};
-
-  const updateFeature = (key, value) => {
-    setNewProperty({
-      ...newProperty,
-      features: {
-        ...(newProperty.features || {}),
-        [key]: value
-      }
-    });
+  const inputStyle = { 
+    ...s.input, 
+    padding: '18px', 
+    fontSize: '1.1rem', 
+    marginBottom: '12px', 
+    backgroundColor: theme.cardBg, 
+    color: theme.text, 
+    border: `1px solid ${theme.border}`,
+    borderRadius: '12px',
+    textAlign: 'right'
   };
 
-  // Input موحّد مع دعم RTL كامل
-  const bigInput = useMemo(() => ({
-    width: '100%',
-    padding: '16px',
-    fontSize: '1.05rem',
-    borderRadius: '16px',
-    marginBottom: '15px',
-    border: `2px solid ${theme.border}`,
-    backgroundColor: theme.cardBg, // تم التغيير ليتناسب مع خلفية الكروت
-    color: theme.text,
-    textAlign: 'right',
-    direction: 'rtl',
-    outline: 'none',
-    boxSizing: 'border-box'
-  }), [theme]);
-
   return (
-    <div style={{ paddingBottom: '100px', direction: 'rtl' }}>
+    <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto', direction: 'rtl' }}>
+      
+      {/* القائمة الرئيسية */}
+      {view === 'admin_main' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <button onClick={() => {setStep(1); setView('admin_add')}} style={s.menuBtn}><PlusCircle /> إضافة عقار جديد</button>
+          <button onClick={() => setView('admin_list')} style={s.menuBtn}><LayoutDashboard /> إدارة العقارات</button>
+          <button onClick={onLogout} style={{ ...s.menuBtn, color: '#ef4444' }}><LogOut /> خروج</button>
+        </div>
+      )}
+
+      {/* نموذج الإضافة - الخطوات */}
       {view === 'admin_add' && (
-        <div style={s.wrapper}>
-
-          {/* Progress Bar */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '30px',
-            padding: '0 5px'
-          }}>
-            {[1, 2, 3, 4].map(i => (
-              <div
-                key={i}
-                style={{
-                  width: '23%',
-                  height: '6px',
-                  borderRadius: '10px',
-                  backgroundColor: step >= i ? theme.accent : theme.border,
-                  transition: 'background-color 0.3s ease'
-                }}
-              />
-            ))}
-          </div>
-
-          {/* STEP 1: معلومات المالك */}
+        <div>
           {step === 1 && (
-            <div style={s.services}>
-              <h2 style={{ ...s.title, fontSize: '1.4rem', color: theme.text, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <User color={theme.accent} size={24} /> معلومات المالك
-              </h2>
-
-              <input
-                style={bigInput}
-                placeholder="اسم المالك الكامل"
-                value={newProperty.owner_name || ''}
-                onChange={e => setNewProperty({ ...newProperty, owner_name: e.target.value })}
-              />
-
-              <input
-                style={bigInput}
-                type="tel"
-                placeholder="رقم الهاتف الأساسي"
-                value={newProperty.owner_phone1 || ''}
-                onChange={e => setNewProperty({ ...newProperty, owner_phone1: e.target.value })}
-              />
-
-              <input
-                style={bigInput}
-                type="tel"
-                placeholder="رقم هاتف إضافي (اختياري)"
-                value={newProperty.owner_phone2 || ''}
-                onChange={e => setNewProperty({ ...newProperty, owner_phone2: e.target.value })}
-              />
-
-              <button onClick={() => setStep(2)} style={s.callAction}>
-                التالي: الموقع <ChevronRight size={18} />
-              </button>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <h3 style={{ marginBottom: '15px' }}><User size={18}/> معلومات المالك</h3>
+              <input style={inputStyle} placeholder="الاسم" value={newProperty.owner_name} onChange={e => setNewProperty({...newProperty, owner_name: e.target.value})} />
+              <input style={inputStyle} placeholder="هاتف 1" value={newProperty.owner_phone1} onChange={e => setNewProperty({...newProperty, owner_phone1: e.target.value})} />
+              <button onClick={() => setStep(2)} style={s.saveBtn}>التالي</button>
             </div>
           )}
 
-          {/* STEP 2: الموقع والنوع */}
           {step === 2 && (
-            <div style={s.services}>
-              <h2 style={{ ...s.title, fontSize: '1.4rem', color: theme.text, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <MapPin color={theme.accent} size={24} /> أين يقع العقار؟
-              </h2>
-
-              <select
-                style={bigInput}
-                value={newProperty.listing_type || 'للإيجار'}
-                onChange={e => setNewProperty({ ...newProperty, listing_type: e.target.value })}
-              >
-                <option value="للإيجار">للإيجار</option>
-                <option value="للبيع">للبيع</option>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <h3 style={{ marginBottom: '15px' }}><MapPin size={18}/> الموقع</h3>
+              <select style={inputStyle} value={newProperty.neighborhood} onChange={e => setNewProperty({...newProperty, neighborhood: e.target.value})}>
+                {NEIGHBORHOODS.map(n => <option key={n} value={n}>{n}</option>)}
               </select>
+              <button onClick={() => setStep(3)} style={s.saveBtn}>التالي</button>
+            </div>
+          )}
 
-              <select
-                style={bigInput}
-                value={newProperty.category || 'شقة'}
-                onChange={e => setNewProperty({ ...newProperty, category: e.target.value })}
-              >
-                <option value="شقة">شقة</option>
-                <option value="مكتب">مكتب</option>
-                <option value="محل">محل</option>
-                <option value="أرض">أرض</option>
-              </select>
+          {step === 3 && (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <h3 style={{ marginBottom: '15px' }}><Home size={18}/> المواصفات</h3>
+              <input type="number" style={inputStyle} placeholder="نوم" value={newProperty.features.bedrooms || ''} onChange={e => updateFeature('bedrooms', e.target.value)} />
+              <button onClick={() => setStep(4)} style={s.saveBtn}>التالي</button>
+            </div>
+          )}
 
-              <select
-                style={bigInput}
-                value={newProperty.neighborhood || NEIGHBORHOODS[0]}
-                onChange={e => setNewProperty({ ...newProperty, neighborhood: e.target.value })}
-              >
-                {NEIGHBORHOODS.map(n => (
-                  <option key={n} value={n}>{n}</option>
-                ))}
-              </select>
+          {step === 4 && (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <h3 style={{ marginBottom: '15px' }}><DollarSign size={18}/> السعر</h3>
+              <input type="number" style={inputStyle} placeholder="السعر" value={newProperty.price} onChange={e => setNewProperty({...newProperty, price: e.target.value})} />
+              <button onClick={onSave} style={s.saveBtn}>حفظ العقار</button>
+            </div>
+          )}
+        </div>
+      )}
 
-              <input
-                style={bigInput}
-                placeholder="العنوان بالتفصيل (مثلاً: قرب صيدلية كذا)"
-                value={newProperty.exact_address || ''}
-                onChange={e => setNewProperty({ ...newProperty, exact_address: e.target.value })}
-              />
-
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={() => setStep(1)} style={{ ...s.backBtn, flex: 1, justifyContent: 'center' }}>
-                  <ChevronLeft size={18} /> السابق
-                </button>
-                <button onClick={() => setStep(3)} style={{ ...s.callAction, flex: 2, position: 'static' }}>
-                  التالي <ChevronRight size={18} />
-                </button>
+      {/* قائمة العقارات للإدارة */}
+      {view === 'admin_list' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+            <h3>إدارة العقارات ({listings.length})</h3>
+            <X onClick={() => setView('admin_main')} style={{ cursor: 'pointer' }} />
+          </div>
+          {listings.map(item => (
+            <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '15px', backgroundColor: theme.cardBg, borderRadius: '15px', border: `1px solid ${theme.border}` }}>
+              <div>{item.neighborhood} - {item.price}</div>
+              <div style={{ display: 'flex', gap: '15px' }}>
+                <Edit3 size={18} color={theme.accent} onClick={() => onEdit(item)} />
+                <Trash2 size={18} color="#ef4444" onClick={() => onDelete(item.id)} />
               </div>
             </div>
-          )}
-
-          {/* STEP 3: المواصفات */}
-          {step === 3 && (
-            <div style={s.services}>
-              <h2 style={{ ...s.title, fontSize: '1.4rem', color: theme.text, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Home color={theme.accent} size={24} /> مواصفات العقار
-              </h2>
-
-              <input
-                type="number"
-                style={bigInput}
-                placeholder="المساحة (متر مربع)"
-                value={newProperty.area || ''}
-                onChange={e => setNewProperty({ ...newProperty, area: e.target.value })}
-              />
-
-              {newProperty.category === 'شقة' && (
-                <>
-                  <input
-                    style={bigInput}
-                    placeholder="الطابق (مثلاً: 3 أو أرضي)"
-                    value={features.floor || ''}
-                    onChange={e => updateFeature('floor', e.target.value)}
-                  />
-
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                    <input
-                      type="number"
-                      style={bigInput}
-                      placeholder="عدد الغرف"
-                      value={features.bedrooms || ''}
-                      onChange={e => updateFeature('bedrooms', e.target.value)}
-                    />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

@@ -9,9 +9,13 @@ import PropertyGrid from './components/PropertyGrid';
 import AdminPanel from './components/AdminPanel';
 
 // الربط مع Supabase باستخدام متغيرات البيئة
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+
+// Initialize with placeholders if keys are missing to avoid immediate crash
 const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL as string,
-  import.meta.env.VITE_SUPABASE_KEY as string
+  supabaseUrl || 'https://placeholder.supabase.co',
+  supabaseKey || 'placeholder-key'
 );
 
 const defaultProperty = {
@@ -44,14 +48,22 @@ export default function App() {
   };
 
   const fetchListings = async () => {
-    const { data, error } = await supabase
-      .from('listings')
-      .select('*')
-      .order('created_at', { ascending: false });
-    if (!error && data) setListings(data);
+    try {
+      const { data, error } = await supabase
+        .from('listings')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) setListings(data);
+    } catch (err) {
+      console.error('Error fetching listings:', err);
+    }
   };
 
-  useEffect(() => { fetchListings(); }, []);
+  useEffect(() => { 
+    if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_KEY) {
+      fetchListings(); 
+    }
+  }, []);
 
   const resetForm = () => {
     setNewProperty(defaultProperty);
@@ -135,7 +147,7 @@ export default function App() {
         {showLogin && (
           <div style={s.modalOverlay}>
             <div style={{ ...s.modalContent, backgroundColor: theme.cardBg, textAlign: 'center' }}>
-              <h3>الإدارة</h3>
+              <h3 style={{ marginBottom: '20px' }}>الإدارة</h3>
               <input
                 type='password'
                 autoFocus
@@ -149,7 +161,12 @@ export default function App() {
                   }
                 }}
               />
-              <button onClick={() => setShowLogin(false)} style={{ color: '#ef4444', background: 'none', border: 'none', marginTop: '15px', cursor: 'pointer' }}>إغلاق</button>
+              <button 
+                onClick={() => setShowLogin(false)} 
+                style={{ color: '#ef4444', background: 'none', border: 'none', marginTop: '15px', cursor: 'pointer', fontSize: '1rem' }}
+              >
+                إغلاق
+              </button>
             </div>
           </div>
         )}

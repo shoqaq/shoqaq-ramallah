@@ -8,7 +8,7 @@ import HomePage from './components/HomePage';
 import PropertyGrid from './components/PropertyGrid';
 import AdminPanel from './components/AdminPanel';
 
-// Supabase client
+// الربط مع Supabase باستخدام متغيرات البيئة
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL as string,
   import.meta.env.VITE_SUPABASE_KEY as string
@@ -24,7 +24,7 @@ const defaultProperty = {
 };
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'browse' | 'admin_main' | 'admin_add' | 'admin_list'>('home');
+  const [view, setView] = useState('home');
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [listings, setListings] = useState<any[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,8 +34,9 @@ export default function App() {
   const [newProperty, setNewProperty] = useState<any>(defaultProperty);
   const [selectedProp, setSelectedProp] = useState<any>(null);
 
+  // تعريف الثيم الموحد
   const theme = {
-    bg: isDarkMode ? '#000' : '#f4f4f4',
+    bg: isDarkMode ? '#000' : '#f8f9fa',
     text: isDarkMode ? '#fff' : '#000',
     border: isDarkMode ? '#222' : '#ddd',
     cardBg: isDarkMode ? '#111' : '#fff',
@@ -47,13 +48,10 @@ export default function App() {
       .from('listings')
       .select('*')
       .order('created_at', { ascending: false });
-
     if (!error && data) setListings(data);
   };
 
-  useEffect(() => {
-    fetchListings();
-  }, []);
+  useEffect(() => { fetchListings(); }, []);
 
   const resetForm = () => {
     setNewProperty(defaultProperty);
@@ -61,32 +59,30 @@ export default function App() {
     setStep(1);
   };
 
+  // دالة الحفظ الشاملة (إضافة وتعديل)
   const onSave = async () => {
     if (!newProperty.price || !newProperty.owner_name) {
       alert('الرجاء إدخال الاسم والسعر');
       return;
     }
 
-    const payload = { ...newProperty };
-
-    const query = editingId
-      ? supabase.from('listings').update(payload).eq('id', editingId)
-      : supabase.from('listings').insert([payload]);
-
-    const { error } = await query;
+    const { error } = editingId
+      ? await supabase.from('listings').update(newProperty).eq('id', editingId)
+      : await supabase.from('listings').insert([newProperty]);
 
     if (!error) {
       resetForm();
       setView('admin_main');
       fetchListings();
+    } else {
+      alert("حدث خطأ أثناء الحفظ");
     }
   };
 
   const onDelete = async (id: number) => {
     if (!confirm('هل أنت متأكد من الحذف؟')) return;
-
-    await supabase.from('listings').delete().eq('id', id);
-    fetchListings();
+    const { error } = await supabase.from('listings').delete().eq('id', id);
+    if (!error) fetchListings();
   };
 
   const onEdit = (item: any) => {
@@ -98,7 +94,7 @@ export default function App() {
 
   return (
     <div style={{ ...s.container, backgroundColor: theme.bg, color: theme.text }}>
-      {/* Top Nav */}
+      {/* شريط التحكم بالوضع الليلي */}
       <div style={s.topNav}>
         <button
           onClick={() => setIsDarkMode(!isDarkMode)}
@@ -109,74 +105,42 @@ export default function App() {
       </div>
 
       <div style={s.wrapper}>
-        {/* Home */}
+        {/* العرض الشرطي للواجهات */}
         {!isLoggedIn && view === 'home' && (
-          <HomePage
-            onNavigate={setView}
-            onLogoClick={() => setShowLogin(true)}
-            theme={theme}
-            isDarkMode={isDarkMode}
-          />
+          <HomePage onNavigate={setView} onLogoClick={() => setShowLogin(true)} theme={theme} isDarkMode={isDarkMode} />
         )}
 
-        {/* Browse */}
         {view === 'browse' && (
-          <PropertyGrid
-            listings={listings}
-            onBack={() => setView('home')}
-            theme={theme}
-            onSelect={setSelectedProp}
-            selectedProp={selectedProp}
-            onCloseModal={() => setSelectedProp(null)}
+          <PropertyGrid 
+            listings={listings} 
+            onBack={() => setView('home')} 
+            theme={theme} 
+            onSelect={setSelectedProp} 
+            selectedProp={selectedProp} 
+            onCloseModal={() => setSelectedProp(null)} 
           />
         )}
 
-        {/* Admin */}
         {isLoggedIn && (
           <AdminPanel
-            view={view}
-            setView={setView}
-            listings={listings}
-            newProperty={newProperty}
-            setNewProperty={setNewProperty}
-            theme={theme}
-            step={step}
-            setStep={setStep}
-            onLogout={() => {
-              setIsLoggedIn(false);
-              setView('home');
-            }}
-            onEdit={onEdit}
-            onSave={onSave}
-            onDelete={onDelete}
+            view={view} setView={setView} listings={listings}
+            newProperty={newProperty} setNewProperty={setNewProperty}
+            theme={theme} step={step} setStep={setStep}
+            onLogout={() => { setIsLoggedIn(false); setView('home'); }}
+            onEdit={onEdit} onSave={onSave} onDelete={onDelete}
           />
         )}
 
-        {/* Login Modal */}
+        {/* نافذة تسجيل الدخول */}
         {showLogin && (
           <div style={s.modalOverlay}>
-            <div
-              style={{
-                ...s.modalContent,
-                backgroundColor: theme.cardBg,
-                marginBottom: '25vh',
-                width: '85%',
-                margin: '0 auto',
-                borderRadius: '25px',
-                textAlign: 'center'
-              }}
-            >
-              <h3>لوحة التحكم</h3>
+            <div style={{ ...s.modalContent, backgroundColor: theme.cardBg, textAlign: 'center' }}>
+              <h3>الإدارة</h3>
               <input
                 type='password'
                 autoFocus
-                placeholder='أدخل الرمز'
-                style={{
-                  ...s.input,
-                  backgroundColor: theme.bg,
-                  color: theme.text,
-                  border: `1px solid ${theme.border}`
-                }}
+                placeholder='الرمز السري'
+                style={{ ...s.input, backgroundColor: theme.bg, color: theme.text, border: `1px solid ${theme.border}` }}
                 onChange={(e) => {
                   if (e.target.value === '749329') {
                     setIsLoggedIn(true);
@@ -185,12 +149,7 @@ export default function App() {
                   }
                 }}
               />
-              <button
-                onClick={() => setShowLogin(false)}
-                style={{ color: '#ef4444', background: 'none', border: 'none', marginTop: '10px' }}
-              >
-                إلغاء
-              </button>
+              <button onClick={() => setShowLogin(false)} style={{ color: '#ef4444', background: 'none', border: 'none', marginTop: '15px', cursor: 'pointer' }}>إغلاق</button>
             </div>
           </div>
         )}
@@ -198,4 +157,3 @@ export default function App() {
     </div>
   );
 }
-

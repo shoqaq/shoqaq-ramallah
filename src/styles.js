@@ -5,39 +5,127 @@ export const s = {
     direction: 'rtl', 
     display: 'flex', 
     flexDirection: 'column',
-    fontFamily: 'system-ui, -apple-system, sans-serif'
+    backgroundColor: 'inherit', // يعتمد على الثيم الممرر من App.js
+    overflowX: 'hidden' // منع التمرير الجانبي المزعج في الموبايل
   },
-  wrapper: { maxWidth: '500px', margin: '0 auto', width: '100%', padding: '20px', flex: 1 },
-  topNav: { display: 'flex', justifyContent: 'flex-end', padding: '10px' },
-  themeBtn: { padding: '8px', borderRadius: '50%', cursor: 'pointer', border: '1px solid #ddd', display: 'flex', alignItems: 'center' },
+  wrapper: { 
+    maxWidth: '450px', // أفضل عرض لشاشات الموبايل
+    margin: '0 auto', 
+    width: '100%', 
+    padding: '15px', 
+    boxSizing: 'border-box',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  topNav: { 
+    display: 'flex', 
+    justifyContent: 'flex-end', 
+    padding: '10px 5px' 
+  },
+  themeBtn: { 
+    padding: '10px', 
+    borderRadius: '50%', 
+    cursor: 'pointer', 
+    border: '1px solid rgba(128,128,128,0.2)', 
+    display: 'flex', 
+    alignItems: 'center',
+    transition: 'all 0.3s ease'
+  },
   
-  // الهوية - الشعار المعدل
-  identity: { display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '15px 0' },
+  // الهوية - تم ضبطها لتكون متناسقة جداً
+  identity: { 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', 
+    padding: '10px 0 20px' 
+  },
   logoWrap: { 
-    width: '85px', 
-    height: '85px', 
+    width: '80px', 
+    height: '80px', 
     borderRadius: '20px', 
     overflow: 'hidden', 
     marginBottom: '12px',
-    boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
+    boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+    border: '2px solid rgba(245, 158, 11, 0.2)' // إطار خفيف بلون الـ accent
   },
   logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  title: { fontSize: '1.4rem', fontWeight: '800', marginBottom: '25px' },
+  title: { 
+    fontSize: '1.5rem', 
+    fontWeight: '800', 
+    margin: '0', 
+    textAlign: 'center',
+    letterSpacing: '-0.5px'
+  },
 
-  // الشبكة والأزرار
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px', marginBottom: '30px' },
-  box: { display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px', borderRadius: '15px', textDecoration: 'none' },
-  services: { display: 'flex', flexDirection: 'column', gap: '12px' },
-  serviceCard: { display: 'flex', alignItems: 'center', gap: '15px', padding: '20px', borderRadius: '18px', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' },
+  // شبكة التواصل - أزرار دائرية مريحة للإبهام
+  grid: { 
+    display: 'grid', 
+    gridTemplateColumns: 'repeat(5, 1fr)', 
+    gap: '12px', 
+    width: '100%',
+    marginBottom: '30px' 
+  },
+  box: { 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    aspectRatio: '1/1', // يضمن بقاء الزر مربعاً أو دائرياً
+    borderRadius: '16px', 
+    textDecoration: 'none',
+    transition: 'transform 0.1s active'
+  },
+
+  // الخدمات - كروت عريضة سهلة الضغط
+  services: { 
+    display: 'flex', 
+    flexDirection: 'column', 
+    gap: '15px',
+    width: '100%'
+  },
+  serviceCard: { 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '15px', 
+    padding: '20px', 
+    borderRadius: '20px', 
+    border: '1px solid rgba(128,128,128,0.1)', 
+    cursor: 'pointer', 
+    fontSize: '1.05rem', 
+    fontWeight: '700',
+    textAlign: 'right',
+    boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
+  },
+  serviceText: { flex: 1 },
+
+  // عرض العقارات - كرتين في كل صف بشكل مرتب
+  gridDisplay: { 
+    display: 'grid', 
+    gridTemplateColumns: '1fr 1fr', 
+    gap: '12px',
+    paddingBottom: '40px'
+  },
+  miniCard: { 
+    position: 'relative', 
+    padding: '12px', 
+    borderRadius: '18px', 
+    border: '1px solid',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    minHeight: '120px',
+    justifyContent: 'flex-end'
+  },
   
-  // المدخلات وأزرار الإدارة
-  input: { width: '100%', padding: '15px', borderRadius: '12px', border: '1px solid #ddd', marginBottom: '10px', boxSizing: 'border-box', textAlign: 'right' },
-  menuBtn: { width: '100%', padding: '16px', borderRadius: '14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.05rem', fontWeight: 'bold', marginBottom: '10px' },
-  saveBtn: { width: '100%', padding: '16px', borderRadius: '12px', border: 'none', cursor: 'pointer', color: 'white', fontWeight: 'bold', backgroundColor: '#f59e0b' },
-  
-  // عرض العقارات
-  gridDisplay: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
-  miniCard: { position: 'relative', padding: '15px', borderRadius: '15px', cursor: 'pointer', border: '1px solid' },
-  modalOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'flex-end', zIndex: 1000 },
-  modalContent: { width: '100%', borderTopLeftRadius: '25px', borderTopRightRadius: '25px', padding: '25px', maxHeight: '90vh', overflowY: 'auto' }
+  // المدخلات - مريحة للكتابة من الكيبورد
+  input: { 
+    width: '100%', 
+    padding: '16px', 
+    borderRadius: '14px', 
+    border: '1px solid #ddd', 
+    marginBottom: '12px', 
+    boxSizing: 'border-box', 
+    fontSize: '1rem',
+    backgroundColor: 'rgba(128,128,128,0.05)'
+  }
 };

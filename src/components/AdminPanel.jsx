@@ -1,18 +1,33 @@
 import React from 'react';
 import { 
   PlusCircle, LayoutDashboard, LogOut, Edit3, Trash2, 
-  User, MapPin, Home, DollarSign, ChevronLeft, CheckCircle2, X 
+  User, MapPin, Home, DollarSign, X 
 } from 'lucide-react';
 import { s } from '../styles';
 
 const NEIGHBORHOODS = ['الماصيون', 'الطيرة', 'عين منجد', 'الإرسال', 'المصايف', 'البالوع', 'بيتونيا', 'سردا', 'منطقة أخرى'];
+
+interface AdminPanelProps {
+  view: string;
+  setView: (view: string) => void;
+  listings: any[];
+  onSave: () => void;
+  onEdit: (item: any) => void;
+  onDelete: (id: number) => void;
+  newProperty: any;
+  setNewProperty: (prop: any) => void;
+  theme: any;
+  step: number;
+  setStep: (step: number) => void;
+  onLogout: () => void;
+}
 
 export default function AdminPanel({ 
   view, setView, listings, onSave, onEdit, onDelete, 
   newProperty, setNewProperty, theme, step, setStep, onLogout 
 }) {
   
-  const updateFeature = (k, v) => 
+  const updateFeature = (k: string, v: any) => 
     setNewProperty({ ...newProperty, features: { ...newProperty.features, [k]: v } });
 
   const inputStyle = { 
@@ -24,7 +39,7 @@ export default function AdminPanel({
     color: theme.text, 
     border: `1px solid ${theme.border}`,
     borderRadius: '12px',
-    textAlign: 'right'
+    textAlign: 'right' as const
   };
 
   return (

@@ -51,12 +51,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isD
   rel="noopener noreferrer" 
   style={{ ...s.box, backgroundColor: theme.cardBg }}
 >
-<a 
-  href="https://wa.me/970594560056" 
-  target="_blank" 
-  rel="noopener noreferrer" 
-  style={{ ...s.box, backgroundColor: theme.cardBg }}
->
+
   <svg 
     viewBox="0 0 24 24" 
     width="28" 

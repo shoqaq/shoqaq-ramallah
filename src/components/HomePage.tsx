@@ -45,35 +45,35 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isD
 
     {/* ===== Social Icons ===== */}
     <div style={s.grid}>
-<a 
-        href="https://wa.me/970594560056" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        style={{ ...s.box, backgroundColor: theme.cardBg }}
-      >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="26" 
-          height="26" 
-          viewBox="0 0 24 24"
-        >
-          {/* 1. الفقاعة الخارجية: مفرغة (إطار فقط) */}
-          <path 
-            fill="none" 
-            stroke="#22c55e" 
-            strokeWidth="1.8" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2 5.5Z" 
-          />
-          
-          {/* 2. السماعة الداخلية: صلبة وممتلئة (Solid) */}
-          <path 
-            fill="#22c55e" 
-            d="M17.4 15.3c-.3.8-.8 1.4-1.6 1.6-.4.1-.7.1-1.1 0-.6-.2-1.1-.4-1.6-.7-.9-.6-1.7-1.3-2.4-2.2-.7-.8-1.2-1.7-1.6-2.7-.2-.5-.4-.9-.4-1.4 0-.4.1-.8.3-1.2.3-.7.9-1.2 1.6-1.4.3-.1.6-.1 1 0 .3.1.5.3.7.6l.8 1.6c.2.4.2.8 0 1.2l-.5.6c-.1.1-.1.2-.1.3 0 .1.1.2.1.3.4.7.9 1.3 1.5 1.8.5.5 1.1.9 1.8 1.2.1 0 .2.1.3.1.1 0 .2 0 .3-.1l.6-.5c.4-.3.9-.3 1.2 0l1.6.8c.3.2.5.4.6.7.1.3.1.7 0 1z" 
-          />
-        </svg>
-      </a>
+<a
+  href="https://wa.me/970594560056"
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{ ...s.box, backgroundColor: theme.cardBg }}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="26"
+    height="26"
+    viewBox="0 0 24 24"
+  >
+    {/* الفقاعة الخارجية (Outline) */}
+    <path
+      d="M20.5 11.5a8.5 8.5 0 0 1-12.9 7.3L3 21l1.9-4.7A8.5 8.5 0 1 1 20.5 11.5z"
+      fill="none"
+      stroke="#22c55e"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+
+    {/* السماعة (Solid) */}
+    <path
+      fill="#22c55e"
+      d="M15.3 13.9c-.2.5-.6.9-1.1 1.1-.3.1-.5.1-.8 0-.4-.1-.8-.3-1.1-.5-.6-.4-1.2-.9-1.7-1.6-.5-.6-.9-1.2-1.1-1.9-.1-.3-.2-.6-.2-1 0-.3.1-.6.2-.9.2-.5.6-.8 1.1-1 .2-.1.4-.1.7 0 .2.1.4.2.5.4l.6 1.1c.1.3.1.6 0 .8l-.3.4c-.1.1-.1.2-.1.2 0 .1 0 .2.1.3.3.5.6.9 1.1 1.3.4.4.8.7 1.3.9.1 0 .2.1.2.1.1 0 .2 0 .2-.1l.4-.3c.3-.2.6-.2.9 0l1.1.6c.2.1.4.3.4.5.1.2.1.4 0 .6z"
+    />
+  </svg>
+</a>
 
       <a
         href="tel:+970594560056"

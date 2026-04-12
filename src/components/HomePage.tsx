@@ -45,30 +45,28 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isD
 
     {/* ===== Social Icons ===== */}
     <div style={s.grid}>
-      <a
-        href="https://whatsapp.com/channel/0029Vb7b4Lg29758H3Dnbd0d"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ ...s.box, backgroundColor: theme.cardBg }}
-      >
-<svg 
-    viewBox="0 0 24 24" 
+     <a 
+  href="https://wa.me/970594560056" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  style={{ ...s.box, backgroundColor: theme.cardBg }}
+>
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
     width="28" 
     height="28" 
-    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24" 
     fill="none" 
     stroke="#25D366" 
     strokeWidth="2" 
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
-    {/* الفقاعة الخارجية */}
+    {/* جسم الفقاعة الرسمي */}
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" transform="scale(0.7) translate(5, 5)"/>
     <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2 5.5Z" />
-    
-    {/* سماعة الهاتف بالداخل */}
-    <path d="M15.05 12.81c-.3.45-.85.55-1.25.25l-1.15-.85c-.4-.3-.45-.85-.15-1.25l.4-.55c.3-.45.25-1.05-.15-1.4L11.4 7.6c-.4-.35-1-.3-1.35.1l-.4.5c-.35.45-.4 1.05-.1 1.55.7 1.25 1.7 2.25 2.95 2.95.5.3 1.1.25 1.55-.1l.5-.4c.4-.35.95-.4 1.35-.05l1.41 1.35c.35.35.4.95.1 1.4l-.55.4Z" />
   </svg>
-      </a>
+</a>
 
       <a
         href="tel:+970594560056"

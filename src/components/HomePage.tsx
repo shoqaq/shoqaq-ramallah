@@ -51,21 +51,12 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isD
   rel="noopener noreferrer" 
   style={{ ...s.box, backgroundColor: theme.cardBg }}
 >
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="28" 
-    height="28" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="#25D366" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    {/* جسم الفقاعة الرسمي */}
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" transform="scale(0.7) translate(5, 5)"/>
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2 5.5Z" />
-  </svg>
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- الدائرة المفرغة -->
+  <circle cx="12" cy="12" r="10" />
+  <!-- أيقونة الهاتف في المنتصف -->
+  <path d="M15.05 15.05a4.82 4.82 0 0 1-6.4 0l-1.41-1.41a1.1 1.1 0 0 1 0-1.55l1.55-1.55a1.1 1.1 0 0 1 1.55 0l1.41 1.41a1.1 1.1 0 0 1 0 1.55l-1.55 1.55" />
+</svg>
 </a>
 
       <a

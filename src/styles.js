@@ -1,62 +1,52 @@
-// تأكد من وجود تعريف واحد فقط لـ s
 export const s = {
-  // ... كل الستايلات القديمة الخاصة بك (container, wrapper, card, إلخ) ...
-  // تأكد من بقاء الستايلات القديمة هنا ولا تحذفها
-  
   container: {
     width: '100%',
     minHeight: '100vh',
     padding: '20px',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column'
   },
-
-  // أضف الستايلات الجديدة هنا في النهاية (قبل إغلاق القوس الأخير)
+  wrapper: {
+    maxWidth: '1200px',
+    margin: '0 auto',
+    width: '100%',
+    flex: 1 // هذا يضمن أن المحتوى يأخذ مساحته ولا ينهار
+  },
   menuBtn: {
     width: '100%',
-    padding: '15px',
-    borderRadius: '12px',
+    padding: '16px',
+    borderRadius: '14px',
     border: 'none',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     gap: '12px',
-    fontSize: '1.05rem',
+    fontSize: '1.1rem',
     fontWeight: '600',
-    marginBottom: '10px',
-    transition: 'all 0.2s',
+    marginBottom: '12px',
     textAlign: 'right',
-    backgroundColor: '#f3f4f6', // لون افتراضي، سيتغير حسب الثيم
-    color: '#111827'
+    boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
   },
-
   saveBtn: {
     width: '100%',
-    padding: '15px',
+    padding: '16px',
     borderRadius: '12px',
     border: 'none',
     cursor: 'pointer',
     color: 'white',
     fontWeight: 'bold',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '8px',
     fontSize: '1.1rem',
-    backgroundColor: '#f59e0b'
+    marginTop: '10px'
   },
-
-  topNav: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '20px'
-  },
-
-  themeBtn: {
-    padding: '10px',
-    borderRadius: '50%',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+  input: {
+    width: '100%',
+    padding: '14px',
+    borderRadius: '10px',
+    border: '1px solid #eee',
+    fontSize: '1rem',
+    marginBottom: '10px',
+    outline: 'none',
+    boxSizing: 'border-box'
   }
-}; // تأكد من وجود هذا القوس مرة واحدة فقط في نهاية الملف
+};

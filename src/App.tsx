@@ -1,146 +1,159 @@
-export const s = {
-  container: { 
-    width: '100%', 
-    minHeight: '100vh', 
-    direction: 'rtl', 
-    display: 'flex', 
-    flexDirection: 'column',
-    transition: 'all 0.3s ease'
-  },
-  wrapper: { 
-    maxWidth: '480px', 
-    margin: '0 auto', 
-    width: '100%', 
-    padding: '10px 16px 30px', 
-    boxSizing: 'border-box', 
-    flex: 1 
-  },
-  topNav: { 
-    display: 'flex', 
-    justifyContent: 'flex-end', 
-    padding: '10px 0' 
-  },
-  themeBtn: { 
-    padding: '10px', 
-    borderRadius: '50%', 
-    cursor: 'pointer', 
-    border: '1px solid rgba(128,128,128,0.3)', 
-    display: 'flex', 
-    alignItems: 'center',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-  },
-  
-  // الهوية - الشعار بحجم مثالي
-  identity: { 
-    display: 'flex', 
-    flexDirection: 'column', 
-    alignItems: 'center', 
-    padding: '10px 0 25px' 
-  },
-  logoWrap: { 
-    width: '85px', 
-    height: '85px', 
-    borderRadius: '24px', 
-    overflow: 'hidden', 
-    marginBottom: '15px',
-    boxShadow: '0 12px 30px rgba(0,0,0,0.3)',
-    border: '2px solid #f59e0b' // إطار ذهبي لكسر السواد
-  },
-  logoImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  title: { 
-    fontSize: '1.6rem', 
-    fontWeight: '900', 
-    margin: '0', 
-    textAlign: 'center',
-    color: 'inherit' 
-  },
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { Sun, Moon } from 'lucide-react';
+import { s } from './styles';
 
-  // أزرار السوشيال ميديا - ألوان لكسر السواد
-  grid: { 
-    display: 'grid', 
-    gridTemplateColumns: 'repeat(5, 1fr)', 
-    gap: '12px', 
-    width: '100%',
-    marginBottom: '35px' 
-  },
-  box: { 
-    display: 'flex', 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    aspectRatio: '1/1', 
-    borderRadius: '16px', 
-    textDecoration: 'none',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-    backgroundColor: 'rgba(255,255,255,0.05)' // شفافية بسيطة خلف الأيقونات
-  },
+// Components
+import HomePage from './components/HomePage';
+import PropertyGrid from './components/PropertyGrid';
+import AdminPanel from './components/AdminPanel';
 
-  // الخدمات - كروت واضحة بحدود
-  services: { 
-    display: 'flex', 
-    flexDirection: 'column', 
-    gap: '15px' 
-  },
-  serviceCard: { 
-    display: 'flex', 
-    alignItems: 'center', 
-    gap: '15px', 
-    padding: '22px', 
-    borderRadius: '22px', 
-    border: '1px solid rgba(128,128,128,0.2)', 
-    cursor: 'pointer', 
-    fontSize: '1.1rem', 
-    fontWeight: '700',
-    textAlign: 'right',
-    boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
-    transition: 'transform 0.2s ease'
-  },
-  serviceText: { flex: 1 },
+// الربط مع Supabase باستخدام متغيرات البيئة
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL as string,
+  import.meta.env.VITE_SUPABASE_KEY as string
+);
 
-  // عرض العقارات - تنسيق البطاقات الصغيرة
-  gridDisplay: { 
-    display: 'grid', 
-    gridTemplateColumns: '1fr 1fr', 
-    gap: '14px' 
-  },
-  miniCard: { 
-    borderRadius: '20px', 
-    padding: '15px', 
-    border: '1px solid rgba(128,128,128,0.2)', 
-    display: 'flex', 
-    flexDirection: 'column', 
-    gap: '8px',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-  },
-
-  // النوافذ والمدخلات
-  modalOverlay: { 
-    position: 'fixed', 
-    inset: 0, 
-    backgroundColor: 'rgba(0,0,0,0.85)', 
-    backdropFilter: 'blur(8px)', // تمويه الخلفية لجمالية أكثر
-    display: 'flex', 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    zIndex: 2000 
-  },
-  modalContent: { 
-    width: '90%', 
-    maxWidth: '400px', 
-    borderRadius: '30px', 
-    padding: '35px 25px', 
-    boxShadow: '0 20px 50px rgba(0,0,0,0.5)' 
-  },
-  input: { 
-    width: '100%', 
-    padding: '16px', 
-    borderRadius: '15px', 
-    border: '1px solid rgba(128,128,128,0.3)', 
-    marginBottom: '15px', 
-    boxSizing: 'border-box', 
-    fontSize: '1rem',
-    textAlign: 'right',
-    outline: 'none',
-    backgroundColor: 'rgba(255,255,255,0.03)',
-    color: 'inherit'
-  }
+const defaultProperty = {
+  owner_name: '',
+  owner_phone1: '',
+  neighborhood: 'الماصيون',
+  price: '',
+  status: 'متاح',
+  features: {}
 };
+
+export default function App() {
+  const [view, setView] = useState('home');
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [listings, setListings] = useState<any[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [step, setStep] = useState(1);
+  const [newProperty, setNewProperty] = useState<any>(defaultProperty);
+  const [selectedProp, setSelectedProp] = useState<any>(null);
+
+  // تعريف الثيم الموحد
+  const theme = {
+    bg: isDarkMode ? '#000' : '#f8f9fa',
+    text: isDarkMode ? '#fff' : '#000',
+    border: isDarkMode ? '#222' : '#ddd',
+    cardBg: isDarkMode ? '#111' : '#fff',
+    accent: '#f59e0b'
+  };
+
+  const fetchListings = async () => {
+    const { data, error } = await supabase
+      .from('listings')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (!error && data) setListings(data);
+  };
+
+  useEffect(() => { fetchListings(); }, []);
+
+  const resetForm = () => {
+    setNewProperty(defaultProperty);
+    setEditingId(null);
+    setStep(1);
+  };
+
+  // دالة الحفظ الشاملة (إضافة وتعديل)
+  const onSave = async () => {
+    if (!newProperty.price || !newProperty.owner_name) {
+      alert('الرجاء إدخال الاسم والسعر');
+      return;
+    }
+
+    const { error } = editingId
+      ? await supabase.from('listings').update(newProperty).eq('id', editingId)
+      : await supabase.from('listings').insert([newProperty]);
+
+    if (!error) {
+      resetForm();
+      setView('admin_main');
+      fetchListings();
+    } else {
+      alert("حدث خطأ أثناء الحفظ");
+    }
+  };
+
+  const onDelete = async (id: number) => {
+    if (!confirm('هل أنت متأكد من الحذف؟')) return;
+    const { error } = await supabase.from('listings').delete().eq('id', id);
+    if (!error) fetchListings();
+  };
+
+  const onEdit = (item: any) => {
+    setNewProperty(item);
+    setEditingId(item.id);
+    setStep(1);
+    setView('admin_add');
+  };
+
+  return (
+    <div style={{ ...s.container, backgroundColor: theme.bg, color: theme.text }}>
+      {/* شريط التحكم بالوضع الليلي */}
+      <div style={s.topNav}>
+        <button
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          style={{ ...s.themeBtn, color: theme.text, backgroundColor: theme.cardBg }}
+        >
+          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+      </div>
+
+      <div style={s.wrapper}>
+        {/* العرض الشرطي للواجهات */}
+        {!isLoggedIn && view === 'home' && (
+          <HomePage onNavigate={setView} onLogoClick={() => setShowLogin(true)} theme={theme} isDarkMode={isDarkMode} />
+        )}
+
+        {view === 'browse' && (
+          <PropertyGrid 
+            listings={listings} 
+            onBack={() => setView('home')} 
+            theme={theme} 
+            onSelect={setSelectedProp} 
+            selectedProp={selectedProp} 
+            onCloseModal={() => setSelectedProp(null)} 
+          />
+        )}
+
+        {isLoggedIn && (
+          <AdminPanel
+            view={view} setView={setView} listings={listings}
+            newProperty={newProperty} setNewProperty={setNewProperty}
+            theme={theme} step={step} setStep={setStep}
+            onLogout={() => { setIsLoggedIn(false); setView('home'); }}
+            onEdit={onEdit} onSave={onSave} onDelete={onDelete}
+          />
+        )}
+
+        {/* نافذة تسجيل الدخول */}
+        {showLogin && (
+          <div style={s.modalOverlay}>
+            <div style={{ ...s.modalContent, backgroundColor: theme.cardBg, textAlign: 'center' }}>
+              <h3>الإدارة</h3>
+              <input
+                type='password'
+                autoFocus
+                placeholder='الرمز السري'
+                style={{ ...s.input, backgroundColor: theme.bg, color: theme.text, border: `1px solid ${theme.border}` }}
+                onChange={(e) => {
+                  if (e.target.value === '749329') {
+                    setIsLoggedIn(true);
+                    setView('admin_main');
+                    setShowLogin(false);
+                  }
+                }}
+              />
+              <button onClick={() => setShowLogin(false)} style={{ color: '#ef4444', background: 'none', border: 'none', marginTop: '15px', cursor: 'pointer' }}>إغلاق</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

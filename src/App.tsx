@@ -8,6 +8,8 @@ import HomePage from './components/HomePage';
 import PropertyGrid from './components/PropertyGrid';
 import AdminPanel from './components/AdminPanel';
 
+import PropertyModal from './components/PropertyModal';
+
 // الربط مع Supabase باستخدام متغيرات البيئة
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;

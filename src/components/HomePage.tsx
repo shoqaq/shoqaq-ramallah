@@ -1,201 +1,154 @@
 import React, { useState } from 'react';
-import { Phone, Building2, ClipboardEdit, MessageCircle, ChevronLeft, CheckCircle2 } from 'lucide-react';
+import { Phone, Building2, ClipboardEdit, MessageCircle, ChevronLeft, ShieldCheck } from 'lucide-react';
 import { s } from '../styles';
 
-interface HomePageProps {
-  onNavigate: (view: string) => void;
-  onLogoClick: () => void;
-  theme: any;
-  isDarkMode: boolean;
-}
+const HomePage = ({ onNavigate, onLogoClick, theme, isDarkMode }) => {
+  const [pressed, setPressed] = useState(null);
 
-const HomePage: React.FC<HomePageProps> = ({ onNavigate, onLogoClick, theme, isDarkMode }) => {
-
-  const [pressed, setPressed] = useState<string | null>(null);
-
-  const handlePress = (id: string) => {
+  const handlePress = (id) => {
     setPressed(id);
     setTimeout(() => setPressed(null), 150);
   };
 
-  const socialLinks = [
-    { id: 'whatsapp', href: "https://wa.me/970594560056", icon: <MessageCircle size={22} color="#22c55e" /> },
-    { id: 'phone', href: "tel:+970594560056", icon: <Phone size={20} color="#34A853" /> },
-  ];
-
   return (
-    <div style={{ ...s.identity, userSelect: 'none', padding: '20px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ 
+      ...s.identity, 
+      backgroundColor: theme.bg, 
+      color: theme.text,
+      padding: '30px 20px',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
 
-      {/* ===== Logo ===== */}
-      <div style={{ marginBottom: '25px', textAlign: 'center' }}>
+      {/* ===== Logo Section ===== */}
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <div
           onClick={onLogoClick}
           style={{
-            ...s.logoWrap,
-            margin: '0 auto 10px',
-            border: `3px solid ${isDarkMode ? theme.accent : theme.border}`,
-            boxShadow: isDarkMode ? `0 0 20px ${theme.accent}22` : '0 10px 30px rgba(0,0,0,0.05)',
-            cursor: 'pointer',
+            width: '100px',
+            height: '100px',
+            margin: '0 auto 20px',
+            borderRadius: '24px',
+            border: `2px solid ${theme.accent}`,
+            padding: '5px',
+            backgroundColor: theme.cardBg,
+            boxShadow: isDarkMode ? `0 10px 30px rgba(0,0,0,0.5)` : `0 10px 30px rgba(0,0,0,0.05)`,
+            cursor: 'pointer'
           }}
         >
           <img
             src="https://raw.githubusercontent.com/shoqaq/shoqaq-ramallah/main/logo.jpg"
             alt="Logo"
-            style={{ ...s.logoImg }}
+            style={{ width: '100%', height: '100%', borderRadius: '18px', objectFit: 'cover' }}
           />
         </div>
-
-        <h1 style={{ ...s.title, color: theme.text, fontSize: '1.8rem' }}>
+        
+        <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0' }}>
           شقق <span style={{ color: theme.accent }}>رام الله</span>
         </h1>
-
-        <p style={{ color: theme.text, opacity: 0.6, fontSize: '0.9rem', maxWidth: '300px', margin: '-10px auto 0' }}>
-          منصتك الموثوقة للعقارات في رام الله والبيرة
+        <div style={{ width: '40px', height: '3px', backgroundColor: theme.accent, margin: '0 auto 15px' }} />
+        <p style={{ opacity: 0.7, fontSize: '0.95rem', fontWeight: '500' }}>
+          دليلك العقاري الأول في فلسطين
         </p>
       </div>
 
-      {/* ===== 1. Primary CTA: Browse ===== */}
-      <button
-        onClick={() => {
-          handlePress('browse');
-          onNavigate('browse');
-        }}
-        style={{
-          ...s.serviceCard,
-          width: '100%',
-          maxWidth: '450px',
-          margin: '0 auto 12px',
-          padding: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '15px',
-          backgroundColor: isDarkMode ? theme.cardBg : '#fff',
-          border: `1px solid ${isDarkMode ? theme.accent + '33' : '#eee'}`,
-          transform: pressed === 'browse' ? 'scale(0.96)' : 'scale(1)',
-          transition: '0.2s',
-          boxShadow: '0 8px 20px rgba(0,0,0,0.06)',
-        }}
-      >
-        <div style={{
-          width: '50px',
-          height: '50px',
-          borderRadius: '14px',
-          backgroundColor: `${theme.accent}15`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <Building2 size={28} color={theme.accent} />
-        </div>
+      {/* ===== Action Buttons ===== */}
+      <div style={{ width: '100%', maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        
+        {/* زر التصفح - الأهم والأوضح */}
+        <button
+          onClick={() => onNavigate('browse')}
+          onPointerDown={() => handlePress('browse')}
+          style={{
+            ...s.serviceCard,
+            padding: '24px',
+            borderRadius: '20px',
+            backgroundColor: theme.accent,
+            color: '#000', // نص أسود على ذهبي ليكون واضحاً جداً
+            border: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '15px',
+            transform: pressed === 'browse' ? 'scale(0.96)' : 'scale(1)',
+            transition: '0.2s',
+            fontWeight: '800',
+            boxShadow: `0 10px 20px ${theme.accent}33`
+          }}
+        >
+          <Building2 size={28} />
+          <div style={{ flex: 1, textAlign: 'right' }}>
+            <span style={{ fontSize: '1.2rem', display: 'block' }}>تصفح العقارات</span>
+            <span style={{ fontSize: '0.8rem', opacity: 0.8, fontWeight: 'normal' }}>عرض كافة الشقق والأراضي المتاحة</span>
+          </div>
+          <ChevronLeft size={20} />
+        </button>
 
-        <div style={{ flex: 1, textAlign: 'right' }}>
-          <span style={{ fontSize: '1.15rem', fontWeight: '800', display: 'block' }}>
-             تصفح العقارات المتاحة
-          </span>
-          <span style={{ fontSize: '0.8rem', opacity: 0.5 }}>
-            شقق، أراضي، مكاتب وتجاري
-          </span>
-        </div>
+        {/* زر الواتساب - واضح ومعروف */}
+        <a
+          href="https://wa.me/970594560056"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            padding: '18px',
+            borderRadius: '20px',
+            backgroundColor: isDarkMode ? '#1a1a1a' : '#fff',
+            color: theme.text,
+            border: `2px solid ${theme.border}`,
+            textDecoration: 'none',
+            fontWeight: '700',
+            fontSize: '1.05rem',
+            transition: '0.2s',
+          }}
+        >
+          <MessageCircle size={22} color="#25D366" />
+          تواصل معنا عبر واتساب
+        </a>
 
-        <ChevronLeft size={18} opacity={0.3} />
-      </button>
-
-      {/* ===== 2. WhatsApp CTA: Direct Contact ===== */}
-      <a
-        href="https://wa.me/970594560056"
-        target="_blank"
-        rel="noopener noreferrer"
-        onPointerDown={() => handlePress('whatsapp')}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '10px',
-          width: '100%',
-          maxWidth: '450px',
-          margin: '0 auto 12px',
-          padding: '16px',
-          borderRadius: '15px',
-          backgroundColor: '#22c55e',
-          color: '#fff',
-          fontWeight: '700',
-          textDecoration: 'none',
-          boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
-          transform: pressed === 'whatsapp' ? 'scale(0.97)' : 'scale(1)',
-          transition: '0.2s',
-        }}
-      >
-        <MessageCircle size={22} />
-        تواصل مباشرة عبر واتساب
-      </a>
-
-      {/* ===== 3. Secondary CTA: Request ===== */}
-      <button
-        onClick={() => {
-          handlePress('request');
-          onNavigate('request');
-        }}
-        style={{
-          ...s.serviceCard,
-          width: '100%',
-          maxWidth: '450px',
-          margin: '0 auto',
-          padding: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '15px',
-          background: 'transparent',
-          border: `1px solid ${theme.border}`,
-          transform: pressed === 'request' ? 'scale(0.96)' : 'scale(1)',
-          transition: '0.2s',
-        }}
-      >
-        <div style={{
-          width: '45px',
-          height: '45px',
-          borderRadius: '12px',
-          backgroundColor: isDarkMode ? '#222' : '#f5f5f5',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <ClipboardEdit size={22} color={isDarkMode ? '#aaa' : '#666'} />
-        </div>
-
-        <div style={{ flex: 1, textAlign: 'right' }}>
-          <span style={{ fontSize: '1rem', fontWeight: '700', display: 'block' }}>
-            لم تجد طلبك؟
-          </span>
-          <span style={{ fontSize: '0.75rem', opacity: 0.5 }}>
-            اترك طلبك وسنبحث لك عن العقار المناسب
-          </span>
-        </div>
-      </button>
-
-      {/* ===== Trust Signals (Icons Version) ===== */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        gap: '15px', 
-        marginTop: '30px', 
-        fontSize: '0.8rem', 
-        opacity: 0.7 
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <CheckCircle2 size={14} color={theme.accent} /> تحديث يومي
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <CheckCircle2 size={14} color={theme.accent} /> خدمة مجانية
-        </div>
+        {/* زر طلب البحث - هادئ */}
+        <button
+          onClick={() => onNavigate('request')}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: theme.text,
+            opacity: 0.6,
+            fontSize: '0.9rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            marginTop: '10px',
+            cursor: 'pointer'
+          }}
+        >
+          <ClipboardEdit size={18} />
+          لم تجد طلبك؟ اترك مواصفاتك هنا
+        </button>
       </div>
 
-      {/* ===== Footer ===== */}
-      <div style={{ marginTop: 'auto', paddingTop: '40px', textAlign: 'center' }}>
-        <p style={{ fontSize: '0.75rem', opacity: 0.4, fontWeight: '700' }}>
-          نور الدين للوساطة العقارية
-        </p>
-        <p style={{ fontSize: '0.65rem', opacity: 0.3 }}>
-          RAMALLAH • 2026
+      {/* ===== Trust Signal ===== */}
+      <div style={{ marginTop: 'auto', textAlign: 'center', paddingBottom: '20px' }}>
+        <div style={{ 
+          display: 'inline-flex', 
+          alignItems: 'center', 
+          gap: '8px', 
+          padding: '8px 16px', 
+          borderRadius: '100px', 
+          backgroundColor: isDarkMode ? '#161b22' : '#f0f2f5',
+          fontSize: '0.8rem',
+          fontWeight: '600'
+        }}>
+          <ShieldCheck size={16} color={theme.accent} />
+          عقارات موثقة ومحدثة يومياً
+        </div>
+        
+        <p style={{ fontSize: '0.7rem', opacity: 0.3, marginTop: '20px', letterSpacing: '1px' }}>
+          NOUR EL-DEEN REAL ESTATE • 2026
         </p>
       </div>
 

@@ -13,7 +13,6 @@ const PropertyModal: React.FC<PropertyModalProps> = ({ selectedProp, onClose, th
 
   return (
     <div style={s.modalOverlay} onClick={onClose}>
-      {/*stopPropagation لمنع إغلاق النافذة عند الضغط داخل المحتوى */}
       <div
         style={{
           ...s.modalContent,
@@ -22,7 +21,6 @@ const PropertyModal: React.FC<PropertyModalProps> = ({ selectedProp, onClose, th
         }}
         onClick={(e) => e.stopPropagation()} 
       >
-        {/* مقبض السحب للشكل الجمالي على الموبايل */}
         <div style={{
           width: '40px',
           height: '5px',
@@ -31,7 +29,6 @@ const PropertyModal: React.FC<PropertyModalProps> = ({ selectedProp, onClose, th
           margin: '0 auto 20px'
         }} />
 
-        {/* Header */}
         <div style={s.modalHeader}>
           <h3 style={{ margin: 0, fontSize: '1.3rem' }}>
             {selectedProp.category} في {selectedProp.neighborhood}
@@ -41,7 +38,6 @@ const PropertyModal: React.FC<PropertyModalProps> = ({ selectedProp, onClose, th
           </button>
         </div>
 
-        {/* Body */}
         <div style={s.modalBody}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
             <span style={s.priceTagLarge}>
@@ -66,7 +62,6 @@ const PropertyModal: React.FC<PropertyModalProps> = ({ selectedProp, onClose, th
             {selectedProp.description || 'لا يوجد وصف إضافي لهذا العقار.'}
           </div>
 
-          {/* روابط التواصل والتفاعل */}
           <div style={s.modalLinks}>
             {selectedProp.post_url && (
               <a href={selectedProp.post_url} target="_blank" rel="noopener noreferrer" style={s.actionLink}>
@@ -82,9 +77,9 @@ const PropertyModal: React.FC<PropertyModalProps> = ({ selectedProp, onClose, th
 
             <a
               href={`tel:${selectedProp.owner_phone || '+970594560056'}`}
-              style={{ ...s.callAction, backgroundColor: theme.accent }}
+              style={{ ...s.callAction, backgroundColor: theme.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', textDecoration: 'none', padding: '12px', borderRadius: '10px', color: '#fff', marginTop: '10px' }}
             >
-              <Phone size={20] /> اتصل الآن للاستفسار
+              <Phone size={20} /> اتصل الآن للاستفسار
             </a>
           </div>
         </div>

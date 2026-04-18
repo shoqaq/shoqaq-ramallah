@@ -3,18 +3,16 @@ import { createClient } from '@supabase/supabase-js';
 import { Sun, Moon } from 'lucide-react';
 import { s } from './styles';
 
-// Components
+// استيراد المكونات المنفصلة
 import HomePage from './components/HomePage';
 import PropertyGrid from './components/PropertyGrid';
 import AdminPanel from './components/AdminPanel';
-
 import PropertyModal from './components/PropertyModal';
 
-// الربط مع Supabase باستخدام متغيرات البيئة
+// الربط مع Supabase
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 
-// Initialize with placeholders if keys are missing to avoid immediate crash
 const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
   supabaseKey || 'placeholder-key'
@@ -40,7 +38,7 @@ export default function App() {
   const [newProperty, setNewProperty] = useState<any>(defaultProperty);
   const [selectedProp, setSelectedProp] = useState<any>(null);
 
-  // تعريف الثيم الموحد
+  // تعريف الثيم الموحد للتحكم بجميع المكونات
   const theme = {
     bg: isDarkMode ? '#000' : '#f8f9fa',
     text: isDarkMode ? '#fff' : '#000',
@@ -73,13 +71,11 @@ export default function App() {
     setStep(1);
   };
 
-  // دالة الحفظ الشاملة (إضافة وتعديل)
   const onSave = async () => {
     if (!newProperty.price || !newProperty.owner_name) {
       alert('الرجاء إدخال الاسم والسعر');
       return;
     }
-
     const { error } = editingId
       ? await supabase.from('listings').update(newProperty).eq('id', editingId)
       : await supabase.from('listings').insert([newProperty]);
@@ -108,6 +104,7 @@ export default function App() {
 
   return (
     <div style={{ ...s.container, backgroundColor: theme.bg, color: theme.text }}>
+      
       {/* شريط التحكم بالوضع الليلي */}
       <div style={s.topNav}>
         <button
@@ -119,33 +116,55 @@ export default function App() {
       </div>
 
       <div style={s.wrapper}>
-        {/* العرض الشرطي للواجهات */}
+        
+        {/* 1. واجهة الزبون - الصفحة الرئيسية */}
         {!isLoggedIn && view === 'home' && (
-          <HomePage onNavigate={setView} onLogoClick={() => setShowLogin(true)} theme={theme} isDarkMode={isDarkMode} />
+          <HomePage 
+            onNavigate={setView} 
+            onLogoClick={() => setShowLogin(true)} 
+            theme={theme} 
+            isDarkMode={isDarkMode} 
+          />
         )}
 
+        {/* 2. واجهة الزبون - معرض العقارات */}
         {view === 'browse' && (
           <PropertyGrid 
             listings={listings} 
             onBack={() => setView('home')} 
             theme={theme} 
             onSelect={setSelectedProp} 
-            selectedProp={selectedProp} 
-            onCloseModal={() => setSelectedProp(null)} 
           />
         )}
 
+        {/* 3. واجهة الإدارة */}
         {isLoggedIn && (
           <AdminPanel
-            view={view} setView={setView} listings={listings}
-            newProperty={newProperty} setNewProperty={setNewProperty}
-            theme={theme} step={step} setStep={setStep}
+            view={view} 
+            setView={setView} 
+            listings={listings}
+            newProperty={newProperty} 
+            setNewProperty={setNewProperty}
+            theme={theme} 
+            step={step} 
+            setStep={setStep}
             onLogout={() => { setIsLoggedIn(false); setView('home'); }}
-            onEdit={onEdit} onSave={onSave} onDelete={onDelete}
+            onEdit={onEdit} 
+            onSave={onSave} 
+            onDelete={onDelete}
           />
         )}
 
-        {/* نافذة تسجيل الدخول */}
+        {/* 4. نافذة تفاصيل العقار (المنفصلة) */}
+        {selectedProp && (
+          <PropertyModal 
+            selectedProp={selectedProp} 
+            onClose={() => setSelectedProp(null)} 
+            theme={theme} 
+          />
+        )}
+
+        {/* 5. نافذة تسجيل الدخول للإدارة */}
         {showLogin && (
           <div style={s.modalOverlay}>
             <div style={{ ...s.modalContent, backgroundColor: theme.cardBg, textAlign: 'center' }}>
